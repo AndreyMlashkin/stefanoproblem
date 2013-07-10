@@ -8,7 +8,7 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     ui(new Ui::displaymeltmodel)
 {
     ui->setupUi(this);
-    new MeltModel(10, 7);
+    new MeltModel(5, 8);
 }
 
 DisplayMeltmodel::~DisplayMeltmodel()

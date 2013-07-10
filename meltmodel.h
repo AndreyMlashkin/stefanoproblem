@@ -6,7 +6,7 @@ class DeltaVolume;
 class MeltModel
 {
 public:
-    MeltModel(int height, int width);
+    MeltModel(int width, int height);
 
 private:
     int m_height, m_width;

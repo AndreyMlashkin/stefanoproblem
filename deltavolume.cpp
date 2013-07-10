@@ -1,8 +1,6 @@
+#include <QDebug>
+
 #include "deltavolume.h"
-
-#include "QDebug"
-
-static QDebug dbg(QtDebugMsg);
 
 DeltaVolume::DeltaVolume()
     : //m_behaviour(NULL),

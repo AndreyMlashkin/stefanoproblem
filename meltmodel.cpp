@@ -5,16 +5,21 @@
 #include "deltavolume.h"
 
 
-MeltModel::MeltModel(int height, int width)
-    : m_height(height),
-      m_width(width)
+MeltModel::MeltModel(int width, int height)
+    : m_width((width+1)/2),
+      m_height(height)
 {
-    m_field = new DeltaVolume[height * width];
+    qDebug() << m_width;
+    qDebug() << width << "x" << height;
 
-    for(int i = 0; i < width * height; i++)
+    m_field = new DeltaVolume[m_height * m_width];
+
+    for(int i = 0; i < m_width * m_height; i++)
     {
-        if((i % width == 0) || ((i + 1) % width == 0) || (i > (height-1) * width ))
+        if(((i + 1) % m_width == 0) || (i > (m_height-1) * m_width - 1) || (i < m_width))
             m_field[i].setBehaviour(Border);
+        else if(i % m_width == 0)
+            m_field[i].setBehaviour(Central);
         else
             m_field[i].setBehaviour(Normal);
     }
