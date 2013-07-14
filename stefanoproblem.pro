@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
     displaymeltmodel.cpp \
     meltmodel.cpp \
-    deltavolume.cpp
+    deltavolume.cpp \
+    field.cpp
 		
 HEADERS  += \
     displaymeltmodel.h \
     meltmodel.h \
-    deltavolume.h
+    deltavolume.h \
+    field.h
 
 FORMS    += \
     displaymeltmodel.ui

@@ -3,24 +3,13 @@
 
 #include "meltmodel.h"
 #include "deltavolume.h"
+#include "field.h"
 
-
-MeltModel::MeltModel(int width, int height)
-    : m_width((width+1)/2),
-      m_height(height)
+MeltModel::MeltModel(int _width, int _height, int _startTemperature)
+    : m_field(new Field(_width, _height, _startTemperature))
 {
-    qDebug() << m_width;
-    qDebug() << width << "x" << height;
+    Field::iterator i;
 
-    m_field = new DeltaVolume[m_height * m_width];
-
-    for(int i = 0; i < m_width * m_height; i++)
-    {
-        if(((i + 1) % m_width == 0) || (i > (m_height-1) * m_width - 1) || (i < m_width))
-            m_field[i].setBehaviour(Border);
-        else if(i % m_width == 0)
-            m_field[i].setBehaviour(Central);
-        else
-            m_field[i].setBehaviour(Normal);
-    }
+    for(i = m_field->begin(); i != m_field->end(); i++)
+        qDebug() << (*i).temperature();
 }

@@ -15,5 +15,15 @@ void DeltaVolume::setType(VolumeType _type)
 void DeltaVolume::setBehaviour(Behaviour _b)
 {
     // switch
-    qDebug() << _b;
+    //qDebug() << _b;
+}
+
+void DeltaVolume::setTemperature(int _temp)
+{
+    m_temperature = _temp;
+}
+
+int DeltaVolume::temperature()
+{
+    return m_temperature;
 }

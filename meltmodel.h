@@ -1,16 +1,15 @@
 #ifndef MELTMODEL_H
 #define MELTMODEL_H
 
-class DeltaVolume;
+class Field;
 
 class MeltModel
 {
 public:
-    MeltModel(int width, int height);
+    MeltModel(int _width, int _height, int _startTemperature);
 
 private:
-    int m_height, m_width;
-    DeltaVolume* m_field;
+    Field* m_field;
 };
 
 #endif // MELTMODEL_H
