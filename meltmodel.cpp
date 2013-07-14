@@ -11,5 +11,5 @@ MeltModel::MeltModel(int _width, int _height, int _startTemperature)
     Field::iterator i;
 
     for(i = m_field->begin(); i != m_field->end(); i++)
-        qDebug() << (*i).temperature();
+        qDebug() << i->temperature(); //(*i).temperature();
 }

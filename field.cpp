@@ -32,6 +32,11 @@ DeltaVolume &Field::iterator::operator *()
     return *m_pointer;
 }
 
+DeltaVolume* Field::iterator::operator ->()
+{
+    return m_pointer;
+}
+
 // --------------------------------------------------------------------
 
 void Field::setStartTemperature(int _startTemp)
@@ -58,7 +63,6 @@ Field::Field(int _width, int _height, int _startTemperature)
         else
             m_field[i].setBehaviour(Normal);
     }
-
 }
 
 Field::iterator Field::begin()

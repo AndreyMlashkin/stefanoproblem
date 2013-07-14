@@ -17,7 +17,7 @@ SOURCES += main.cpp\
     meltmodel.cpp \
     deltavolume.cpp \
     field.cpp
-		
+
 HEADERS  += \
     displaymeltmodel.h \
     meltmodel.h \

@@ -18,8 +18,6 @@ public:
     
 private:
     Ui::displaymeltmodel *ui;
-
-    friend class meltmodel;
 };
 
 #endif // DISPLAYMELTMODEL_H
