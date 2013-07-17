@@ -7,13 +7,19 @@ Field::iterator::iterator(DeltaVolume *x)
     :m_pointer(x)
 {}
 
-Field::iterator::iterator(const Field::iterator &mit)
+Field::iterator::iterator(const iterator& mit)
     : m_pointer(mit.m_pointer)
 {}
 
 Field::iterator &Field::iterator::operator ++()
 {
     ++m_pointer;
+    return *this;
+}
+
+Field::iterator &Field::iterator::operator +(int _n)
+{
+    m_pointer += _n;
     return *this;
 }
 
@@ -35,6 +41,11 @@ DeltaVolume &Field::iterator::operator *()
 DeltaVolume* Field::iterator::operator ->()
 {
     return m_pointer;
+}
+
+DeltaVolume& Field::iterator::operator [](int _n)
+{
+    return *(m_pointer + _n);
 }
 
 // --------------------------------------------------------------------
@@ -73,5 +84,20 @@ Field::iterator Field::begin()
 Field::iterator Field::end()
 {
     return iterator(m_field + (m_height * m_width));
+}
+
+Field::iterator Field::operator [](int n)
+{
+    return begin() + n * m_width;
+}
+
+int Field::height()
+{
+    return m_height;
+}
+
+int Field::width()
+{
+    return m_width;
 }
 

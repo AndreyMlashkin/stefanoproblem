@@ -5,14 +5,22 @@
 
 DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::displaymeltmodel)
+    ui(new Ui::displaymeltmodel),
+    m_meltmodel(NULL)
 {
     ui->setupUi(this);
-
-    new MeltModel(5, 8, -100);
+    startNewModel(10, 15, -100);
 }
 
 DisplayMeltmodel::~DisplayMeltmodel()
 {
     delete ui;
+}
+
+void DisplayMeltmodel::startNewModel(int _width, int _height, int _startTemperature)
+{
+    delete m_meltmodel;
+    m_meltmodel = new MeltModel(_width, _height, _startTemperature);
+    QAbstractItemModel* tmp = m_meltmodel;
+    ui->tableView->setModel(tmp);
 }
