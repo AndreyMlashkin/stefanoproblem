@@ -11,7 +11,7 @@ Field::iterator::iterator(const iterator& mit)
     : m_pointer(mit.m_pointer)
 {}
 
-Field::iterator &Field::iterator::operator ++()
+Field::iterator &Field::iterator::operator ++(int)
 {
     ++m_pointer;
     return *this;
