@@ -22,13 +22,15 @@ private:
     DeltaVolume* m_field;
 };
 
+
+
 class Field::iterator : public std::iterator<std::input_iterator_tag, DeltaVolume>
 {
 public:
   iterator() {}
   explicit iterator(DeltaVolume* x);
   iterator(const iterator& mit);
-  iterator& operator++();
+  iterator& operator++(int);
   iterator& operator+(int _n);
   bool operator==(const iterator& rhs);
   bool operator!=(const iterator& rhs);
