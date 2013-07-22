@@ -17,10 +17,6 @@ class DisplayMeltmodel : public QMainWindow
 public:
     explicit DisplayMeltmodel(QWidget *parent = 0);
     ~DisplayMeltmodel();
-private slots:
-    void initModel();
-    void step();
-private:
     void startNewModel(int _width, int _height, int _startTemperature);
 
 private:
