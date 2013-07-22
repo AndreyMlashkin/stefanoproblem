@@ -3,15 +3,17 @@
 #include "field.h"
 #include "deltavolume.h"
 
-Field::iterator::iterator(DeltaVolume *x)
-    :m_pointer(x)
+Field::iterator::iterator(DeltaVolume* _x, Field* _parent)
+    : m_pointer(_x),
+      m_parent(_parent)
 {}
 
 Field::iterator::iterator(const iterator& mit)
-    : m_pointer(mit.m_pointer)
+    : m_pointer(mit.m_pointer),
+      m_parent(mit.m_parent)
 {}
 
-Field::iterator &Field::iterator::operator ++()
+Field::iterator &Field::iterator::operator ++(int)
 {
     ++m_pointer;
     return *this;
@@ -25,12 +27,12 @@ Field::iterator &Field::iterator::operator +(int _n)
 
 bool Field::iterator::operator ==(const Field::iterator &rhs)
 {
-    return m_pointer == rhs.m_pointer;
+    return (m_pointer == rhs.m_pointer) && (m_parent == rhs.m_parent);
 }
 
 bool Field::iterator::operator !=(const Field::iterator &rhs)
 {
-    return m_pointer!=rhs.m_pointer;
+    return (m_pointer != rhs.m_pointer) || (m_parent != rhs.m_parent);
 }
 
 DeltaVolume &Field::iterator::operator *()
@@ -62,7 +64,6 @@ Field::Field(int _width, int _height, int _startTemperature)
       m_height(_height),
       m_field(new DeltaVolume[m_height * m_width])
 {
-    qDebug() << m_width << "x" << m_height;
     setStartTemperature(_startTemperature);
 
     for(int i = 0; i < m_width * m_height; i++)
@@ -78,12 +79,12 @@ Field::Field(int _width, int _height, int _startTemperature)
 
 Field::iterator Field::begin()
 {
-    return iterator(m_field);
+    return iterator(m_field, this);
 }
 
 Field::iterator Field::end()
 {
-    return iterator(m_field + (m_height * m_width));
+    return iterator(m_field + (m_height * m_width), this);
 }
 
 Field::iterator Field::operator [](int n)
