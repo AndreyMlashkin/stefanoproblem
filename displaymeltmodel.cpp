@@ -1,6 +1,6 @@
+#include <QDebug>
 #include "displaymeltmodel.h"
 #include "ui_displaymeltmodel.h"
-
 #include "meltmodel.h"
 
 DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
@@ -33,7 +33,6 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, int _startTemperat
     delete m_meltmodel;
     m_meltmodel = new MeltModel(_width, _height, _startTemperature);
 
-    connect(ui->step, SIGNAL(clicked()), SLOT(step()));
-    QAbstractItemModel* tmp = m_meltmodel;
-    ui->view->setModel(tmp);
+    connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
+    ui->view->setModel(m_meltmodel);
 }

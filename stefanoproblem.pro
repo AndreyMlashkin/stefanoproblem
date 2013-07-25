@@ -16,13 +16,15 @@ SOURCES += main.cpp\
     displaymeltmodel.cpp \
     meltmodel.cpp \
     deltavolume.cpp \
-    field.cpp
+    field.cpp \
+    meltlogics.cpp
 
 HEADERS  += \
     displaymeltmodel.h \
     meltmodel.h \
     deltavolume.h \
-    field.h
+    field.h \
+    meltlogics.h
 
 FORMS    += \
     displaymeltmodel.ui

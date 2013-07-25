@@ -3,16 +3,23 @@
 
 #include "meltmodel.h"
 #include "deltavolume.h"
+
 #include "field.h"
+#include "meltlogics.h"
 
 MeltModel::MeltModel(int _width, int _height, int _startTemperature)
-    : QAbstractItemModel(),
-      m_field(new Field(_width, _height, _startTemperature))
+    : QAbstractItemModel()/*,
+      m_field(new Field(_width, _height, _startTemperature)),
+      m_frameProcessor(new MeltLogics(m_field))*/
 {
-    Field::iterator i;
+    m_field = new Field(_width, _height, _startTemperature);
+    m_frameProcessor = new MeltLogics(m_field);
+}
 
-//    for(i = m_field->begin(); i != m_field->end(); i++)
-//        qDebug() << i->temperature(); //(*i).temperature();
+MeltModel::~MeltModel()
+{
+    delete m_frameProcessor;
+    delete m_field;
 }
 
 QVariant MeltModel::data(const QModelIndex &index, int role) const
@@ -48,14 +55,7 @@ QModelIndex MeltModel::parent(const QModelIndex& child) const
 void MeltModel::processStep()
 {
     beginResetModel();
-    for(int i = 0; i < m_field->height(); i++)
-    {
-        for(int j = 0; j < m_field->width(); j++)
-        {
-            int temperature = (*m_field)[i][j].temperature();
-            (*m_field)[i][j].setTemperature(temperature + 1);
-        }
-    }
+    m_field = m_frameProcessor->nextFrame();
     endResetModel();
 }
 
