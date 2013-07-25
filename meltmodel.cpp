@@ -26,8 +26,8 @@ QVariant MeltModel::data(const QModelIndex &index, int role) const
 {
     if (role != Qt::DisplayRole)
         return QVariant();
-    int i = index.column();
-    int j = index.row();
+    int i = index.row();
+    int j = index.column();
     return (*m_field)[i][j].temperature();
 }
 

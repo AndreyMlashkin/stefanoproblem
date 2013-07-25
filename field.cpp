@@ -56,6 +56,10 @@ DeltaVolume* Field::iterator::leftNeighbour()
 
     if((numInArray % m_parent->width()) == 0)
       return NULL;
+    if(numInArray > m_parent->width() * m_parent->height())
+        return NULL;
+    if(numInArray < 0)
+        return NULL;
 
     return m_pointer-1;
 }
@@ -66,6 +70,10 @@ DeltaVolume *Field::iterator::rightNeighbour()
 
     if((nextInArray % m_parent->width()) == 0)
       return NULL;
+    if(nextInArray < 0)
+      return NULL;
+    if(nextInArray >= m_parent->width() * m_parent->height())
+        return NULL;
 
     return m_pointer + 1;
 }
@@ -74,8 +82,10 @@ DeltaVolume *Field::iterator::topNeighbour()
 {
     int numInArray = numberInArray();
 
-    if(numInArray > m_parent->width())
+    if(numInArray < m_parent->width())
           return NULL;
+    if(numInArray > m_parent->width() * m_parent->height())
+      return NULL;
 
     return m_pointer - m_parent->width();
 }
@@ -83,10 +93,11 @@ DeltaVolume *Field::iterator::topNeighbour()
 DeltaVolume *Field::iterator::bottomNeighbour()
 {
     int numInArray = numberInArray();
-
     int itemsTillEnd = m_parent->width() * m_parent->height() - numInArray;
 
     if(itemsTillEnd < m_parent->width())
+          return NULL;
+    if(numInArray < 0)
           return NULL;
 
     return m_pointer + m_parent->width();
@@ -126,7 +137,7 @@ Field::Field(const Field &_f)
 void Field::setStartTemperature(int _startTemp)
 {
     Field::iterator i;
-    for(i = begin(); i != end(); i++)
+    for(i = begin(); i != end(); i++, _startTemp++)
         (*i).setTemperature(_startTemp);
 }
 

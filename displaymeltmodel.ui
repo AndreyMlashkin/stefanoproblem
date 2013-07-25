@@ -21,13 +21,25 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="x"/>
+       <widget class="QLineEdit" name="x">
+        <property name="text">
+         <string>5</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="y"/>
+       <widget class="QLineEdit" name="y">
+        <property name="text">
+         <string>5</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="temperature"/>
+       <widget class="QLineEdit" name="temperature">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="start">
