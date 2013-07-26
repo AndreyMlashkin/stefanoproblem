@@ -94,6 +94,9 @@ public:
     void retranslateUi(QMainWindow *displaymeltmodel)
     {
         displaymeltmodel->setWindowTitle(QApplication::translate("displaymeltmodel", "meltmodel", 0));
+        x->setText(QApplication::translate("displaymeltmodel", "5", 0));
+        y->setText(QApplication::translate("displaymeltmodel", "5", 0));
+        temperature->setText(QApplication::translate("displaymeltmodel", "0", 0));
         start->setText(QApplication::translate("displaymeltmodel", "\320\235\320\260\321\207\320\260\321\202\321\214", 0));
         step->setText(QApplication::translate("displaymeltmodel", "\320\250\320\260\320\263", 0));
     } // retranslateUi

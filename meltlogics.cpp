@@ -23,7 +23,11 @@ Field* MeltLogics::nextFrame()
             (*m_current)[i][j].setTemperature(temperature + 1);
         }
 
-//    Field::iterator i = m_current->begin() + (1);
+//    Field::iterator i = m_current->end();
+
+//    while(i.isNextNeighbour())
+//        qDebug() << i.nextNeighbour()->temperature();
+
 //    qDebug() << "rightNeighbour" << i.rightNeighbour();
 //    qDebug() << "leftNeighbou" << i.leftNeighbour();
 //    qDebug() << "bottomNeighbour" << i.bottomNeighbour();

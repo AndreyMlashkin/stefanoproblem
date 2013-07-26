@@ -33,6 +33,7 @@ public:
   iterator(const iterator& mit);
   iterator& operator++(int);
   iterator& operator+(int _n);
+  iterator& operator-(int _n);
   bool operator==(const iterator& rhs);
   bool operator!=(const iterator& rhs);
   DeltaVolume& operator*();
@@ -44,12 +45,16 @@ public:
   DeltaVolume* topNeighbour();
   DeltaVolume* bottomNeighbour();
 
+  DeltaVolume* nextNeighbour();
+  bool isNextNeighbour();
+  void resetNext();
 private:
   inline int numberInArray();
 
 private:
   Field* m_parent;
   DeltaVolume* m_pointer;
+  char m_nextNeighbour; // перечисление соседей 0-3 - против часовой стрелки с самого правого
 };
 
 #endif // FIELD_H

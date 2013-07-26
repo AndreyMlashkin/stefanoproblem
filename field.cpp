@@ -5,12 +5,14 @@
 
 Field::iterator::iterator(DeltaVolume* _x, Field* _parent)
     : m_pointer(_x),
-      m_parent(_parent)
+      m_parent(_parent),
+      m_nextNeighbour(0)
 {}
 
 Field::iterator::iterator(const iterator& mit)
     : m_pointer(mit.m_pointer),
-      m_parent(mit.m_parent)
+      m_parent(mit.m_parent),
+      m_nextNeighbour(0)
 {}
 
 Field::iterator &Field::iterator::operator ++(int)
@@ -22,6 +24,12 @@ Field::iterator &Field::iterator::operator ++(int)
 Field::iterator &Field::iterator::operator +(int _n)
 {
     m_pointer += _n;
+    return *this;
+}
+
+Field::iterator &Field::iterator::operator -(int _n)
+{
+    m_pointer -= _n;
     return *this;
 }
 
@@ -95,12 +103,63 @@ DeltaVolume *Field::iterator::bottomNeighbour()
     int numInArray = numberInArray();
     int itemsTillEnd = m_parent->width() * m_parent->height() - numInArray;
 
-    if(itemsTillEnd < m_parent->width())
+    if(itemsTillEnd <= m_parent->width())
           return NULL;
     if(numInArray < 0)
           return NULL;
 
     return m_pointer + m_parent->width();
+}
+
+DeltaVolume *Field::iterator::nextNeighbour()
+{
+    if(!isNextNeighbour())
+        return NULL;
+
+    if(m_nextNeighbour == 0)
+    {
+        m_nextNeighbour++;
+        return rightNeighbour();
+    }
+    if(m_nextNeighbour == 1)
+    {
+        m_nextNeighbour++;
+        return topNeighbour();
+    }
+    if(m_nextNeighbour == 2)
+    {
+        m_nextNeighbour++;
+        return leftNeighbour();
+    }
+    if(m_nextNeighbour == 3)
+    {
+        m_nextNeighbour++;
+        return bottomNeighbour();
+    }
+
+    qDebug() << "Eroor! DeltaVolume *Field::iterator::nextNeighbour()";
+    return NULL;
+}
+
+bool Field::iterator::isNextNeighbour()
+{
+    if((m_nextNeighbour == 0) && (rightNeighbour() == NULL))
+        m_nextNeighbour++;
+    if((m_nextNeighbour == 1) && (topNeighbour() == NULL))
+        m_nextNeighbour++;
+    if((m_nextNeighbour == 2) && (leftNeighbour() == NULL))
+        m_nextNeighbour++;
+    if(((m_nextNeighbour == 3) && (bottomNeighbour() == NULL)) || m_nextNeighbour == 4)
+    {
+        m_nextNeighbour = 0;
+        return false;
+    }
+    return true;
+}
+
+void Field::iterator::resetNext()
+{
+    m_nextNeighbour = 0;
 }
 
 int Field::iterator::numberInArray()
