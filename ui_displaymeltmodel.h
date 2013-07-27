@@ -41,7 +41,7 @@ public:
     {
         if (displaymeltmodel->objectName().isEmpty())
             displaymeltmodel->setObjectName(QStringLiteral("displaymeltmodel"));
-        displaymeltmodel->resize(400, 300);
+        displaymeltmodel->resize(400, 391);
         centralWidget = new QWidget(displaymeltmodel);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);

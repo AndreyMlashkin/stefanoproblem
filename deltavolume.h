@@ -13,13 +13,14 @@ public:
     void setType(VolumeType _type);
     void setBehaviour(Behaviour _b);
 
-    void setTemperature(int _temp);
-    int temperature();
+    void setTemperature(double _temp);
+    double temperature();
+    double rTemperature();
 private:
     DeltaVolumeBehaviour* m_behaviour;
     VolumeType m_type;
 
-    int m_temperature;
+    double m_temperature;
     int m_density;
 };
 

@@ -21,7 +21,7 @@ private slots:
     void initModel();
     void step();
 private:
-    void startNewModel(int _width, int _height, int _startTemperature);
+    void startNewModel(int _width, int _height, double _startTemperature);
 
 private:
     Ui::displaymeltmodel *ui;

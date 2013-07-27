@@ -9,10 +9,10 @@ class Field
 public:
     class iterator;
 
-    Field(int _width, int _height, int _startTemerature);
-    Field(int _width, int _height);
-    Field(const Field& _f);
-    void setStartTemperature(int _startTemp);
+    explicit Field(int _width, int _height, double _startTemerature);
+    explicit Field(int _width, int _height);
+    explicit Field(const Field& _f);
+    void setStartTemperature(double _startTemp);
     iterator begin();
     iterator end();
     iterator operator[](int n);

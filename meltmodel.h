@@ -11,7 +11,7 @@ class MeltModel : public QAbstractItemModel
 {
     Q_OBJECT
 public:
-    MeltModel(int _width, int _height, int _startTemperature);
+    MeltModel(int _width, int _height, double _startTemperature);
     ~MeltModel();
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex&) const;

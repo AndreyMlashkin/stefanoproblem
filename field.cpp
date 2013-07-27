@@ -170,7 +170,7 @@ int Field::iterator::numberInArray()
 
 // --------------------------------------------------------------------
 
-Field::Field(int _width, int _height, int _startTemperature)
+Field::Field(int _width, int _height, double _startTemperature)
     : m_width((_width+1)/2),
       m_height(_height),
       m_field(new DeltaVolume[m_height * m_width])
@@ -193,10 +193,10 @@ Field::Field(const Field &_f)
       m_field(new DeltaVolume[m_height * m_width])
 {}
 
-void Field::setStartTemperature(int _startTemp)
+void Field::setStartTemperature(double _startTemp)
 {
     Field::iterator i;
-    for(i = begin(); i != end(); i++, _startTemp++)
+    for(i = begin(); i != end(); i++)
         (*i).setTemperature(_startTemp);
 }
 

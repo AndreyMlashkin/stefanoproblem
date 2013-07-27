@@ -18,12 +18,17 @@ void DeltaVolume::setBehaviour(Behaviour _b)
     //qDebug() << _b;
 }
 
-void DeltaVolume::setTemperature(int _temp)
+void DeltaVolume::setTemperature(double _temp)
 {
     m_temperature = _temp;
 }
 
-int DeltaVolume::temperature()
+double DeltaVolume::temperature()
 {
     return m_temperature;
+}
+
+double DeltaVolume::rTemperature()
+{
+    return *(&m_temperature);
 }
