@@ -8,10 +8,13 @@ class MeltLogics : public QObject
 {
     Q_OBJECT
 public:
-    MeltLogics(Field* _startFrame, QObject *parent = 0);
+    MeltLogics(QObject* _parent = NULL);
+    MeltLogics(Field* _startFrame, QObject *_parent = NULL);
     ~MeltLogics();
-    void saveStep();
-    void loadStep();
+    bool   saveStep(const QString& _filename);
+    Field* loadStep(const QString& _filename);
+
+    Field*  currentFrame();
 
 public slots:
     Field* nextFrame();

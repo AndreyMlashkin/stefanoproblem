@@ -14,6 +14,19 @@ MeltModel::MeltModel(int _width, int _height, double _startTemperature)
     m_frameProcessor = new MeltLogics(m_field);
 }
 
+MeltModel::MeltModel(int _width, int _height)
+    : QAbstractItemModel()
+{
+    m_field = new Field(_width, _height);
+    m_frameProcessor = new MeltLogics(m_field);
+}
+
+MeltModel::MeltModel()
+    : QAbstractItemModel(),
+      m_field(NULL),
+      m_frameProcessor()
+{}
+
 MeltModel::~MeltModel()
 {
     delete m_frameProcessor;
@@ -22,6 +35,9 @@ MeltModel::~MeltModel()
 
 QVariant MeltModel::data(const QModelIndex &index, int role) const
 {
+    if(!m_field)
+        return QVariant();
+
     if (role != Qt::DisplayRole)
         return QVariant();
     int i = index.row();
@@ -31,16 +47,25 @@ QVariant MeltModel::data(const QModelIndex &index, int role) const
 
 int MeltModel::rowCount(const QModelIndex&) const
 {
+    if(!m_field)
+        return 0;
+
     return m_field->height();
 }
 
 int MeltModel::columnCount(const QModelIndex&) const
 {
+    if(!m_field)
+        return 0;
+
     return m_field->width();
 }
 
 QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
 {
+    if(!m_field)
+        return QModelIndex();
+
     double data = (*m_field)[_row][_column].temperature();
     // QString::number(data, 'f', 2)
 
@@ -53,11 +78,31 @@ QModelIndex MeltModel::parent(const QModelIndex& child) const
     return QModelIndex();
 }
 
+bool MeltModel::saveStep(const QString& _fileName)
+{
+    return m_frameProcessor->saveStep(_fileName);
+}
+
+bool MeltModel::loadStep(const QString& _fileName)
+{
+    beginResetModel();
+
+    delete m_frameProcessor;
+    delete m_field;
+
+    m_frameProcessor = new MeltLogics();
+    m_field = m_frameProcessor->loadStep(_fileName);
+
+    endResetModel();
+
+    return true;
+}
+
 void MeltModel::processStep()
 {
     beginResetModel();
     m_field = m_frameProcessor->nextFrame();
-    m_frameProcessor->saveStep();
+    //m_frameProcessor->saveStep();
     endResetModel();
 }
 

@@ -20,6 +20,8 @@ public:
 private slots:
     void initModel();
     void step();
+    void callSaveDialog();
+    void callOpenDialog();
 private:
     void startNewModel(int _width, int _height, double _startTemperature);
 

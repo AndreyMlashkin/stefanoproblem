@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>391</height>
+    <width>443</width>
+    <height>417</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="temperature">
+       <widget class="QLineEdit" name="startTemp">
         <property name="text">
          <string>0</string>
         </property>
@@ -59,6 +59,40 @@
     </item>
    </layout>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>443</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="open"/>
+    <addaction name="save"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="open">
+   <property name="text">
+    <string>открыть</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="save">
+   <property name="text">
+    <string>сохранить</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
