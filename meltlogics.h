@@ -11,10 +11,14 @@ public:
     MeltLogics(QObject* _parent = NULL);
     MeltLogics(Field* _startFrame, QObject *_parent = NULL);
     ~MeltLogics();
+
     bool   saveStep(const QString& _filename);
     Field* loadStep(const QString& _filename);
 
     Field*  currentFrame();
+
+    int realWidth();
+    int realHeight();
 
 public slots:
     Field* nextFrame();

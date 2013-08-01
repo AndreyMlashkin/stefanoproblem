@@ -43,18 +43,24 @@ void DisplayMeltmodel::step()
 
 void DisplayMeltmodel::callSaveDialog()
 {
+    QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "");
+    if(fileName.isNull())
+        return;
+
     if(!m_meltmodel)
         return;
-    QString fileName = QFileDialog::getSaveFileName(this, "Save File", "", "");
     m_meltmodel->saveStep(fileName);
 }
 
 void DisplayMeltmodel::callOpenDialog()
 {
+    QString fileName = QFileDialog::getOpenFileName(this, "Open File", "", "");
+    if(fileName.isNull())
+        return;
+
     if(!m_meltmodel)
         m_meltmodel = new MeltModel();
 
-    QString fileName = QFileDialog::getOpenFileName(this, "Open File", "", "");
     m_meltmodel->loadStep(fileName);
 
     connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));

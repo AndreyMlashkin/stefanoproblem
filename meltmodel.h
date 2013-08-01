@@ -15,6 +15,7 @@ public:
     explicit MeltModel(int _width, int _height);
     MeltModel();
     ~MeltModel();
+
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual int rowCount(const QModelIndex&) const;
     virtual int columnCount(const QModelIndex&) const;
@@ -26,6 +27,9 @@ public:
 
 public slots:
     void processStep();
+
+public:
+    double getTemperatureInPos(int _row, int _column) const;
 
 private:
     MeltLogics* m_frameProcessor;

@@ -42,7 +42,9 @@ QVariant MeltModel::data(const QModelIndex &index, int role) const
         return QVariant();
     int i = index.row();
     int j = index.column();
-    return QString::number((*m_field)[i][j].temperature(), 'f', 2);
+    double temp = getTemperatureInPos(i, j);
+
+    return QString::number(temp, 'f', 2);
 }
 
 int MeltModel::rowCount(const QModelIndex&) const
@@ -50,7 +52,7 @@ int MeltModel::rowCount(const QModelIndex&) const
     if(!m_field)
         return 0;
 
-    return m_field->height();
+    return m_frameProcessor->realHeight();
 }
 
 int MeltModel::columnCount(const QModelIndex&) const
@@ -58,18 +60,18 @@ int MeltModel::columnCount(const QModelIndex&) const
     if(!m_field)
         return 0;
 
-    return m_field->width();
+    return m_frameProcessor->realWidth();
 }
 
 QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
 {
-    if(!m_field)
-        return QModelIndex();
+//    if(!m_field)
+//        return QModelIndex();
 
-    double data = (*m_field)[_row][_column].temperature();
+//    double data = (*m_field)[_row][_column].temperature();
     // QString::number(data, 'f', 2)
 
-    return createIndex(_row, _column, 1);
+    return createIndex(_row, _column, 13);
 
 }
 
@@ -102,7 +104,16 @@ void MeltModel::processStep()
 {
     beginResetModel();
     m_field = m_frameProcessor->nextFrame();
-    //m_frameProcessor->saveStep();
     endResetModel();
+}
+
+double MeltModel::getTemperatureInPos(int _row, int _column) const
+{
+    int fieldColumn;
+    if(_column >= m_field->width())
+        fieldColumn = _column - m_field->width() + 1;
+    else
+        fieldColumn = m_field->width() - 1 - _column;
+    return (*m_field)[_row][fieldColumn].temperature();
 }
 

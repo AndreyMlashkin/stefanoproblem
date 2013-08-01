@@ -32,7 +32,7 @@ bool MeltLogics::saveStep(const QString& _filename = "save.txt")
     {
         QTextStream out(&file);
 
-        int width = (*m_current).width() * 2 - 1;
+        int width = realWidth();
         out << width  << ' ' << (*m_current).height() << '\n';
 
         for(int i = 0; i < m_current->height(); i++)
@@ -81,13 +81,21 @@ Field *MeltLogics::loadStep(const QString &_filename)
     }
     else
         return NULL;
-
-
 }
 
 Field *MeltLogics::currentFrame()
 {
     return m_current;
+}
+
+int MeltLogics::realWidth()
+{
+    return (*m_current).width() * 2 - 1;
+}
+
+int MeltLogics::realHeight()
+{
+    return (*m_current).height();
 }
 
 static double heating = 1;
@@ -133,6 +141,8 @@ void MeltLogics::swapFrames()
     m_prev = m_current;
     m_current = tmp;
 }
+
+
 
 
 
