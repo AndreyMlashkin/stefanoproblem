@@ -7,6 +7,8 @@
 #include "ui_displaymeltmodel.h"
 #include "meltmodel.h"
 
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     QMainWindow(parent),
@@ -23,7 +25,6 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
 
     connect(ui->save, SIGNAL(triggered()), this, SLOT(callSaveDialog()));
     connect(ui->open, SIGNAL(triggered()), this, SLOT(callOpenDialog()));
-
 }
 
 DisplayMeltmodel::~DisplayMeltmodel()
