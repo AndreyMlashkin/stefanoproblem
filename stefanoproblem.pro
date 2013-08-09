@@ -18,7 +18,7 @@ SOURCES += main.cpp\
     deltavolume.cpp \
     field.cpp \
     meltlogics.cpp \
-    meltview.cpp
+    meltdelegate.cpp
 
 HEADERS  += \
     displaymeltmodel.h \
@@ -26,7 +26,7 @@ HEADERS  += \
     deltavolume.h \
     field.h \
     meltlogics.h \
-    meltview.h
+    meltdelegate.h
 
 FORMS    += \
     displaymeltmodel.ui

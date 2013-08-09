@@ -68,10 +68,10 @@ QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
 //    if(!m_field)
 //        return QModelIndex();
 
-//    double data = (*m_field)[_row][_column].temperature();
+    double data = (*m_field)[_row][_column].temperature();
     // QString::number(data, 'f', 2)
 
-    return createIndex(_row, _column, 13);
+    return createIndex(_row, _column, data);
 
 }
 

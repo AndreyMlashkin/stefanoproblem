@@ -106,7 +106,6 @@ Field* MeltLogics::nextFrame()
     double temperature = (*m_prev)[0][0].temperature();
     (*m_prev)[0][0].setTemperature(temperature + heating);
 
-
     Field::iterator oldCell = m_prev->begin();
     Field::iterator newCell = m_current->begin();
     while(oldCell != m_prev->end())
@@ -124,14 +123,6 @@ Field* MeltLogics::nextFrame()
         newCell++;
         oldCell++;
     }
-
-//    for(int i = 0; i < m_current->height(); i++)
-//        for(int j = 0; j < m_current->width(); j++)
-//        {
-//            int temperature = (*m_prev)[i][j].temperature();
-//            (*m_current)[i][j].setTemperature(temperature + 1);
-//        }
-
     return m_current;
 }
 

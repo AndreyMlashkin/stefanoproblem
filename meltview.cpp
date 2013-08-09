@@ -4,16 +4,14 @@
 #include <QGraphicsScene>
 
 MeltView::MeltView(QWidget *_parent)
-    : QWidget(_parent)
+    : QTableView(_parent)
 {
-    m_gScene = new QGraphicsScene(_parent);
-    m_gView = new QGraphicsView(m_gScene);
-    m_gView->show();
+//    m_scene->setBackgroundBrush(Qt::red);
 
-    m_gScene->setBackgroundBrush(Qt::red);
-
-    QLinearGradient gradient(0, 0, 100, 100);
-    //gradient.setSpread(QGradient::RepeatSpread);
-    m_gScene->setBackgroundBrush(gradient);
-    show();
+//    QLinearGradient gradient(0, 0, 100, 100);
+//    //gradient.setSpread(QGradient::RepeatSpread);
+//    m_scene->setBackgroundBrush(gradient);
 }
+
+
+

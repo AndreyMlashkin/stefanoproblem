@@ -1,25 +1,26 @@
 #ifndef MELTVIEW_H
 #define MELTVIEW_H
 
-#include <QWidget>
+#include <QTableView>
 
 
-class QGraphicsScene;
-class QGraphicsView;
+//class QGraphicsScene;
+//class QGraphicsView;
 
-class MeltView : public QWidget
+class MeltView : public QTableView
 {
     Q_OBJECT
 public:
     MeltView(QWidget *_parent = 0);
 
-signals:
+
+//signals:
     
-public slots:
+//public slots:
     
-private:
-    QGraphicsScene* m_gScene;
-    QGraphicsView* m_gView;
+//private:
+//    QGraphicsScene* m_scene;
+//    QGraphicsView* m_view;
 };
 
 #endif // MELTVIEW_H

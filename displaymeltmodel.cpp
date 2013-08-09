@@ -7,8 +7,8 @@
 #include "ui_displaymeltmodel.h"
 #include "meltmodel.h"
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include "meltdelegate.h"
+
 
 DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     QMainWindow(parent),
@@ -66,6 +66,8 @@ void DisplayMeltmodel::callOpenDialog()
 
     connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
     ui->view->setModel(m_meltmodel);
+    ui->graphicsView->setModel(m_meltmodel);
+    ui->graphicsView->setItemDelegate(new MeltDelegate);
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)
@@ -75,4 +77,6 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
 
     connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
     ui->view->setModel(m_meltmodel);
+    ui->graphicsView->setModel(m_meltmodel);
+    ui->graphicsView->setItemDelegate(new MeltDelegate);
 }
