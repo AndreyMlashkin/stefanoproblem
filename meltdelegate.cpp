@@ -16,6 +16,10 @@ void MeltDelegate::paint(QPainter *_painter, const QStyleOptionViewItem &_option
 
     _painter->save();
 
+    static const QColor blue(0, 0, 255);
+    _painter->fillRect(_option.rect, blue);
+
+
     double temperature = _index.data().toDouble(); //static_cast<double>(_index.internalPointer());
 
     static const double maxTemp = 0.6;//= 100;

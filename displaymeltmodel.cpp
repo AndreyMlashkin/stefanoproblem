@@ -40,6 +40,7 @@ void DisplayMeltmodel::initModel()
 void DisplayMeltmodel::step()
 {
     m_meltmodel->processStep();
+    ui->graphicsView->adjustSize();
 }
 
 void DisplayMeltmodel::callSaveDialog()
