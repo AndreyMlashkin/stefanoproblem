@@ -64,10 +64,7 @@ void DisplayMeltmodel::callOpenDialog()
 
     m_meltmodel->loadStep(fileName);
 
-    connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
-    ui->view->setModel(m_meltmodel);
-    ui->graphicsView->setModel(m_meltmodel);
-    ui->graphicsView->setItemDelegate(new MeltDelegate);
+    setupModel();
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)
@@ -75,6 +72,11 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
     delete m_meltmodel;
     m_meltmodel = new MeltModel(_width, _height, _startTemperature);
 
+    setupModel();
+}
+
+void DisplayMeltmodel::setupModel()
+{
     connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
     ui->view->setModel(m_meltmodel);
     ui->graphicsView->setModel(m_meltmodel);

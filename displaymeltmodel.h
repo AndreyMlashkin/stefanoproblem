@@ -24,6 +24,7 @@ private slots:
     void callOpenDialog();
 private:
     void startNewModel(int _width, int _height, double _startTemperature);
+    void setupModel();
 
 private:
     Ui::displaymeltmodel *ui;

@@ -15,6 +15,9 @@ signals:
     
 public slots:
     
+private:
+    static const double ABSNULL;
+    double m_max;
 };
 
 #endif // MELTDELEGATE_H
