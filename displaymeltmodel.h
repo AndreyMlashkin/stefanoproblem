@@ -22,6 +22,8 @@ private slots:
     void step();
     void callSaveDialog();
     void callOpenDialog();
+    void setViewsVisibility();
+
 private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();

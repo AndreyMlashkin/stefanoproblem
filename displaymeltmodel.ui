@@ -17,11 +17,17 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTableView" name="graphicsView">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="showGrid">
+       <bool>false</bool>
       </property>
       <attribute name="horizontalHeaderVisible">
        <bool>false</bool>
@@ -38,7 +44,7 @@
      <widget class="QTableView" name="view"/>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="controlPanel">
       <item>
        <widget class="QLineEdit" name="x">
         <property name="text">
@@ -64,6 +70,24 @@
        <widget class="QPushButton" name="start">
         <property name="text">
          <string>Начать</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="showViewsPanel">
+      <item>
+       <widget class="QCheckBox" name="showGraphics">
+        <property name="text">
+         <string>Графика</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="showTable">
+        <property name="text">
+         <string>Таблица</string>
         </property>
        </widget>
       </item>
