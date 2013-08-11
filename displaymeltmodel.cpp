@@ -16,6 +16,9 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     m_meltmodel(NULL)
 {
     ui->setupUi(this);
+
+    updateViewsVisibility();
+
     connect(ui->start, SIGNAL(clicked()), this, SLOT(initModel()));
     QValidator* intValidator = new QIntValidator(this);
 
@@ -25,6 +28,9 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
 
     connect(ui->save, SIGNAL(triggered()), this, SLOT(callSaveDialog()));
     connect(ui->open, SIGNAL(triggered()), this, SLOT(callOpenDialog()));
+
+    connect(ui->showGraphics, SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
+    connect(ui->showTable,    SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
 }
 
 DisplayMeltmodel::~DisplayMeltmodel()
@@ -66,6 +72,19 @@ void DisplayMeltmodel::callOpenDialog()
     m_meltmodel->loadStep(fileName);
 
     setupModel();
+}
+
+void DisplayMeltmodel::updateViewsVisibility()
+{
+    if(ui->showGraphics->isChecked())
+        ui->graphicsView->show();
+    else
+        ui->graphicsView->hide();
+
+    if(ui->showTable->isChecked())
+        ui->view->show();
+    else
+        ui->view->hide();
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)
