@@ -24,9 +24,14 @@ private slots:
     void callOpenDialog();
     void updateViewsVisibility();
 
+    void writeConfigFile();
+    void readConfigFile();
+
 private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
+    void resizeEvent(QResizeEvent* _event);
+    void moveEvent(QMoveEvent* _event);
 
 private:
     Ui::displaymeltmodel *ui;

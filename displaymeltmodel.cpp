@@ -1,7 +1,9 @@
 #include <QDebug>
-#include<QValidator>
+#include <QValidator>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
+#include <QVariant>
 
 #include "displaymeltmodel.h"
 #include "ui_displaymeltmodel.h"
@@ -17,9 +19,13 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    updateViewsVisibility();
+    readConfigFile();
 
     connect(ui->start, SIGNAL(clicked()), this, SLOT(initModel()));
+    connect(this, SIGNAL(destroyed()),    this, SLOT(writeConfigFile()));
+    connect(this, SIGNAL(destroyed()),    this, SLOT(writeConfigFile()));
+
+
     QValidator* intValidator = new QIntValidator(this);
 
     ui->x->setValidator(intValidator);
@@ -85,6 +91,31 @@ void DisplayMeltmodel::updateViewsVisibility()
         ui->view->show();
     else
         ui->view->hide();
+
+    writeConfigFile();
+}
+
+void DisplayMeltmodel::writeConfigFile()
+{
+    QSettings settings("modelSettings", QSettings::IniFormat);
+    settings.beginGroup("GUI settings");
+        settings.setValue("geometry", geometry());
+        settings.setValue("showTable", ui->showTable->isChecked());
+        settings.setValue("showGraphics", ui->showGraphics->isChecked());
+    settings.endGroup();
+}
+
+void DisplayMeltmodel::readConfigFile()
+{
+    qDebug() << "readConfigFile";
+    QSettings settings("modelSettings", QSettings::IniFormat);
+    settings.beginGroup("GUI settings");
+        setGeometry(settings.value("geometry").toRect());
+        ui->showTable->setChecked(settings.value("showTable", true).toBool());
+        ui->showGraphics->setChecked(settings.value("showGraphics", true).toBool());
+    settings.endGroup();
+
+    updateViewsVisibility();
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)
@@ -101,4 +132,14 @@ void DisplayMeltmodel::setupModel()
     ui->view->setModel(m_meltmodel);
     ui->graphicsView->setModel(m_meltmodel);
     ui->graphicsView->setItemDelegate(new MeltDelegate);
+}
+
+void DisplayMeltmodel::resizeEvent(QResizeEvent*)
+{
+    writeConfigFile();
+}
+
+void DisplayMeltmodel::moveEvent(QMoveEvent *_event)
+{
+    writeConfigFile();
 }
