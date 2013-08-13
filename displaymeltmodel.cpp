@@ -92,6 +92,11 @@ void DisplayMeltmodel::updateViewsVisibility()
     else
         ui->view->hide();
 
+//    if(!ui->showGraphics->isChecked() && !ui->showTable->isChecked())
+//        ui->verticalSpacer->changeSize(0, 0, QSizePolicy::Minimum, QSizePolicy::Maximum);
+//    else
+//        ui->verticalSpacer->changeSize(0, 0, QSizePolicy::Minimum, QSizePolicy::Minimum);
+
     writeConfigFile();
 }
 
@@ -103,16 +108,27 @@ void DisplayMeltmodel::writeConfigFile()
         settings.setValue("showTable", ui->showTable->isChecked());
         settings.setValue("showGraphics", ui->showGraphics->isChecked());
     settings.endGroup();
+
+    settings.beginGroup("input");
+        settings.setValue("height", ui->y->text());
+        settings.setValue("width",  ui->x->text());
+        settings.setValue("startTemperature", ui->startTemp->text());
+    settings.endGroup();
 }
 
 void DisplayMeltmodel::readConfigFile()
 {
-    qDebug() << "readConfigFile";
     QSettings settings("modelSettings", QSettings::IniFormat);
     settings.beginGroup("GUI settings");
         setGeometry(settings.value("geometry").toRect());
         ui->showTable->setChecked(settings.value("showTable", true).toBool());
         ui->showGraphics->setChecked(settings.value("showGraphics", true).toBool());
+    settings.endGroup();
+
+    settings.beginGroup("input");
+        ui->y->setText(settings.value("height", 5).toString());
+        ui->x->setText(settings.value("width", 5).toString());
+        ui->startTemp->setText(settings.value("startTemperature", 0).toString());
     settings.endGroup();
 
     updateViewsVisibility();
@@ -139,7 +155,7 @@ void DisplayMeltmodel::resizeEvent(QResizeEvent*)
     writeConfigFile();
 }
 
-void DisplayMeltmodel::moveEvent(QMoveEvent *_event)
+void DisplayMeltmodel::moveEvent(QMoveEvent*    )
 {
     writeConfigFile();
 }
