@@ -6,6 +6,7 @@
 
 class Field;
 class MeltLogics;
+class DeltaVolume;
 
 class MeltModel : public QAbstractItemModel
 {
@@ -29,7 +30,8 @@ public slots:
     void processStep();
 
 public:
-    double getTemperatureInPos(int _row, int _column) const;
+    inline double getTemperatureInPos(int _row, int _column) const;
+    inline DeltaVolume* getDeltaVolumeInPos(int _row, int _column) const;
 
 private:
     MeltLogics* m_frameProcessor;

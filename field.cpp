@@ -191,7 +191,9 @@ Field::Field(const Field &_f)
     : m_height(_f.m_height),
       m_width(_f.m_width),
       m_field(new DeltaVolume[m_height * m_width])
-{}
+{
+    initBehaviour();
+}
 
 void Field::setStartTemperature(double _startTemp)
 {
@@ -232,7 +234,7 @@ void Field::initBehaviour()
         if(((i + 1) % m_width == 0) || (i > (m_height-1) * m_width - 1) || (i < m_width))
             m_field[i].setBehaviour(Border);
         else if(i % m_width == 0)
-            m_field[i].setBehaviour(Central);
+            m_field[i].setBehaviour(Drill);
         else
             m_field[i].setBehaviour(Normal);
     }

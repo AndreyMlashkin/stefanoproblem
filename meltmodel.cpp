@@ -65,13 +65,19 @@ int MeltModel::columnCount(const QModelIndex&) const
 
 QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
 {
-//    if(!m_field)
-//        return QModelIndex();
+    if(!m_field)
+        return QModelIndex();
 
-    double data = (*m_field)[_row][_column].temperature();
-    // QString::number(data, 'f', 2)
+    DeltaVolume* d = getDeltaVolumeInPos(_row, _column);
+
+    void* data = reinterpret_cast<void*> (d);
 
     return createIndex(_row, _column, data);
+
+
+//    double data = (*m_field)[_row][_column].temperature();
+
+//    return createIndex(_row, _column, data);
 
 }
 
@@ -109,11 +115,22 @@ void MeltModel::processStep()
 
 double MeltModel::getTemperatureInPos(int _row, int _column) const
 {
+//    int fieldColumn;
+//    if(_column >= m_field->width())
+//        fieldColumn = _column - m_field->width() + 1;
+//    else
+//        fieldColumn = m_field->width() - 1 - _column;
+//    return (*m_field)[_row][fieldColumn].temperature();
+    return getDeltaVolumeInPos(_row, _column)->temperature();
+}
+
+DeltaVolume *MeltModel::getDeltaVolumeInPos(int _row, int _column) const
+{
     int fieldColumn;
     if(_column >= m_field->width())
         fieldColumn = _column - m_field->width() + 1;
     else
         fieldColumn = m_field->width() - 1 - _column;
-    return (*m_field)[_row][fieldColumn].temperature();
+    return &(*m_field)[_row][fieldColumn];
 }
 

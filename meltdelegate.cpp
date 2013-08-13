@@ -1,6 +1,7 @@
 #include <QPainter>
 
 #include "meltdelegate.h"
+#include "deltavolume.h"
 #include <QDebug>
 
 static const double ABSNULL = -273.15;
@@ -20,18 +21,33 @@ void MeltDelegate::paint(QPainter *_painter, const QStyleOptionViewItem &_option
     _painter->fillRect(_option.rect, blue);
 
 
-    double temperature = _index.data().toDouble(); //static_cast<double>(_index.internalPointer());
+    const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(_index.internalPointer());
 
-    static const double maxTemp = 0.6;//= 100;
-    static const double minTemp = 0; //= -273.15;
+    switch(v->behaviour())
+    {
+        case Border:
+        {
+            QColor color(255, 255, 255);
+            _painter->fillRect(_option.rect, color);
+            break;
+        }
+        default:
+        {
+            double temperature = v->temperature();
 
-    double diff = maxTemp - minTemp;
-    double koeff = temperature * (255 / diff);
+            static const double maxTemp = 0.6;//= 100;
+            static const double minTemp = 0; //= -273.15;
 
-//    qDebug() << koeff;
+            double diff = maxTemp - minTemp;
+            double koeff = temperature * (255 / diff);
 
-    QColor color(255, 0, 0, koeff);
-    _painter->fillRect(_option.rect, color);
+
+            QColor color(255, 0, 0, koeff);
+            _painter->fillRect(_option.rect, color);
+        }
+    }
+
+
     _painter->restore();
 }
 

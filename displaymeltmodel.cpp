@@ -22,11 +22,8 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     readConfigFile();
 
     connect(ui->start, SIGNAL(clicked()), this, SLOT(initModel()));
-    connect(this, SIGNAL(destroyed()),    this, SLOT(writeConfigFile()));
-    connect(this, SIGNAL(destroyed()),    this, SLOT(writeConfigFile()));
 
-
-    QValidator* intValidator = new QIntValidator(this);
+    QValidator* intValidator = new QDoubleValidator(this);
 
     ui->x->setValidator(intValidator);
     ui->y->setValidator(intValidator);
@@ -41,7 +38,9 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
 
 DisplayMeltmodel::~DisplayMeltmodel()
 {
+    writeConfigFile();
     delete ui;
+    delete m_meltmodel;
 }
 
 void DisplayMeltmodel::initModel()
@@ -91,17 +90,11 @@ void DisplayMeltmodel::updateViewsVisibility()
         ui->view->show();
     else
         ui->view->hide();
-
-//    if(!ui->showGraphics->isChecked() && !ui->showTable->isChecked())
-//        ui->verticalSpacer->changeSize(0, 0, QSizePolicy::Minimum, QSizePolicy::Maximum);
-//    else
-//        ui->verticalSpacer->changeSize(0, 0, QSizePolicy::Minimum, QSizePolicy::Minimum);
-
-    writeConfigFile();
 }
 
 void DisplayMeltmodel::writeConfigFile()
 {
+    qDebug() << "writeConfigFile";
     QSettings settings("modelSettings", QSettings::IniFormat);
     settings.beginGroup("GUI settings");
         settings.setValue("geometry", geometry());
@@ -148,14 +141,4 @@ void DisplayMeltmodel::setupModel()
     ui->view->setModel(m_meltmodel);
     ui->graphicsView->setModel(m_meltmodel);
     ui->graphicsView->setItemDelegate(new MeltDelegate);
-}
-
-void DisplayMeltmodel::resizeEvent(QResizeEvent*)
-{
-    writeConfigFile();
-}
-
-void DisplayMeltmodel::moveEvent(QMoveEvent*    )
-{
-    writeConfigFile();
 }
