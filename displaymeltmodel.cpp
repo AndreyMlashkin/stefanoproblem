@@ -15,7 +15,8 @@
 DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::displaymeltmodel),
-    m_meltmodel(NULL)
+    m_meltmodel(NULL),
+    m_delegate(new MeltDelegate)
 {
     ui->setupUi(this);
 
@@ -40,6 +41,7 @@ DisplayMeltmodel::~DisplayMeltmodel()
 {
     writeConfigFile();
     delete ui;
+    delete m_delegate;
     delete m_meltmodel;
 }
 
@@ -94,7 +96,6 @@ void DisplayMeltmodel::updateViewsVisibility()
 
 void DisplayMeltmodel::writeConfigFile()
 {
-    qDebug() << "writeConfigFile";
     QSettings settings("modelSettings", QSettings::IniFormat);
     settings.beginGroup("GUI settings");
         settings.setValue("geometry", geometry());
@@ -127,6 +128,18 @@ void DisplayMeltmodel::readConfigFile()
     updateViewsVisibility();
 }
 
+void DisplayMeltmodel::updateMinTemp(double _newTemp)
+{
+    ui->minTemp->setText(QString::number(_newTemp));
+    m_delegate->updateMinTemp(_newTemp);
+}
+
+void DisplayMeltmodel::updateMaxTemp(double _newTemp)
+{
+    ui->maxTemp->setText(QString::number(_newTemp));
+    m_delegate->updateMaxTemp(_newTemp);
+}
+
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)
 {
     delete m_meltmodel;
@@ -140,5 +153,10 @@ void DisplayMeltmodel::setupModel()
     connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
     ui->view->setModel(m_meltmodel);
     ui->graphicsView->setModel(m_meltmodel);
-    ui->graphicsView->setItemDelegate(new MeltDelegate);
+
+//    MeltDelegate* delegate = new MeltDelegate;
+    connect(m_meltmodel, SIGNAL(updateMaxTemp(double)), SLOT(updateMaxTemp(double)));
+    connect(m_meltmodel, SIGNAL(updateMinTemp(double)), SLOT(updateMinTemp(double)));
+
+    ui->graphicsView->setItemDelegate(m_delegate);
 }

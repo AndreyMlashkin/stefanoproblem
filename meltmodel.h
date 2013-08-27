@@ -29,13 +29,22 @@ public:
 public slots:
     void processStep();
 
-public:
+signals:
+    void updateMaxTemp(double _temp);
+    void updateMinTemp(double _temp);
+
+private:
     inline double getTemperatureInPos(int _row, int _column) const;
     inline DeltaVolume* getDeltaVolumeInPos(int _row, int _column) const;
+
+    void updateMinAndMaxTemp();
 
 private:
     MeltLogics* m_frameProcessor;
     Field* m_field;
+
+    double m_maxTemp;
+    double m_minTemp;
 };
 
 #endif // MELTMODEL_H

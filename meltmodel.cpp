@@ -8,17 +8,25 @@
 #include "meltlogics.h"
 
 MeltModel::MeltModel(int _width, int _height, double _startTemperature)
-    : QAbstractItemModel()
+    : QAbstractItemModel(),
+      m_maxTemp(-300),
+      m_minTemp(5000)
 {
     m_field = new Field(_width, _height, _startTemperature);
     m_frameProcessor = new MeltLogics(m_field);
+
+//    updateMinAndMaxTemp();
 }
 
 MeltModel::MeltModel(int _width, int _height)
-    : QAbstractItemModel()
+    : QAbstractItemModel(),
+      m_maxTemp(-300),
+      m_minTemp(5000)
 {
     m_field = new Field(_width, _height);
     m_frameProcessor = new MeltLogics(m_field);
+
+//    updateMinAndMaxTemp();
 }
 
 MeltModel::MeltModel()
@@ -73,12 +81,6 @@ QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
     void* data = reinterpret_cast<void*> (d);
 
     return createIndex(_row, _column, data);
-
-
-//    double data = (*m_field)[_row][_column].temperature();
-
-//    return createIndex(_row, _column, data);
-
 }
 
 QModelIndex MeltModel::parent(const QModelIndex& child) const
@@ -110,17 +112,13 @@ void MeltModel::processStep()
 {
     beginResetModel();
     m_field = m_frameProcessor->nextFrame();
+    updateMinAndMaxTemp();
+
     endResetModel();
 }
 
 double MeltModel::getTemperatureInPos(int _row, int _column) const
 {
-//    int fieldColumn;
-//    if(_column >= m_field->width())
-//        fieldColumn = _column - m_field->width() + 1;
-//    else
-//        fieldColumn = m_field->width() - 1 - _column;
-//    return (*m_field)[_row][fieldColumn].temperature();
     return getDeltaVolumeInPos(_row, _column)->temperature();
 }
 
@@ -132,5 +130,25 @@ DeltaVolume *MeltModel::getDeltaVolumeInPos(int _row, int _column) const
     else
         fieldColumn = m_field->width() - 1 - _column;
     return &(*m_field)[_row][fieldColumn];
+}
+
+void MeltModel::updateMinAndMaxTemp()
+{
+    double oldMax = m_maxTemp;
+    double oldMin = m_minTemp;
+    for(Field::iterator i = m_field->begin(); i != m_field->end(); i++)
+    {
+        if(m_maxTemp < (*i).temperature())
+            m_maxTemp = ((*i).temperature());
+
+        if(m_minTemp > (*i).temperature())
+            m_minTemp = ((*i).temperature());
+    }
+
+    if(oldMax != m_maxTemp)
+        emit updateMaxTemp(m_maxTemp);
+
+    if(oldMin != m_minTemp)
+        emit updateMinTemp(m_minTemp);
 }
 

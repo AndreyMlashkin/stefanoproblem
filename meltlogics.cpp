@@ -111,15 +111,17 @@ Field* MeltLogics::nextFrame()
     while(oldCell != m_prev->end())
     {
         double t = 0;
+        int n = 1;
         while(oldCell.isNextNeighbour())
         {
+            n++;
             DeltaVolume* d = (oldCell.nextNeighbour());
             t += d->temperature();
         }
-        double saf = t / 5;
+        double saf = t / n;
 
         double oldTemp = (*oldCell).temperature();
-        (*newCell).setTemperature(saf + oldTemp/5);
+        (*newCell).setTemperature(saf + oldTemp / n);
         newCell++;
         oldCell++;
     }

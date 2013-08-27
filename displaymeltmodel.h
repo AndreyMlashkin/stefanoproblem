@@ -10,6 +10,7 @@ namespace Ui
 }
 
 class MeltModel;
+class MeltDelegate;
 class DisplayMeltmodel : public QMainWindow
 {
     Q_OBJECT
@@ -28,6 +29,9 @@ private slots:
     void writeConfigFile();
     void readConfigFile();
 
+    void updateMinTemp(double _newTemp);
+    void updateMaxTemp(double _newTemp);
+
 private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
@@ -35,6 +39,7 @@ private:
 private:
     Ui::displaymeltmodel *ui;
     MeltModel* m_meltmodel;
+    MeltDelegate* m_delegate;
 };
 
 #endif // DISPLAYMELTMODEL_H

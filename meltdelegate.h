@@ -14,9 +14,14 @@ public:
 signals:
     
 public slots:
-    
+    void updateMinTemp(double _newMin);
+    void updateMaxTemp(double _newMax);
+
 private:
-    double m_max;
+    inline double calculateBrightness(double _temperature) const;
+
+private:
+    double m_maxTemp, m_minTemp;
 };
 
 #endif // MELTDELEGATE_H
