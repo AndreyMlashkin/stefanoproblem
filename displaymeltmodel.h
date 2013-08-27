@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 
-
 namespace Ui
 {
     class displaymeltmodel;
@@ -35,6 +34,8 @@ private slots:
 private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
+
+    void resizeEvent(QResizeEvent* _event);
 
 private:
     Ui::displaymeltmodel *ui;

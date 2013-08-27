@@ -11,6 +11,7 @@ class DeltaVolume;
 class MeltModel : public QAbstractItemModel
 {
     Q_OBJECT
+
 public:
     explicit MeltModel(int _width, int _height, double _startTemperature);
     explicit MeltModel(int _width, int _height);
@@ -18,8 +19,8 @@ public:
     ~MeltModel();
 
     virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    virtual int rowCount(const QModelIndex&) const;
-    virtual int columnCount(const QModelIndex&) const;
+    virtual int rowCount(const QModelIndex& _index = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex& _index = QModelIndex()) const;
     QModelIndex index(int row, int column, const QModelIndex&) const;
     QModelIndex parent(const QModelIndex& child) const;
 

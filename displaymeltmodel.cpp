@@ -11,6 +11,15 @@
 
 #include "meltdelegate.h"
 
+int inline max(int a, int b)
+{
+    return (a > b)? a : b;
+}
+
+int inline min(int a, int b)
+{
+    return (a < b)? a : b;
+}
 
 DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     QMainWindow(parent),
@@ -146,6 +155,8 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
     m_meltmodel = new MeltModel(_width, _height, _startTemperature);
 
     setupModel();
+
+    resizeEvent(NULL);
 }
 
 void DisplayMeltmodel::setupModel()
@@ -159,4 +170,31 @@ void DisplayMeltmodel::setupModel()
     connect(m_meltmodel, SIGNAL(updateMinTemp(double)), SLOT(updateMinTemp(double)));
 
     ui->graphicsView->setItemDelegate(m_delegate);
+}
+
+void DisplayMeltmodel::resizeEvent(QResizeEvent*)
+{
+    if(!m_meltmodel)
+        return;
+
+    ui->graphicsView->resizeRowsToContents();
+    ui->graphicsView->resizeColumnsToContents();
+
+
+    int width  = ui->graphicsView->width();
+    int height = ui->graphicsView->height();
+
+    int cellWidth  = height / m_meltmodel->rowCount();
+    int cellHeight = width  / m_meltmodel->columnCount();
+
+    int cellSize = min(cellWidth, cellHeight);
+
+
+    QHeaderView* header = ui->graphicsView->horizontalHeader();
+    header->setDefaultSectionSize(cellSize);
+
+    header =  ui->graphicsView->verticalHeader();
+    header->setDefaultSectionSize(cellSize);
+
+//    header.adjustSize();
 }

@@ -63,7 +63,7 @@ int MeltModel::rowCount(const QModelIndex&) const
     return m_frameProcessor->realHeight();
 }
 
-int MeltModel::columnCount(const QModelIndex&) const
+int MeltModel::columnCount(const QModelIndex&_index) const
 {
     if(!m_field)
         return 0;
