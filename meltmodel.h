@@ -27,6 +27,8 @@ public:
     bool saveStep(const QString& _fileName);
     bool loadStep(const QString& _fileName);
 
+    void updateMinAndMaxTemp();
+
 public slots:
     void processStep();
 
@@ -37,8 +39,6 @@ signals:
 private:
     inline double getTemperatureInPos(int _row, int _column) const;
     inline DeltaVolume* getDeltaVolumeInPos(int _row, int _column) const;
-
-    void updateMinAndMaxTemp();
 
 private:
     MeltLogics* m_frameProcessor;

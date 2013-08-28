@@ -32,6 +32,7 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
         {
             double temperature = v->temperature();
             double koeff = calculateBrightness(temperature);
+           // qDebug() << koeff;
 
             QColor color(255, 0, 0, koeff);
             _painter->fillRect(_option.rect, color);
@@ -42,7 +43,7 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
 
 QSize MeltDelegate::sizeHint(const QStyleOptionViewItem &_option, const QModelIndex &_index) const
 {
-    qDebug() << "sizeHint";
+//    qDebug() << "sizeHint";
     return QSize(20, 20);
 }
 

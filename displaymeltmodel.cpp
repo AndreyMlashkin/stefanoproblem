@@ -167,6 +167,7 @@ void DisplayMeltmodel::setupModel()
 
     connect(m_meltmodel, SIGNAL(updateMaxTemp(double)), SLOT(updateMaxTemp(double)));
     connect(m_meltmodel, SIGNAL(updateMinTemp(double)), SLOT(updateMinTemp(double)));
+    m_meltmodel->updateMinAndMaxTemp();
 
     ui->graphicsView->setItemDelegate(m_delegate);
 }

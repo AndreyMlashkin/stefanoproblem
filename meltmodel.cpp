@@ -15,7 +15,7 @@ MeltModel::MeltModel(int _width, int _height, double _startTemperature)
     m_field = new Field(_width, _height, _startTemperature);
     m_frameProcessor = new MeltLogics(m_field);
 
-//    updateMinAndMaxTemp();
+    //updateMinAndMaxTemp();
 }
 
 MeltModel::MeltModel(int _width, int _height)
@@ -26,14 +26,16 @@ MeltModel::MeltModel(int _width, int _height)
     m_field = new Field(_width, _height);
     m_frameProcessor = new MeltLogics(m_field);
 
-//    updateMinAndMaxTemp();
+   // updateMinAndMaxTemp();
 }
 
 MeltModel::MeltModel()
     : QAbstractItemModel(),
       m_field(NULL),
       m_frameProcessor()
-{}
+{
+ //   updateMinAndMaxTemp();
+}
 
 MeltModel::~MeltModel()
 {
@@ -108,6 +110,26 @@ bool MeltModel::loadStep(const QString& _fileName)
     return true;
 }
 
+void MeltModel::updateMinAndMaxTemp()
+{
+    double oldMax = m_maxTemp;
+    double oldMin = m_minTemp;
+    for(Field::iterator i = m_field->begin(); i != m_field->end(); i++)
+    {
+        if(m_maxTemp < (*i).temperature())
+            m_maxTemp = ((*i).temperature());
+
+        if(m_minTemp > (*i).temperature())
+            m_minTemp = ((*i).temperature());
+    }
+
+    if(oldMax != m_maxTemp)
+        emit updateMaxTemp(m_maxTemp);
+
+    if(oldMin != m_minTemp)
+        emit updateMinTemp(m_minTemp);
+}
+
 void MeltModel::processStep()
 {
     beginResetModel();
@@ -132,23 +154,4 @@ DeltaVolume *MeltModel::getDeltaVolumeInPos(int _row, int _column) const
     return &(*m_field)[_row][fieldColumn];
 }
 
-void MeltModel::updateMinAndMaxTemp()
-{
-    double oldMax = m_maxTemp;
-    double oldMin = m_minTemp;
-    for(Field::iterator i = m_field->begin(); i != m_field->end(); i++)
-    {
-        if(m_maxTemp < (*i).temperature())
-            m_maxTemp = ((*i).temperature());
-
-        if(m_minTemp > (*i).temperature())
-            m_minTemp = ((*i).temperature());
-    }
-
-    if(oldMax != m_maxTemp)
-        emit updateMaxTemp(m_maxTemp);
-
-    if(oldMin != m_minTemp)
-        emit updateMinTemp(m_minTemp);
-}
 
