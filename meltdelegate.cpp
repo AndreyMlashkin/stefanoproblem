@@ -63,5 +63,5 @@ double MeltDelegate::calculateBrightness(double _temperature) const
     if(diff == 0)
         return 0;
 
-    return _temperature * (255 / diff);
+    return (_temperature - m_minTemp) * (255 / diff);
 }

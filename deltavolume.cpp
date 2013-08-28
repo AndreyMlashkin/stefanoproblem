@@ -32,7 +32,7 @@ double DeltaVolume::temperature() const
     return m_temperature;
 }
 
-double DeltaVolume::rTemperature()
-{
-    return *(&m_temperature);
-}
+//double DeltaVolume::rTemperature()
+//{
+//    return *(&m_temperature);
+//}

@@ -14,7 +14,7 @@ public:
 
     void setTemperature(double _temp);
     double temperature() const;
-    double rTemperature();
+//    double rTemperature();
 private:
     Behaviour m_behaviour;
     VolumeType m_type;

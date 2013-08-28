@@ -165,7 +165,6 @@ void DisplayMeltmodel::setupModel()
     ui->view->setModel(m_meltmodel);
     ui->graphicsView->setModel(m_meltmodel);
 
-//    MeltDelegate* delegate = new MeltDelegate;
     connect(m_meltmodel, SIGNAL(updateMaxTemp(double)), SLOT(updateMaxTemp(double)));
     connect(m_meltmodel, SIGNAL(updateMinTemp(double)), SLOT(updateMinTemp(double)));
 
@@ -195,6 +194,4 @@ void DisplayMeltmodel::resizeEvent(QResizeEvent*)
 
     header =  ui->graphicsView->verticalHeader();
     header->setDefaultSectionSize(cellSize);
-
-//    header.adjustSize();
 }
