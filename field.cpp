@@ -1,4 +1,6 @@
 #include <QDebug>
+#include <QFile>
+#include <QStringList>
 
 #include "field.h"
 #include "deltavolume.h"
@@ -175,7 +177,7 @@ Field::Field(int _width, int _height, double _startTemperature)
       m_height(_height),
       m_field(new DeltaVolume[m_height * m_width])
 {
-    setStartTemperature(_startTemperature);
+    fillBy(_startTemperature);
     initBehaviour();
 }
 
@@ -195,11 +197,11 @@ Field::Field(const Field &_f)
     initBehaviour();
 }
 
-void Field::setStartTemperature(double _startTemp)
+void Field::fillBy(double _n)
 {
     Field::iterator i;
     for(i = begin(); i != end(); i++)
-        (*i).setTemperature(_startTemp);
+        (*i).setTemperature(_n);
 }
 
 Field::iterator Field::begin()
@@ -233,10 +235,28 @@ void Field::initBehaviour()
     {
         if(((i + 1) % m_width == 0) || (i > (m_height-1) * m_width - 1) || (i < m_width))
             m_field[i].setBehaviour(Border);
-        else if(i % m_width == 0)
-            m_field[i].setBehaviour(Drill);
+//        else if(i % m_width == 0)
+//            m_field[i].setBehaviour(Drill);
         else
             m_field[i].setBehaviour(Normal);
+    }
+    setDrillBehaviour();
+}
+
+void Field::setDrillBehaviour()
+{
+    QFile file("drill.config");
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    QTextStream stream(&file);
+
+    while(!stream.atEnd())
+    {
+        int x; stream >> x;
+        int y; stream >> y;
+
+        (*this)[y][x].setBehaviour(Drill);
     }
 }
 

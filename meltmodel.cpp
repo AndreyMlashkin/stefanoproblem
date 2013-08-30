@@ -14,8 +14,6 @@ MeltModel::MeltModel(int _width, int _height, double _startTemperature)
 {
     m_field = new Field(_width, _height, _startTemperature);
     m_frameProcessor = new MeltLogics(m_field);
-
-    //updateMinAndMaxTemp();
 }
 
 MeltModel::MeltModel(int _width, int _height)
@@ -25,17 +23,13 @@ MeltModel::MeltModel(int _width, int _height)
 {
     m_field = new Field(_width, _height);
     m_frameProcessor = new MeltLogics(m_field);
-
-   // updateMinAndMaxTemp();
 }
 
 MeltModel::MeltModel()
     : QAbstractItemModel(),
       m_field(NULL),
       m_frameProcessor()
-{
- //   updateMinAndMaxTemp();
-}
+{}
 
 MeltModel::~MeltModel()
 {
@@ -65,7 +59,7 @@ int MeltModel::rowCount(const QModelIndex&) const
     return m_frameProcessor->realHeight();
 }
 
-int MeltModel::columnCount(const QModelIndex&_index) const
+int MeltModel::columnCount(const QModelIndex&) const
 {
     if(!m_field)
         return 0;
@@ -85,7 +79,7 @@ QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
     return createIndex(_row, _column, data);
 }
 
-QModelIndex MeltModel::parent(const QModelIndex& child) const
+QModelIndex MeltModel::parent(const QModelIndex& /*child*/) const
 {
     return QModelIndex();
 }

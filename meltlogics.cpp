@@ -5,6 +5,8 @@
 #include "meltlogics.h"
 #include "deltavolume.h"
 
+static double heating = 1;
+
 MeltLogics::MeltLogics(QObject* _parent)
     : QObject(_parent),
       m_current(NULL),
@@ -98,13 +100,10 @@ int MeltLogics::realHeight()
     return (*m_current).height();
 }
 
-static double heating = 1;
 Field* MeltLogics::nextFrame()
 {
     swapFrames();
-
-    double temperature = (*m_prev)[0][0].temperature();
-    (*m_prev)[0][0].setTemperature(temperature + heating);
+    heat(m_prev);
 
     Field::iterator oldCell = m_prev->begin();
     Field::iterator newCell = m_current->begin();
@@ -133,6 +132,18 @@ void MeltLogics::swapFrames()
     Field* tmp = m_prev;
     m_prev = m_current;
     m_current = tmp;
+}
+
+void MeltLogics::heat(Field* _field)
+{
+    for(Field::iterator i = _field->begin(); i != _field->end(); i++)
+    {
+        if(i->behaviour() == Drill)
+        {
+            double temperature = (*i).temperature();
+            (*i).setTemperature(temperature + heating);
+        }
+    }
 }
 
 

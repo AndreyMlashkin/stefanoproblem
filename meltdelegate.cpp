@@ -6,6 +6,7 @@
 
 static const QColor background(0, 0, 255);
 static const QColor borderColor(0, 255, 255);
+static const QColor drillColor(0, 0, 0);
 
 
 MeltDelegate::MeltDelegate(QObject *_parent) :
@@ -26,13 +27,14 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
     switch(v->behaviour())
     {
         case Border:
-            _painter->fillRect(_option.rect, borderColor);  break;
+             _painter->fillRect(_option.rect, borderColor);  break;
+        case Drill:
+             _painter->fillRect(_option.rect, drillColor);   break;
 
         default:
         {
             double temperature = v->temperature();
             double koeff = calculateBrightness(temperature);
-           // qDebug() << koeff;
 
             QColor color(255, 0, 0, koeff);
             _painter->fillRect(_option.rect, color);
@@ -41,7 +43,7 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
     _painter->restore();
 }
 
-QSize MeltDelegate::sizeHint(const QStyleOptionViewItem &_option, const QModelIndex &_index) const
+QSize MeltDelegate::sizeHint(const QStyleOptionViewItem&, const QModelIndex&) const
 {
 //    qDebug() << "sizeHint";
     return QSize(20, 20);

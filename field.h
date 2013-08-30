@@ -12,14 +12,16 @@ public:
     explicit Field(int _width, int _height, double _startTemerature);
     explicit Field(int _width, int _height);
     explicit Field(const Field& _f);
-    void setStartTemperature(double _startTemp);
+    void fillBy(double _n);
     iterator begin();
     iterator end();
     iterator operator[](int n);
     const int height();
     const int width();
+
 private:
     void initBehaviour();
+    void setDrillBehaviour();
 private:
     int m_width, m_height;
     DeltaVolume* m_field;

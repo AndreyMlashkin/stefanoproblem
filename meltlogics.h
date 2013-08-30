@@ -25,6 +25,7 @@ public slots:
 
 private:
     void swapFrames();
+    inline void heat(Field* _field);
 
 private:
     Field* m_current;
