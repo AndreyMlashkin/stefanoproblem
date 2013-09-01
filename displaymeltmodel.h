@@ -32,6 +32,7 @@ private slots:
     void updateMaxTemp(double _newTemp);
 
 private:
+    void initConstants();
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
 

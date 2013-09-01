@@ -25,6 +25,8 @@ private:
 private:
     int m_width, m_height;
     DeltaVolume* m_field;
+
+    friend class Field;
 };
 
 class Field::iterator : public std::iterator<std::input_iterator_tag, DeltaVolume>

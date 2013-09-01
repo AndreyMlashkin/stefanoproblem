@@ -8,8 +8,9 @@
 #include "displaymeltmodel.h"
 #include "ui_displaymeltmodel.h"
 #include "meltmodel.h"
-
 #include "meltdelegate.h"
+
+#include "modelconstants.h"
 
 int inline max(int a, int b)
 {
@@ -30,6 +31,7 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     ui->setupUi(this);
 
     readConfigFile();
+    initConstants();
 
     connect(ui->start, SIGNAL(clicked()), this, SLOT(initModel()));
 
@@ -147,6 +149,21 @@ void DisplayMeltmodel::updateMaxTemp(double _newTemp)
 {
     ui->maxTemp->setText(QString::number(_newTemp));
     m_delegate->updateMaxTemp(_newTemp);
+}
+
+void DisplayMeltmodel::initConstants()
+{
+    double iceC      = ui->iceC->text().toDouble();
+    double icelambda = ui->iceC->text().toDouble();
+    double iceR      = ui->iceR->text().toDouble();
+
+    ModelConstants::setConstants(ICE, iceC, icelambda, iceR);
+
+    double waterC      = ui->waterC->text().toDouble();
+    double waterlambda = ui->waterC->text().toDouble();
+    double waterR      = ui->waterR->text().toDouble();
+
+    ModelConstants::setConstants(WATER, waterC, waterlambda, waterR);
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)

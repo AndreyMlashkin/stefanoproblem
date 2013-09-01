@@ -195,6 +195,12 @@ Field::Field(const Field &_f)
       m_field(new DeltaVolume[m_height * m_width])
 {
     initBehaviour();
+
+//    memcpy(m_field, _f.m_field, m_height * m_width);
+
+    for(int i = 0; i < m_height; i++)
+        for(int j = 0; j < m_width; j++)
+            m_field[i * m_width + j] = _f.m_field[i * m_width + j];
 }
 
 void Field::fillBy(double _n)

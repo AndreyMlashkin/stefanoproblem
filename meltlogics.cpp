@@ -109,6 +109,10 @@ Field* MeltLogics::nextFrame()
     Field::iterator newCell = m_current->begin();
     while(oldCell != m_prev->end())
     {
+        processNewCell(oldCell, newCell);
+
+        (*newCell).setTemperature((*oldCell).temperature());
+        /*
         double t = 0;
         int n = 1;
         while(oldCell.isNextNeighbour())
@@ -120,7 +124,7 @@ Field* MeltLogics::nextFrame()
         double saf = t / n;
 
         double oldTemp = (*oldCell).temperature();
-        (*newCell).setTemperature(saf + oldTemp / n);
+        (*newCell).setTemperature(saf + oldTemp / n);*/
         newCell++;
         oldCell++;
     }
@@ -144,6 +148,11 @@ void MeltLogics::heat(Field* _field)
             (*i).setTemperature(temperature + heating);
         }
     }
+}
+
+void MeltLogics::processNewCell(Field::iterator& _oldCell, Field::iterator& _newCell)
+{
+    
 }
 
 

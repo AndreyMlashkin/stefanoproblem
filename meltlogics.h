@@ -26,6 +26,7 @@ public slots:
 private:
     void swapFrames();
     inline void heat(Field* _field);
+    inline void processNewCell(Field::iterator& _oldCell, Field::iterator& _newCell);
 
 private:
     Field* m_current;
