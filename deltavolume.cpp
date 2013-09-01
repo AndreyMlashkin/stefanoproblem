@@ -24,9 +24,6 @@ Behaviour DeltaVolume::behaviour() const
 
 void DeltaVolume::setTemperature(double _temp)
 {
-//    if(m_behaviour == Border)
-//        m_temperature = -1;
-
     m_temperature = _temp;
 }
 
@@ -34,8 +31,3 @@ double DeltaVolume::temperature() const
 {
     return m_temperature;
 }
-
-//double DeltaVolume::rTemperature()
-//{
-//    return *(&m_temperature);
-//}

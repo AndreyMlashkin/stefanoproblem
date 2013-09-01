@@ -153,17 +153,21 @@ void DisplayMeltmodel::updateMaxTemp(double _newTemp)
 
 void DisplayMeltmodel::initConstants()
 {
+    ModelConstants::dx = ui->dx->text().toDouble();
+    ModelConstants::dy = ui->dy->text().toDouble();
+    ModelConstants::dt = ui->dt->text().toDouble();
+
     double iceC      = ui->iceC->text().toDouble();
     double icelambda = ui->iceC->text().toDouble();
     double iceR      = ui->iceR->text().toDouble();
 
-    ModelConstants::setConstants(ICE, iceC, icelambda, iceR);
+    ModelConstants::setEnvironmentConstants(ICE, iceC, icelambda, iceR);
 
     double waterC      = ui->waterC->text().toDouble();
     double waterlambda = ui->waterC->text().toDouble();
     double waterR      = ui->waterR->text().toDouble();
 
-    ModelConstants::setConstants(WATER, waterC, waterlambda, waterR);
+    ModelConstants::setEnvironmentConstants(WATER, waterC, waterlambda, waterR);
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)
