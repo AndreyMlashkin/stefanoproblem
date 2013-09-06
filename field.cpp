@@ -241,8 +241,8 @@ void Field::initBehaviour()
     {
         if(((i + 1) % m_width == 0) || (i > (m_height-1) * m_width - 1) || (i < m_width))
             m_field[i].setBehaviour(Border);
-//        else if(i % m_width == 0)
-//            m_field[i].setBehaviour(Drill);
+        else if(i % m_width == 0)
+            m_field[i].setBehaviour(Central);
         else
             m_field[i].setBehaviour(Normal);
     }

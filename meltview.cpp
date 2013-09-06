@@ -1,17 +1,42 @@
+#include <QDebug>
+#include <QMouseEvent>
+#include <QToolTip>
+#include <QHeaderView>
+
 #include "meltview.h"
+#include "deltavolume.h"
 
-#include <QGraphicsView>
-#include <QGraphicsScene>
-
-MeltView::MeltView(QWidget *_parent)
-    : QTableView(_parent)
+inline int min(int a, int b)
 {
-//    m_scene->setBackgroundBrush(Qt::red);
-
-//    QLinearGradient gradient(0, 0, 100, 100);
-//    //gradient.setSpread(QGradient::RepeatSpread);
-//    m_scene->setBackgroundBrush(gradient);
+    return (a < b)? a : b;
 }
 
+MeltView::MeltView(QWidget* _parent) :
+    QTableView(_parent)
+{
+}
+
+void MeltView::mousePressEvent(QMouseEvent *_e)
+{
+    QModelIndex index = indexAt(_e->pos());
+    const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(index.internalPointer());
+    QToolTip::showText(_e->globalPos(), QString::number(v->temperature()));
+}
+
+void MeltView::resizeEvent(QResizeEvent*)
+{
+    if(!model())
+        return;
+
+    int cellWidth  = height() / model()->rowCount();
+    int cellHeight = width()  / model()->columnCount();
+
+    int cellSize = min(cellWidth, cellHeight);
 
 
+    QHeaderView* header = horizontalHeader();
+    header->setDefaultSectionSize(cellSize);
+
+    header =  verticalHeader();
+    header->setDefaultSectionSize(cellSize);
+}

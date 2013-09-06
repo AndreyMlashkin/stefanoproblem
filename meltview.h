@@ -3,24 +3,17 @@
 
 #include <QTableView>
 
-
-//class QGraphicsScene;
-//class QGraphicsView;
-
 class MeltView : public QTableView
 {
     Q_OBJECT
 public:
-    MeltView(QWidget *_parent = 0);
+    explicit MeltView(QWidget* _parent = 0);
+    void mousePressEvent(QMouseEvent *_e);
+
+private:
+    void resizeEvent(QResizeEvent*);
 
 
-//signals:
-    
-//public slots:
-    
-//private:
-//    QGraphicsScene* m_scene;
-//    QGraphicsView* m_view;
 };
 
 #endif // MELTVIEW_H

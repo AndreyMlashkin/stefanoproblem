@@ -110,6 +110,9 @@ void MeltModel::updateMinAndMaxTemp()
     double oldMin = m_minTemp;
     for(Field::iterator i = m_field->begin(); i != m_field->end(); i++)
     {
+        if((*i).behaviour() == Drill)
+            continue;
+
         if(m_maxTemp < (*i).temperature())
             m_maxTemp = ((*i).temperature());
 
@@ -142,7 +145,7 @@ DeltaVolume *MeltModel::getDeltaVolumeInPos(int _row, int _column) const
 {
     int fieldColumn;
     if(_column >= m_field->width())
-        fieldColumn = _column - m_field->width() + 1;
+        fieldColumn = _column - m_field->width();
     else
         fieldColumn = m_field->width() - 1 - _column;
     return &(*m_field)[_row][fieldColumn];

@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     field.cpp \
     meltlogics.cpp \
     meltdelegate.cpp \
-    modelconstants.cpp
+    modelconstants.cpp \
+    graphicswidget.cpp \
+    meltview.cpp
 
 HEADERS  += \
     displaymeltmodel.h \
@@ -28,7 +30,10 @@ HEADERS  += \
     field.h \
     meltlogics.h \
     meltdelegate.h \
-    modelconstants.h
+    modelconstants.h \
+    graphicswidget.h \
+    meltview.h
 
 FORMS    += \
-    displaymeltmodel.ui
+    displaymeltmodel.ui \
+    graphics.ui

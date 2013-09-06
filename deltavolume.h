@@ -1,8 +1,8 @@
 #ifndef DELTAVOLUME_H
 #define DELTAVOLUME_H
 
-enum VolumeType{NoType, Ice, Water};
-enum Behaviour{NoBehaviour, Normal, Border, Drill, BehaviourCount};
+enum VolumeType{NoType, Ice, Water, Dill};
+enum Behaviour{NoBehaviour, Normal, Border, Central, Drill, BehaviourCount};
 
 class DeltaVolume
 {
@@ -14,7 +14,7 @@ public:
 
     void setTemperature(double _temp);
     double temperature() const;
-//    double rTemperature();
+
 private:
     Behaviour m_behaviour;
     VolumeType m_type;

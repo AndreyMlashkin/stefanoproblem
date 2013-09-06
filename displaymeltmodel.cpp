@@ -11,6 +11,7 @@
 #include "meltdelegate.h"
 
 #include "modelconstants.h"
+#include "graphicswidget.h"
 
 int inline max(int a, int b)
 {
@@ -26,9 +27,12 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::displaymeltmodel),
     m_meltmodel(NULL),
-    m_delegate(new MeltDelegate)
+    m_delegate(new MeltDelegate),
+    m_autoRepeat(false),
+    m_graphics(new GraphicsWidget)
 {
     ui->setupUi(this);
+    setAttribute(Qt::WA_DeleteOnClose);
 
     readConfigFile();
     initConstants();
@@ -44,14 +48,21 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     connect(ui->save, SIGNAL(triggered()), this, SLOT(callSaveDialog()));
     connect(ui->open, SIGNAL(triggered()), this, SLOT(callOpenDialog()));
 
+    connect(ui->repeat, SIGNAL(clicked()), this, SLOT(autoRepeatOn()));
+    connect(ui->pause,  SIGNAL(clicked()), this, SLOT(autoRepeatOff()));
+
     connect(ui->showGraphics, SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
     connect(ui->showTable,    SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
+
+    connect(m_graphics, SIGNAL(closing()), this, SLOT(graphicsClosed()));
 }
 
 DisplayMeltmodel::~DisplayMeltmodel()
 {
     writeConfigFile();
     delete ui;
+  //  m_graphics->close();
+    delete m_graphics;
     delete m_delegate;
     delete m_meltmodel;
 }
@@ -64,7 +75,6 @@ void DisplayMeltmodel::initModel()
 void DisplayMeltmodel::step()
 {
     m_meltmodel->processStep();
-    ui->graphicsView->adjustSize();
 }
 
 void DisplayMeltmodel::callSaveDialog()
@@ -95,14 +105,36 @@ void DisplayMeltmodel::callOpenDialog()
 void DisplayMeltmodel::updateViewsVisibility()
 {
     if(ui->showGraphics->isChecked())
-        ui->graphicsView->show();
+        m_graphics->show();
     else
-        ui->graphicsView->hide();
+        m_graphics->hide();
 
     if(ui->showTable->isChecked())
         ui->view->show();
     else
         ui->view->hide();
+}
+
+void DisplayMeltmodel::graphicsClosed()
+{
+    ui->showGraphics->setChecked(false);
+}
+
+void DisplayMeltmodel::autoRepeatOn()
+{
+    m_autoRepeat = true;
+
+    while(m_autoRepeat)
+    {
+        QApplication::processEvents();
+        step();
+    }
+
+}
+
+void DisplayMeltmodel::autoRepeatOff()
+{
+    m_autoRepeat = false;
 }
 
 void DisplayMeltmodel::writeConfigFile()
@@ -184,36 +216,11 @@ void DisplayMeltmodel::setupModel()
 {
     connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
     ui->view->setModel(m_meltmodel);
-    ui->graphicsView->setModel(m_meltmodel);
+    m_graphics->setModel(m_meltmodel);
 
     connect(m_meltmodel, SIGNAL(updateMaxTemp(double)), SLOT(updateMaxTemp(double)));
     connect(m_meltmodel, SIGNAL(updateMinTemp(double)), SLOT(updateMinTemp(double)));
     m_meltmodel->updateMinAndMaxTemp();
 
-    ui->graphicsView->setItemDelegate(m_delegate);
-}
-
-void DisplayMeltmodel::resizeEvent(QResizeEvent*)
-{
-    if(!m_meltmodel)
-        return;
-
-    ui->graphicsView->resizeRowsToContents();
-    ui->graphicsView->resizeColumnsToContents();
-
-
-    int width  = ui->graphicsView->width();
-    int height = ui->graphicsView->height();
-
-    int cellWidth  = height / m_meltmodel->rowCount();
-    int cellHeight = width  / m_meltmodel->columnCount();
-
-    int cellSize = min(cellWidth, cellHeight);
-
-
-    QHeaderView* header = ui->graphicsView->horizontalHeader();
-    header->setDefaultSectionSize(cellSize);
-
-    header =  ui->graphicsView->verticalHeader();
-    header->setDefaultSectionSize(cellSize);
+    m_graphics->setDelegate(m_delegate);
 }
