@@ -43,6 +43,8 @@ private:
     void setupModel();
 
 private:
+
+    double m_modelTime;
     bool m_autoRepeat;
     GraphicsWidget* m_graphics;
     Ui::displaymeltmodel *ui;

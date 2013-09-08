@@ -37,7 +37,9 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     readConfigFile();
     initConstants();
 
-    connect(ui->start, SIGNAL(clicked()), this, SLOT(initModel()));
+    connect(ui->start,  SIGNAL(clicked()), this, SLOT(initModel()));
+    connect(ui->repeat, SIGNAL(clicked()), this, SLOT(autoRepeatOn()));
+    connect(ui->pause,  SIGNAL(clicked()), this, SLOT(autoRepeatOff()));
 
     QValidator* intValidator = new QDoubleValidator(this);
 
@@ -48,9 +50,6 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     connect(ui->save, SIGNAL(triggered()), this, SLOT(callSaveDialog()));
     connect(ui->open, SIGNAL(triggered()), this, SLOT(callOpenDialog()));
 
-    connect(ui->repeat, SIGNAL(clicked()), this, SLOT(autoRepeatOn()));
-    connect(ui->pause,  SIGNAL(clicked()), this, SLOT(autoRepeatOff()));
-
     connect(ui->showGraphics, SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
     connect(ui->showTable,    SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
 
@@ -59,21 +58,32 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
 
 DisplayMeltmodel::~DisplayMeltmodel()
 {
+    m_autoRepeat = false;
+
     writeConfigFile();
-    delete ui;
-  //  m_graphics->close();
+    blockSignals(true);
     delete m_graphics;
     delete m_delegate;
     delete m_meltmodel;
+    delete ui;
+
+    QApplication::closeAllWindows();
+    QApplication::exit(0);
 }
 
 void DisplayMeltmodel::initModel()
 {
+    m_modelTime = 0;
+    ui->time->setText(QString::number(m_modelTime));
+
     startNewModel(ui->x->text().toInt(), ui->y->text().toInt(), ui->startTemp->text().toDouble());
 }
 
 void DisplayMeltmodel::step()
 {
+    m_modelTime += ModelConstants::dt;
+    ui->time->setText(QString::number(m_modelTime));
+
     m_meltmodel->processStep();
 }
 
@@ -122,6 +132,9 @@ void DisplayMeltmodel::graphicsClosed()
 
 void DisplayMeltmodel::autoRepeatOn()
 {
+    if(!m_meltmodel)
+        initModel();
+
     m_autoRepeat = true;
 
     while(m_autoRepeat)
@@ -208,13 +221,12 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
     m_meltmodel = new MeltModel(_width, _height, _startTemperature);
 
     setupModel();
-
-    resizeEvent(NULL);
 }
 
 void DisplayMeltmodel::setupModel()
 {
-    connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
+//    connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
+    connect(ui->step, SIGNAL(clicked()), this, SLOT(step()));
     ui->view->setModel(m_meltmodel);
     m_graphics->setModel(m_meltmodel);
 

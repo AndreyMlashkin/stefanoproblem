@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>displaymeltmodel</class>
  <widget class="QMainWindow" name="displaymeltmodel">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,6 +20,24 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTableView" name="view"/>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>модельное время:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="time">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <layout class="QHBoxLayout" name="controlPanel">

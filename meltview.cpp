@@ -19,8 +19,11 @@ MeltView::MeltView(QWidget* _parent) :
 void MeltView::mousePressEvent(QMouseEvent *_e)
 {
     QModelIndex index = indexAt(_e->pos());
+    if(!index.isValid())
+        return;
+
     const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(index.internalPointer());
-    QToolTip::showText(_e->globalPos(), QString::number(v->temperature()));
+    QToolTip::showText(_e->globalPos(), QString::number(v->temperature(), 'f'));
 }
 
 void MeltView::resizeEvent(QResizeEvent*)
@@ -32,7 +35,6 @@ void MeltView::resizeEvent(QResizeEvent*)
     int cellHeight = width()  / model()->columnCount();
 
     int cellSize = min(cellWidth, cellHeight);
-
 
     QHeaderView* header = horizontalHeader();
     header->setDefaultSectionSize(cellSize);
