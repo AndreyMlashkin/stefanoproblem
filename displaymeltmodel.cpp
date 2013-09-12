@@ -29,7 +29,7 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     m_meltmodel(NULL),
     m_delegate(new MeltDelegate),
     m_autoRepeat(false),
-    m_graphics(new GraphicsWidget)
+    m_graphics(new GraphicsWidget(this))
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -61,7 +61,7 @@ DisplayMeltmodel::~DisplayMeltmodel()
     m_autoRepeat = false;
 
     writeConfigFile();
-    blockSignals(true);
+//    blockSignals(true);
     delete m_graphics;
     delete m_delegate;
     delete m_meltmodel;
@@ -225,7 +225,6 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
 
 void DisplayMeltmodel::setupModel()
 {
-//    connect(ui->step, SIGNAL(clicked()), m_meltmodel, SLOT(processStep()));
     connect(ui->step, SIGNAL(clicked()), this, SLOT(step()));
     ui->view->setModel(m_meltmodel);
     m_graphics->setModel(m_meltmodel);
@@ -235,4 +234,5 @@ void DisplayMeltmodel::setupModel()
     m_meltmodel->updateMinAndMaxTemp();
 
     m_graphics->setDelegate(m_delegate);
+    m_meltmodel->beginSaveSteps();
 }

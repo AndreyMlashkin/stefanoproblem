@@ -36,6 +36,9 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
             double temperature = v->temperature();
             double koeff = calculateBrightness(temperature);
 
+            if(koeff == 0)
+                break;
+
             QColor color(255, 0, 0, koeff);
             _painter->fillRect(_option.rect, color);
         }

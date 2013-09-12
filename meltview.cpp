@@ -36,9 +36,18 @@ void MeltView::resizeEvent(QResizeEvent*)
 
     int cellSize = min(cellWidth, cellHeight);
 
+    if(cellSize < 1)
+        cellSize = 1;
+
     QHeaderView* header = horizontalHeader();
     header->setDefaultSectionSize(cellSize);
 
     header =  verticalHeader();
     header->setDefaultSectionSize(cellSize);
+}
+
+void MeltView::paintEvent(QPaintEvent* _ev)
+{
+    //
+    QTableView::paintEvent(_ev);
 }

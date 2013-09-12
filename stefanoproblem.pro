@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     meltdelegate.cpp \
     modelconstants.cpp \
     graphicswidget.cpp \
-    meltview.cpp
+    meltview.cpp \
+    stepssaver.cpp
 
 HEADERS  += \
     displaymeltmodel.h \
@@ -32,7 +33,8 @@ HEADERS  += \
     meltdelegate.h \
     modelconstants.h \
     graphicswidget.h \
-    meltview.h
+    meltview.h \
+    stepssaver.h
 
 FORMS    += \
     displaymeltmodel.ui \

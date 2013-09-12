@@ -12,6 +12,7 @@ public:
 
 private:
     void resizeEvent(QResizeEvent*);
+    void paintEvent(QPaintEvent* _ev);
 
 
 };

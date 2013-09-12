@@ -13,7 +13,7 @@ int inline min(int a, int b)
 }
 
 GraphicsWidget::GraphicsWidget(QWidget *parent) :
-    QWidget(parent),
+    QWidget(parent, Qt::Window),
     m_ui(new Ui::Graphics()),
     m_model(NULL)
 
@@ -26,14 +26,14 @@ GraphicsWidget::GraphicsWidget(QWidget *parent) :
     header =  m_ui->graphics->verticalHeader();
     header->hide();
 
-    m_ui->graphics->installEventFilter(this);
+//    connect(m_ui->makeChart, SIGNAL(clicked()), this, SLOT
 }
 
 void GraphicsWidget::setModel(QAbstractItemModel *_model)
 {
     m_model = static_cast<MeltModel*>(_model);
     m_ui->graphics->setModel(_model);
-    resizeEvent(NULL);
+//    m_ui->graphics->resizeEvent(NULL);
 }
 
 void GraphicsWidget::setDelegate(QAbstractItemDelegate *_delegate)

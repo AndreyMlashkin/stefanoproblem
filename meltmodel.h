@@ -7,6 +7,7 @@
 class Field;
 class MeltLogics;
 class DeltaVolume;
+class StepsSaver;
 
 class MeltModel : public QAbstractItemModel
 {
@@ -15,6 +16,7 @@ class MeltModel : public QAbstractItemModel
 public:
     explicit MeltModel(int _width, int _height, double _startTemperature);
     explicit MeltModel(int _width, int _height);
+    inline void initModel();
     MeltModel();
     ~MeltModel();
 
@@ -28,6 +30,8 @@ public:
     bool loadStep(const QString& _fileName);
 
     void updateMinAndMaxTemp();
+
+    void beginSaveSteps(bool _shouldSave = true);
 
 public slots:
     void processStep();
@@ -43,6 +47,9 @@ private:
 private:
     MeltLogics* m_frameProcessor;
     Field* m_field;
+    StepsSaver* m_stepsSaver;
+
+    bool m_saveSteps;
 
     double m_maxTemp;
     double m_minTemp;

@@ -1,5 +1,7 @@
 #include <QDebug>
 #include <QString>
+#include <QFile>
+#include <QDataStream>
 
 #include "meltmodel.h"
 #include "deltavolume.h"
@@ -7,32 +9,50 @@
 #include "field.h"
 #include "meltlogics.h"
 
+#include "stepssaver.h"
+
 MeltModel::MeltModel(int _width, int _height, double _startTemperature)
-    : QAbstractItemModel(),
+    : QAbstractItemModel()/*,
       m_maxTemp(-300),
-      m_minTemp(5000)
+      m_minTemp(5000),
+      m_saveSteps(false)*/
 {
     m_field = new Field(_width, _height, _startTemperature);
-    m_frameProcessor = new MeltLogics(m_field);
+    initModel();
+//    m_frameProcessor = new MeltLogics(m_field);
 }
 
 MeltModel::MeltModel(int _width, int _height)
-    : QAbstractItemModel(),
+    : QAbstractItemModel()/*,
       m_maxTemp(-300),
-      m_minTemp(5000)
+      m_minTemp(5000),
+      m_saveSteps(false)*/
 {
     m_field = new Field(_width, _height);
+    initModel();
+//    m_frameProcessor = new MeltLogics(m_field);
+}
+
+void MeltModel::initModel()
+{
+    m_maxTemp = -300;
+    m_minTemp = 5000;
+    m_saveSteps = false;
     m_frameProcessor = new MeltLogics(m_field);
+
+    m_stepsSaver = new StepsSaver(QString("stepdump.txt"));
 }
 
 MeltModel::MeltModel()
     : QAbstractItemModel(),
       m_field(NULL),
-      m_frameProcessor()
+      m_frameProcessor(),
+      m_saveSteps(false)
 {}
 
 MeltModel::~MeltModel()
 {
+    delete m_stepsSaver;
     delete m_frameProcessor;
     delete m_field;
 }
@@ -127,8 +147,18 @@ void MeltModel::updateMinAndMaxTemp()
         emit updateMinTemp(m_minTemp);
 }
 
+void MeltModel::beginSaveSteps(bool _shouldSave)
+{
+    m_saveSteps = _shouldSave;
+}
+
+
+
 void MeltModel::processStep()
 {
+    if(m_saveSteps)
+        m_stepsSaver->saveStep(m_field);
+
     beginResetModel();
     m_field = m_frameProcessor->nextFrame();
     updateMinAndMaxTemp();
