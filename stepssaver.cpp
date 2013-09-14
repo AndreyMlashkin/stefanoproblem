@@ -8,7 +8,7 @@
 StepsSaver::StepsSaver(const QString &_name)
     : m_file(_name)
 {
-    m_file.open(QIODevice::Append);
+    m_file.open(QIODevice::Append | QIODevice::Truncate);
 }
 
 StepsSaver::~StepsSaver()

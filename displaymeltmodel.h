@@ -41,11 +41,14 @@ private:
     void initConstants();
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
+    void closeEvent(QCloseEvent*);
 
 private:
-
     double m_modelTime;
+
     bool m_autoRepeat;
+    bool m_closed;
+
     GraphicsWidget* m_graphics;
     Ui::displaymeltmodel *ui;
     MeltModel* m_meltmodel;

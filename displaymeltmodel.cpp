@@ -29,10 +29,11 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     m_meltmodel(NULL),
     m_delegate(new MeltDelegate),
     m_autoRepeat(false),
-    m_graphics(new GraphicsWidget(this))
+    m_graphics(new GraphicsWidget(this)),
+    m_closed(false)
 {
     ui->setupUi(this);
-    setAttribute(Qt::WA_DeleteOnClose);
+  //  setAttribute(Qt::WA_DeleteOnClose);
 
     readConfigFile();
     initConstants();
@@ -140,6 +141,8 @@ void DisplayMeltmodel::autoRepeatOn()
     while(m_autoRepeat)
     {
         QApplication::processEvents();
+        if(m_closed)
+            return;
         step();
     }
 
@@ -235,4 +238,12 @@ void DisplayMeltmodel::setupModel()
 
     m_graphics->setDelegate(m_delegate);
     m_meltmodel->beginSaveSteps();
+}
+
+void DisplayMeltmodel::closeEvent(QCloseEvent*)
+{
+    if(m_autoRepeat)
+        m_closed = true;
+    else
+        deleteLater();
 }
