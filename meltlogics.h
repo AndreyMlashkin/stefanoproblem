@@ -23,6 +23,8 @@ public:
 public slots:
     Field* nextFrame();
 
+    void updateBehaviour();
+
 private:
     void swapFrames();
     inline void heat(Field* _field);

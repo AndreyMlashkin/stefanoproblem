@@ -127,7 +127,7 @@ void MeltModel::updateMinAndMaxTemp()
     double oldMin = m_minTemp;
     for(Field::iterator i = m_field->begin(); i != m_field->end(); i++)
     {
-        if((*i).behaviour() == Drill)
+        if((*i).type() == DeltaVolume::Drill)
             continue;
 
         if(m_maxTemp < (*i).temperature())
@@ -161,6 +161,11 @@ void MeltModel::processStep()
     updateMinAndMaxTemp();
 
     endResetModel();
+}
+
+void MeltModel::updateBehaviour()
+{
+    m_frameProcessor->updateBehaviour();
 }
 
 double MeltModel::getTemperatureInPos(int _row, int _column) const

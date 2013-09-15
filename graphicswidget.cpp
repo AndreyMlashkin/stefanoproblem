@@ -35,7 +35,6 @@ void GraphicsWidget::setModel(QAbstractItemModel *_model)
     m_model = static_cast<MeltModel*>(_model);
     m_ui->graphics->setModel(_model);
     chartOrientationChanged();
-//    m_ui->axis->setMaximum( = _model->columnCount();
     m_ui->graphics->resizeEvent(NULL);
 }
 
@@ -69,11 +68,4 @@ void GraphicsWidget::chartOrientationChanged()
         m_ui->axis->setMaximum(m_model->rowCount());    break;
 
     }
-
-//    if(orientation == GraphicsWidget::horizontal)
-
-//    else if(orientation == GraphicsWidget::vertical)
-//        m_ui->axis->setMaximum(m_mrodel->rowCount());
-//    else
-//        m_ui->axis->setMaximum(999);
 }

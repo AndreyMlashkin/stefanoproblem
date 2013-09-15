@@ -246,7 +246,6 @@ void Field::initBehaviour()
         else
             m_field[i].setBehaviour(Normal);
     }
-    setDrillBehaviour();
 }
 
 void Field::setDrillBehaviour()
@@ -262,7 +261,7 @@ void Field::setDrillBehaviour()
         int x; stream >> x;
         int y; stream >> y;
 
-        (*this)[y][x].setBehaviour(Drill);
+        (*this)[y][x].setType(DeltaVolume::Drill);
     }
 }
 

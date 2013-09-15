@@ -4,13 +4,9 @@
 
 DeltaVolume::DeltaVolume()
     : //m_behaviour(NULL),
-      m_type(NoType)
+      m_type(NoType),
+      m_behaviour(NoBehaviour)
 {}
-
-void DeltaVolume::setType(VolumeType _type)
-{
-    m_type = _type;
-}
 
 void DeltaVolume::setBehaviour(Behaviour _b)
 {
@@ -20,6 +16,16 @@ void DeltaVolume::setBehaviour(Behaviour _b)
 Behaviour DeltaVolume::behaviour() const
 {
     return m_behaviour;
+}
+
+DeltaVolume::Type DeltaVolume::type() const
+{
+    return m_type;
+}
+
+void DeltaVolume::setType(Type _type)
+{
+    m_type = _type;
 }
 
 void DeltaVolume::setTemperature(double _temp)

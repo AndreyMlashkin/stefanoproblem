@@ -42,7 +42,7 @@ bool MeltLogics::saveStep(const QString& _filename = "save.txt")
         {
             for(int j = 0; j < m_current->width(); j++)
             {
-                out << (*m_current)[i][j].temperature() << ' ';
+                out << (*m_current)[i][j].temperature() << '\t';
             }
             out << '\n';
         }
@@ -93,7 +93,7 @@ Field *MeltLogics::currentFrame()
 
 int MeltLogics::realWidth()
 {
-    return (*m_current).width() * 2 - 1;
+    return (*m_current).width() * 2;
 }
 
 int MeltLogics::realHeight()
@@ -108,28 +108,28 @@ Field* MeltLogics::nextFrame()
 
     Field::iterator oldCell = m_prev->begin();
     Field::iterator newCell = m_current->begin();
+
     while(oldCell != m_prev->end())
     {
-//        processNewCell(oldCell, newCell);
-
-//        (*newCell).setTemperature((*oldCell).temperature());
-
-        double t = 0;
-        int n = 1;
-        while(oldCell.isNextNeighbour())
+        if(((*oldCell).behaviour() != Border) && ((*oldCell).type() != DeltaVolume::Drill))
         {
-            n++;
-            DeltaVolume* d = (oldCell.nextNeighbour());
-            t += d->temperature();
+            double koeff = calculateKoeff(oldCell);
+            double oldTemp = (*oldCell).temperature();
+            (*newCell).setTemperature(oldTemp + abs(oldTemp * koeff));
         }
-        double saf = t / n;
-
-        double oldTemp = (*oldCell).temperature();
-        (*newCell).setTemperature(saf + oldTemp / n);
         newCell++;
         oldCell++;
     }
     return m_current;
+}
+
+void MeltLogics::updateBehaviour()
+{
+    Field::iterator i = m_prev->begin();
+    Field::iterator j = m_current->begin();
+
+    for(; i != m_prev->end(); i++, j++)
+        (*i).setType((*j).type());
 }
 
 void MeltLogics::swapFrames()
@@ -141,14 +141,45 @@ void MeltLogics::swapFrames()
 
 void MeltLogics::heat(Field* _field)
 {
+    int k = 0;
     for(Field::iterator i = _field->begin(); i != _field->end(); i++)
     {
-        if(i->behaviour() == Drill)
+        if(i->type() == DeltaVolume::Drill)
         {
-            double temperature = (*i).temperature();
-            (*i).setTemperature(temperature + heating);
+//            double temperature = (*i).temperature();
+            (*i).setTemperature(0/*temperature + heating*/);
         }
+        k++;
     }
+}
+
+double inline tempDiffusion()
+{
+    ModelConstants* constants = ModelConstants::getConstants(ICE);
+
+    return constants->lambda / (constants->r * constants->c);
+}
+
+double MeltLogics::calculateKoeff(Field::iterator& _cell)
+{
+    const static double sqrA = tempDiffusion() * tempDiffusion();
+
+    double curTemp = (*_cell).temperature();
+
+    double lTemp;
+    if((*_cell).behaviour() == Central)
+           lTemp = curTemp;
+    else
+           lTemp = (*_cell.leftNeighbour()  ).temperature();
+    double rTemp = (*_cell.rightNeighbour() ).temperature();
+    double tTemp = (*_cell.topNeighbour()   ).temperature();
+    double bTemp = (*_cell.bottomNeighbour()).temperature();
+
+    double koeff = (lTemp + rTemp - curTemp - curTemp) / ModelConstants::dx +
+                   (tTemp + bTemp - curTemp - curTemp) / ModelConstants::dy;
+
+    koeff *= sqrA * ModelConstants::dt;
+    return koeff;
 }
 
 

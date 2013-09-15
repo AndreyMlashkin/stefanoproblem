@@ -5,6 +5,7 @@
 
 #include "meltview.h"
 #include "deltavolume.h"
+#include "meltmodel.h"
 
 inline int min(int a, int b)
 {
@@ -18,11 +19,15 @@ MeltView::MeltView(QWidget* _parent) :
 
 void MeltView::mousePressEvent(QMouseEvent *_e)
 {
-    QModelIndex index = indexAt(_e->pos());
-    if(!index.isValid())
+//    QModelIndex index = indexAt(_e->pos());
+//    if(!index.isValid())
+//        return;
+
+//    const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(index.internalPointer());
+    const DeltaVolume* v = volumeFromPos(_e->pos());
+    if(!v)
         return;
 
-    const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(index.internalPointer());
     QToolTip::showText(_e->globalPos(), QString::number(v->temperature(), 'f'));
 }
 
@@ -44,4 +49,30 @@ void MeltView::resizeEvent(QResizeEvent*)
 
     header =  verticalHeader();
     header->setDefaultSectionSize(cellSize);
+}
+
+DeltaVolume *MeltView::volumeFromPos(const QPoint& _p)
+{
+    QModelIndex index = indexAt(_p);
+    if(!index.isValid())
+        return NULL;
+
+    return reinterpret_cast<DeltaVolume*>(index.internalPointer());
+}
+
+void MeltView::mouseMoveEvent(QMouseEvent *_e)
+{
+    DeltaVolume* v = volumeFromPos(_e->pos());
+    if(v->behaviour() == Border)
+        return;
+
+    if(_e->buttons() == Qt::LeftButton)
+        v->setType(DeltaVolume::Drill);
+    else if(_e->buttons() == Qt::RightButton)
+        v->setType(DeltaVolume::Ice);
+
+    MeltModel* mod = static_cast<MeltModel*>(model());
+    mod->updateBehaviour();
+
+    reset();
 }

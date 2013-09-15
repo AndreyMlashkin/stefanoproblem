@@ -36,6 +36,7 @@ public:
 
 public slots:
     void processStep();
+    void updateBehaviour();
 
 signals:
     void updateMaxTemp(double _temp);

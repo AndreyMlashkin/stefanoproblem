@@ -24,12 +24,19 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
 
     const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(_index.internalPointer());
 
+    if(v->type() == DeltaVolume::Drill)
+    {
+        _painter->fillRect(_option.rect, drillColor);
+        _painter->restore();
+        return;
+    }
+
     switch(v->behaviour())
     {
         case Border:
              _painter->fillRect(_option.rect, borderColor);  break;
-        case Drill:
-             _painter->fillRect(_option.rect, drillColor);   break;
+//        case Drill:
+//             _painter->fillRect(_option.rect, drillColor);   break;
 
         default:
         {
