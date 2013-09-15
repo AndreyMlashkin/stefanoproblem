@@ -158,6 +158,7 @@ void DisplayMeltmodel::writeConfigFile()
     QSettings settings("modelSettings", QSettings::IniFormat);
     settings.beginGroup("GUI settings");
         settings.setValue("geometry", geometry());
+        settings.setValue("viewGeometry", m_graphics->geometry());
         settings.setValue("showTable", ui->showTable->isChecked());
         settings.setValue("showGraphics", ui->showGraphics->isChecked());
     settings.endGroup();
@@ -173,9 +174,10 @@ void DisplayMeltmodel::readConfigFile()
 {
     QSettings settings("modelSettings", QSettings::IniFormat);
     settings.beginGroup("GUI settings");
-        setGeometry(settings.value("geometry").toRect());
-        ui->showTable->setChecked(settings.value("showTable", true).toBool());
-        ui->showGraphics->setChecked(settings.value("showGraphics", true).toBool());
+        setGeometry(settings.value("geometry", QRect(100, 100, 100, 100)).toRect());
+        m_graphics->setGeometry(settings.value("viewGeometry", QRect(100, 100, 100, 300)).toRect());
+        ui->showTable->setChecked(settings.value("showTable", false).toBool());
+        ui->showGraphics->setChecked(settings.value("showGraphics", false).toBool());
     settings.endGroup();
 
     settings.beginGroup("input");

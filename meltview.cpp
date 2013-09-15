@@ -45,9 +45,3 @@ void MeltView::resizeEvent(QResizeEvent*)
     header =  verticalHeader();
     header->setDefaultSectionSize(cellSize);
 }
-
-void MeltView::paintEvent(QPaintEvent* _ev)
-{
-    //
-    QTableView::paintEvent(_ev);
-}

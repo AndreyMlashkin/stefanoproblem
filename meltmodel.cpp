@@ -12,25 +12,17 @@
 #include "stepssaver.h"
 
 MeltModel::MeltModel(int _width, int _height, double _startTemperature)
-    : QAbstractItemModel()/*,
-      m_maxTemp(-300),
-      m_minTemp(5000),
-      m_saveSteps(false)*/
+    : QAbstractItemModel()
 {
     m_field = new Field(_width, _height, _startTemperature);
     initModel();
-//    m_frameProcessor = new MeltLogics(m_field);
 }
 
 MeltModel::MeltModel(int _width, int _height)
-    : QAbstractItemModel()/*,
-      m_maxTemp(-300),
-      m_minTemp(5000),
-      m_saveSteps(false)*/
+    : QAbstractItemModel()
 {
     m_field = new Field(_width, _height);
     initModel();
-//    m_frameProcessor = new MeltLogics(m_field);
 }
 
 void MeltModel::initModel()
@@ -102,6 +94,11 @@ QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
 QModelIndex MeltModel::parent(const QModelIndex& /*child*/) const
 {
     return QModelIndex();
+}
+
+Qt::ItemFlags MeltModel::flags(const QModelIndex&) const
+{
+    return 0;
 }
 
 bool MeltModel::saveStep(const QString& _fileName)
