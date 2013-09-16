@@ -2,7 +2,7 @@
 #include <QDebug>
 
 #include "stepssaver.h"
-#include "field.h"
+#include "modelfield.h"
 #include "deltavolume.h"
 
 StepsSaver::StepsSaver(const QString &_name)
@@ -16,10 +16,10 @@ StepsSaver::~StepsSaver()
     m_file.close();
 }
 
-void StepsSaver::saveStep(Field* _field)
+void StepsSaver::saveStep(ModelField* _field)
 {
     QDataStream out(&m_file);
-    Field::iterator i = _field->begin();
+    ModelField::iterator i = _field->begin();
     while(i != _field->end())
     {
         out << i->temperature();

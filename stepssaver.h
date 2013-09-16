@@ -4,14 +4,14 @@
 #include <QFile>
 #include <QString>
 
-class Field;
+class ModelField;
 class StepsSaver
 {
 public:
     StepsSaver(const QString& _name);
     ~StepsSaver();
 
-    void saveStep(Field* _field);
+    void saveStep(ModelField* _field);
 
 private:
     QFile m_file;

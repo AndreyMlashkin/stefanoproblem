@@ -4,7 +4,7 @@
 #include <QAbstractItemModel>
 #include <QObject>
 
-class Field;
+class ModelField;
 class MeltLogics;
 class DeltaVolume;
 class StepsSaver;
@@ -48,7 +48,7 @@ private:
 
 private:
     MeltLogics* m_frameProcessor;
-    Field* m_field;
+    ModelField* m_field;
     StepsSaver* m_stepsSaver;
 
     bool m_saveSteps;

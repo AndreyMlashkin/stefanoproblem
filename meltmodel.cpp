@@ -6,7 +6,7 @@
 #include "meltmodel.h"
 #include "deltavolume.h"
 
-#include "field.h"
+#include "array2d.h"
 #include "meltlogics.h"
 
 #include "stepssaver.h"
@@ -14,14 +14,14 @@
 MeltModel::MeltModel(int _width, int _height, double _startTemperature)
     : QAbstractItemModel()
 {
-    m_field = new Field(_width, _height, _startTemperature);
+    m_field = new ModelField(_width, _height, _startTemperature);
     initModel();
 }
 
 MeltModel::MeltModel(int _width, int _height)
     : QAbstractItemModel()
 {
-    m_field = new Field(_width, _height);
+    m_field = new ModelField(_width, _height);
     initModel();
 }
 
@@ -125,7 +125,7 @@ void MeltModel::updateMinAndMaxTemp()
 {
     double oldMax = m_maxTemp;
     double oldMin = m_minTemp;
-    for(Field::iterator i = m_field->begin(); i != m_field->end(); i++)
+    for(ModelField::iterator i = m_field->begin(); i != m_field->end(); i++)
     {
         if((*i).type() == DeltaVolume::Drill)
             continue;
@@ -148,8 +148,6 @@ void MeltModel::beginSaveSteps(bool _shouldSave)
 {
     m_saveSteps = _shouldSave;
 }
-
-
 
 void MeltModel::processStep()
 {

@@ -14,10 +14,10 @@ MeltLogics::MeltLogics(QObject* _parent)
       m_prev(NULL)
 {}
 
-MeltLogics::MeltLogics(Field* _startFrame, QObject* _parent)
+MeltLogics::MeltLogics(ModelField* _startFrame, QObject* _parent)
   : QObject(_parent),
     m_current(_startFrame),
-    m_prev(new Field(*_startFrame))
+    m_prev(new ModelField(*_startFrame))
 {}
 
 MeltLogics::~MeltLogics()
@@ -53,7 +53,7 @@ bool MeltLogics::saveStep(const QString& _filename = "save.txt")
         return false;
 }
 
-Field *MeltLogics::loadStep(const QString &_filename)
+ModelField *MeltLogics::loadStep(const QString &_filename)
 {
     if(_filename.isNull())
         return NULL;
@@ -70,10 +70,10 @@ Field *MeltLogics::loadStep(const QString &_filename)
         delete m_current;
         delete m_prev;
 
-        m_current = new Field(width, height);
-        m_prev    = new Field(width, height);
+        m_current = new ModelField(width, height);
+        m_prev    = new ModelField(width, height);
 
-        for(Field::iterator i = m_current->begin(); i != m_current->end(); i++)
+        for(ModelField::iterator i = m_current->begin(); i != m_current->end(); i++)
         {
             double temp;
             in >> temp;
@@ -86,7 +86,7 @@ Field *MeltLogics::loadStep(const QString &_filename)
         return NULL;
 }
 
-Field *MeltLogics::currentFrame()
+ModelField *MeltLogics::currentFrame()
 {
     return m_current;
 }
@@ -101,13 +101,13 @@ int MeltLogics::realHeight()
     return (*m_current).height();
 }
 
-Field* MeltLogics::nextFrame()
+ModelField *MeltLogics::nextFrame()
 {
     swapFrames();
     heat(m_prev);
 
-    Field::iterator oldCell = m_prev->begin();
-    Field::iterator newCell = m_current->begin();
+    ModelField::iterator oldCell = m_prev->begin();
+    ModelField::iterator newCell = m_current->begin();
 
     while(oldCell != m_prev->end())
     {
@@ -125,8 +125,8 @@ Field* MeltLogics::nextFrame()
 
 void MeltLogics::updateBehaviour()
 {
-    Field::iterator i = m_prev->begin();
-    Field::iterator j = m_current->begin();
+    ModelField::iterator i = m_prev->begin();
+    ModelField::iterator j = m_current->begin();
 
     for(; i != m_prev->end(); i++, j++)
         (*i).setType((*j).type());
@@ -134,15 +134,15 @@ void MeltLogics::updateBehaviour()
 
 void MeltLogics::swapFrames()
 {
-    Field* tmp = m_prev;
+    ModelField* tmp = m_prev;
     m_prev = m_current;
     m_current = tmp;
 }
 
-void MeltLogics::heat(Field* _field)
+void MeltLogics::heat(ModelField* _field)
 {
     int k = 0;
-    for(Field::iterator i = _field->begin(); i != _field->end(); i++)
+    for(ModelField::iterator i = _field->begin(); i != _field->end(); i++)
     {
         if(i->type() == DeltaVolume::Drill)
         {
@@ -160,7 +160,7 @@ double inline tempDiffusion()
     return constants->lambda / (constants->r * constants->c);
 }
 
-double MeltLogics::calculateKoeff(Field::iterator& _cell)
+double MeltLogics::calculateKoeff(ModelField::iterator& _cell)
 {
     const static double sqrA = tempDiffusion() * tempDiffusion();
 

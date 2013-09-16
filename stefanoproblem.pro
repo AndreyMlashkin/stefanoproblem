@@ -15,24 +15,26 @@ SOURCES += main.cpp\
            displaymeltmodel.cpp \
            meltmodel.cpp \
            deltavolume.cpp \
-           field.cpp \
            meltlogics.cpp \
            meltdelegate.cpp \
            modelconstants.cpp \
            graphicswidget.cpp \
            meltview.cpp \
-           stepssaver.cpp
+           stepssaver.cpp \
+           array2d.cpp \
+    modelfield.cpp
 
 HEADERS  += displaymeltmodel.h \
             meltmodel.h \
             deltavolume.h \
-            field.h \
             meltlogics.h \
             meltdelegate.h \
             modelconstants.h \
             graphicswidget.h \
             meltview.h \
-            stepssaver.h
+            stepssaver.h \
+            array2d.h \
+    modelfield.h
 
 FORMS    += displaymeltmodel.ui \
             graphics.ui
