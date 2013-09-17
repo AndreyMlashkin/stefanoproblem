@@ -1,3 +1,6 @@
+#include <QFile>
+#include <QStringList>
+
 #include "modelfield.h"
 
 ModelField::ModelField(int _width, int _height, double _fillBy)

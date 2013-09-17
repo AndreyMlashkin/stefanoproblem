@@ -11,15 +11,13 @@ inline double abs(double a)
     return (a > 0)? a : -a;
 }
 
-MeltLogics::MeltLogics(QObject* _parent)
-    : QObject(_parent),
-      m_current(NULL),
+MeltLogics::MeltLogics()
+    : m_current(NULL),
       m_prev(NULL)
 {}
 
-MeltLogics::MeltLogics(ModelField* _startFrame, QObject* _parent)
-  : QObject(_parent),
-    m_current(_startFrame),
+MeltLogics::MeltLogics(ModelField* _startFrame)
+  : m_current(_startFrame),
     m_prev(new ModelField(*_startFrame))
 {}
 

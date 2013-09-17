@@ -19,11 +19,6 @@ MeltView::MeltView(QWidget* _parent) :
 
 void MeltView::mousePressEvent(QMouseEvent *_e)
 {
-//    QModelIndex index = indexAt(_e->pos());
-//    if(!index.isValid())
-//        return;
-
-//    const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(index.internalPointer());
     const DeltaVolume* v = volumeFromPos(_e->pos());
     if(!v)
         return;
@@ -63,6 +58,9 @@ DeltaVolume *MeltView::volumeFromPos(const QPoint& _p)
 void MeltView::mouseMoveEvent(QMouseEvent *_e)
 {
     DeltaVolume* v = volumeFromPos(_e->pos());
+    if(!v)
+        return;
+
     if(v->behaviour() == Border)
         return;
 

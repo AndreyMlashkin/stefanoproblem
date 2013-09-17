@@ -1,15 +1,13 @@
 #ifndef MELTLOGICS_H
 #define MELTLOGICS_H
 
-#include <QObject>
 #include "modelfield.h"
 
-class MeltLogics : public QObject
+class MeltLogics
 {
-    Q_OBJECT
 public:
-    MeltLogics(QObject* _parent = NULL);
-    MeltLogics(ModelField* _startFrame, QObject *_parent = NULL);
+    MeltLogics();
+    MeltLogics(ModelField* _startFrame);
     ~MeltLogics();
 
     bool   saveStep(const QString& _filename);
@@ -20,9 +18,7 @@ public:
     int realWidth();
     int realHeight();
 
-public slots:
     ModelField* nextFrame();
-
     void updateBehaviour();
 
 private:

@@ -1,12 +1,8 @@
 #ifndef MODELFIELD_H
 #define MODELFIELD_H
 
-#include <QFile>
-#include <QStringList>
-
 #include "array2d.h"
 #include "deltavolume.h"
-
 
 class ModelField : public Array2d<DeltaVolume>
 {

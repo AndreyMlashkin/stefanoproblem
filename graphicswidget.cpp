@@ -16,7 +16,6 @@ GraphicsWidget::GraphicsWidget(QWidget *parent) :
     QWidget(parent, Qt::Window),
     m_ui(new Ui::Graphics()),
     m_model(NULL)
-
 {
     m_ui->setupUi(this);
 

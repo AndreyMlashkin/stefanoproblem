@@ -39,4 +39,6 @@ HEADERS  += displaymeltmodel.h \
 FORMS    += displaymeltmodel.ui \
             graphics.ui
 
-CONFIG   += qwtconfig
+INCLUDEPATH += /usr/include/qwt
+LIBS += -L/usr/lib -lqwt
+

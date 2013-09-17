@@ -11,8 +11,6 @@ public:
     void paint(QPainter *_painter, const QStyleOptionViewItem &_option, const QModelIndex &_index) const;
     QSize sizeHint(const QStyleOptionViewItem &_option, const QModelIndex &_index) const;
 
-signals:
-    
 public slots:
     void updateMinTemp(double _newMin);
     void updateMaxTemp(double _newMax);
