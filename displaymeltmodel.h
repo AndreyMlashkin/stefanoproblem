@@ -11,6 +11,7 @@ namespace Ui
 class MeltModel;
 class MeltDelegate;
 class GraphicsWidget;
+class QTableView;
 class DisplayMeltmodel : public QMainWindow
 {
     Q_OBJECT
@@ -42,6 +43,7 @@ private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
     void closeEvent(QCloseEvent*);
+    bool eventFilter(QObject* _obj, QEvent* _ev);
 
 private:
     double m_modelTime;
@@ -52,6 +54,7 @@ private:
     Ui::displaymeltmodel *ui;
     MeltModel* m_meltmodel;
     MeltDelegate* m_delegate;
+    QTableView* m_table;
     GraphicsWidget* m_graphics;
 
 };

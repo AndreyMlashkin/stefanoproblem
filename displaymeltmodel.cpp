@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QVariant>
+#include <QTableView>
 
 #include "displaymeltmodel.h"
 #include "ui_displaymeltmodel.h"
@@ -30,10 +31,12 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     ui(new Ui::displaymeltmodel),
     m_meltmodel(NULL),
     m_delegate(new MeltDelegate),
+    m_table(new QTableView),
     m_graphics(new GraphicsWidget(this))
 {
     ui->setupUi(this);
-  //  setAttribute(Qt::WA_DeleteOnClose);
+    m_table->installEventFilter(this);
+ //   setAttribute(Qt::WA_DeleteOnClose);
 
     readConfigFile();
     initConstants();
@@ -62,7 +65,6 @@ DisplayMeltmodel::~DisplayMeltmodel()
     m_autoRepeat = false;
 
     writeConfigFile();
-//    blockSignals(true);
     delete m_graphics;
     delete m_delegate;
     delete m_meltmodel;
@@ -121,9 +123,9 @@ void DisplayMeltmodel::updateViewsVisibility()
         m_graphics->hide();
 
     if(ui->showTable->isChecked())
-        ui->view->show();
+        m_table->show();
     else
-        ui->view->hide();
+        m_table->hide();
 }
 
 void DisplayMeltmodel::graphicsClosed()
@@ -231,7 +233,7 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
 void DisplayMeltmodel::setupModel()
 {
     connect(ui->step, SIGNAL(clicked()), this, SLOT(step()));
-    ui->view->setModel(m_meltmodel);
+    m_table->setModel(m_meltmodel);
     m_graphics->setModel(m_meltmodel);
 
     connect(m_meltmodel, SIGNAL(updateMaxTemp(double)), SLOT(updateMaxTemp(double)));
@@ -248,4 +250,23 @@ void DisplayMeltmodel::closeEvent(QCloseEvent*)
         m_closed = true;
     else
         deleteLater();
+}
+
+bool DisplayMeltmodel::eventFilter(QObject* _obj, QEvent* _ev)
+{
+//    QTableView* view = static_cast<QTableView*>(_obj);
+
+//    if(!view)
+//        return true;
+
+////    qDebug() << "QTableView";
+
+//    if((_ev->type() == QEvent::Close) || (_ev->type() == QEvent::Quit))
+//    {
+//        qDebug() << "QEvent::Close";
+//        m_table->hide();
+//       // _ev->setAccepted();
+//        return false;
+//    }
+    return false;
 }

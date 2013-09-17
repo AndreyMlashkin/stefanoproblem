@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>257</width>
-    <height>479</height>
+    <width>313</width>
+    <height>583</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QTableView" name="view"/>
-    </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
@@ -332,8 +329,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>257</width>
-     <height>18</height>
+     <width>313</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

@@ -79,7 +79,7 @@ int MeltModel::columnCount(const QModelIndex&) const
     return m_frameProcessor->realWidth();
 }
 
-QModelIndex MeltModel::index(int _row, int _column, const QModelIndex&) const
+QModelIndex MeltModel::index(int _row, int _column, const QModelIndex& ind) const
 {
     if(!m_field)
         return QModelIndex();
