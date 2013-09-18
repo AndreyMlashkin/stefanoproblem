@@ -2,20 +2,21 @@
 #define GRAPHICSWIDGET_H
 
 #include <QWidget>
-#include "ui_graphics.h"
+#include "plotter.h"
 
-class Graphics;
+namespace Ui
+{
+    class Graphics;
+}
+
 class QAbstractItemDelegate;
 class QAbstractItemModel;
-class MeltModel;
-class QwtPlot;
 class QwtPlotCurve;
+class MeltModel;
 
 class GraphicsWidget : public QWidget
 {
     Q_OBJECT
-
-    enum chartOrientation {horizontal, vertical, time};
 
 public:
     explicit GraphicsWidget(QWidget *parent = 0);
@@ -33,13 +34,14 @@ signals:
     void closing();
 
 private:
-    chartOrientation orientation();
+    Plotter::chartOrientation orientation();
 
 private:
     Ui::Graphics* m_ui;
     MeltModel* m_model;
-    QwtPlot* m_plot;
+
     QwtPlotCurve* m_curve;
+    Plotter* m_plotter;
 };
 
 #endif // GRAPHICSWIDGET_H

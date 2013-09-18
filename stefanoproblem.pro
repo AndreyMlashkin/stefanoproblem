@@ -22,7 +22,8 @@ SOURCES += main.cpp\
            meltview.cpp \
            stepssaver.cpp \
            array2d.cpp \
-           modelfield.cpp
+           modelfield.cpp \
+    plotter.cpp
 
 HEADERS  += displaymeltmodel.h \
             meltmodel.h \
@@ -34,10 +35,12 @@ HEADERS  += displaymeltmodel.h \
             meltview.h \
             stepssaver.h \
             array2d.h \
-            modelfield.h
+            modelfield.h \
+    plotter.h
 
 FORMS    += displaymeltmodel.ui \
-            graphics.ui
+            graphics.ui \
+            plotter.ui
 
 INCLUDEPATH += /usr/include/qwt
 LIBS += -L/usr/lib -lqwt

@@ -34,6 +34,8 @@ public:
 
     void beginSaveSteps(bool _shouldSave = true);
 
+    ModelField* field();
+
 public slots:
     void processStep();
     void updateBehaviour();

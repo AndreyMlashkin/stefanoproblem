@@ -2,13 +2,11 @@
 #include <QMouseEvent>
 #include <QToolTip>
 
+#include "qwt_plot_curve.h"
 #include "graphicswidget.h"
 #include "ui_graphics.h"
 #include "meltmodel.h"
 #include "deltavolume.h"
-
-#include "qwt_plot.h"
-#include "qwt_plot_curve.h"
 
 int inline min(int a, int b)
 {
@@ -19,8 +17,8 @@ GraphicsWidget::GraphicsWidget(QWidget *parent) :
     QWidget(parent, Qt::Window),
     m_ui(new Ui::Graphics()),
     m_model(NULL),
-    m_plot(new QwtPlot),
-    m_curve(new QwtPlotCurve(QString("Temperature")))
+    m_curve(new QwtPlotCurve(QString("Temperature"))),
+    m_plotter(new Plotter(m_curve))
 {
     m_ui->setupUi(this);
 
@@ -40,8 +38,7 @@ GraphicsWidget::~GraphicsWidget()
 {
     delete m_ui;
     delete m_model;
-    delete m_plot;
-    delete m_curve;
+    delete m_plotter;
 }
 
 void GraphicsWidget::setModel(QAbstractItemModel *_model)
@@ -67,58 +64,78 @@ void GraphicsWidget::makeChart()
     m_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
     m_curve->setPen(QPen(Qt::red));
 
+    size_t size;
     switch(orientation())
     {
-        case vertical:
+        case Plotter::horizontal:
         {
-        double* y = new double[m_model->columnCount()];
-        double* x = new double[m_model->columnCount()];
+            size = m_model->columnCount();
+            double* y = new double[size];
+            double* x = new double[size];
+            int row = m_ui->axis->value();
 
-        for(int i = 0; i < m_model->columnCount(); i++)
+            for(int i = 0; i < size; i++)
+            {
+                void* data = m_model->index(row, i).internalPointer();
+                DeltaVolume* d = static_cast<DeltaVolume*>(data);
+
+                double temp = d->temperature();
+
+                y[i] = temp;
+                x[i] = i;
+            }
+            m_curve->setSamples(x, y, size);
+            break;
+        }
+        case Plotter::vertical:
         {
+            size = m_model->rowCount();
+
+            double* y = new double[size];
+            double* x = new double[size];
             int column = m_ui->axis->value();
 
-            void* data = m_model->index(i, column).internalPointer();
-            DeltaVolume* d = static_cast<DeltaVolume*>(data);
+            for(int i = 0; i < size; i++)
+            {
+                void* data = m_model->index(i, column).internalPointer();
+                DeltaVolume* d = static_cast<DeltaVolume*>(data);
 
-            double temp = d->temperature();
+                double temp = d->temperature();
 
-            y[i] = temp;
-            x[i] = i;
-        }
-
-        m_curve->setSamples(x, y, m_model->columnCount());
-        m_curve->attach(m_plot);
-        break;
+                y[i] = temp;
+                x[i] = i;
+            }
+            m_curve->setSamples(x, y, size);
+            break;
         }
     }
-    m_plot->replot();
-    m_plot->show();
+    m_plotter->replot();
+    m_plotter->show();
 }
 
 void GraphicsWidget::chartOrientationChanged()
 {
-    chartOrientation orient = orientation();
+    Plotter::chartOrientation orient = orientation();
 
     m_ui->additionalAxis->hide();
     switch(orient)
     {
-    case time:
+    case Plotter::time:
     {
         m_ui->additionalAxis->show();
         m_ui->axis->setMaximum(m_model->columnCount());
         m_ui->additionalAxis->setMaximum(m_model->rowCount());
         break;
     }
-    case horizontal:
+    case Plotter::horizontal:
         m_ui->axis->setMaximum(m_model->columnCount()); break;
-    case vertical:
+    case Plotter::vertical:
         m_ui->axis->setMaximum(m_model->rowCount());    break;
 
     }
 }
 
-GraphicsWidget::chartOrientation GraphicsWidget::orientation()
+Plotter::chartOrientation GraphicsWidget::orientation()
 {
-    return (GraphicsWidget::chartOrientation)m_ui->chartOrientation->currentIndex();
+    return (Plotter::chartOrientation)m_ui->chartOrientation->currentIndex();
 }

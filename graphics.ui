@@ -17,7 +17,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Срез</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -72,7 +72,7 @@
      <item row="1" column="1">
       <widget class="QSpinBox" name="axis">
        <property name="wrapping">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="accelerated">
         <bool>true</bool>

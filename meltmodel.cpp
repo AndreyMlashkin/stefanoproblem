@@ -149,6 +149,11 @@ void MeltModel::beginSaveSteps(bool _shouldSave)
     m_saveSteps = _shouldSave;
 }
 
+ModelField *MeltModel::field()
+{
+    return m_field;
+}
+
 void MeltModel::processStep()
 {
     if(m_saveSteps)
