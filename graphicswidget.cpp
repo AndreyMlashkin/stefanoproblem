@@ -34,6 +34,9 @@ GraphicsWidget::GraphicsWidget() :
     connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(makeChart()));
     connect(m_ui->axis,             SIGNAL(valueChanged(int)),       SLOT(sliceMoved()));
 
+    connect(m_ui->drill, SIGNAL(pressed()), SLOT(setDrillState()));
+    connect(m_ui->ice,   SIGNAL(pressed()), SLOT(setIceState()));
+
     m_ui->additionalAxis->hide();
 }
 
@@ -140,9 +143,9 @@ void GraphicsWidget::chartOrientationChanged()
         break;
     }
     case Plotter::horizontal:
-        m_ui->axis->setMaximum(m_model->columnCount()); break;
-    case Plotter::vertical:
         m_ui->axis->setMaximum(m_model->rowCount());    break;
+    case Plotter::vertical:
+        m_ui->axis->setMaximum(m_model->columnCount()); break;
 
     }
     sliceMoved();
@@ -161,4 +164,26 @@ void GraphicsWidget::sliceMoved()
 Plotter::chartOrientation GraphicsWidget::orientation()
 {
     return (Plotter::chartOrientation)m_ui->chartOrientation->currentIndex();
+}
+
+void GraphicsWidget::setDrillState()
+{
+    if(m_ui->drill->isChecked())
+        m_ui->graphics->setMouseState(NOSTATE);
+    else
+    {
+        m_ui->graphics->setMouseState(DRILL);
+        m_ui->ice->setChecked(false);
+    }
+}
+
+void GraphicsWidget::setIceState()
+{
+    if(m_ui->ice->isChecked())
+        m_ui->graphics->setMouseState(NOSTATE);
+    else
+    {
+        m_ui->graphics->setMouseState(ICE);
+        m_ui->drill->setChecked(false);
+    }
 }

@@ -37,8 +37,13 @@ signals:
     void highlinghtRow(int);
     void highlinghtColumn(int);
 
+private slots:
+    void setDrillState();
+    void setIceState();
+
 private:
     Plotter::chartOrientation orientation();
+
 
 private:
     Ui::Graphics* m_ui;

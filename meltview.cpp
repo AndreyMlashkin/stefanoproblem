@@ -13,7 +13,8 @@ inline int min(int a, int b)
 }
 
 MeltView::MeltView(QWidget* _parent) :
-    QTableView(_parent)
+    QTableView(_parent),
+    m_state(NOSTATE)
 {
 }
 
@@ -23,7 +24,11 @@ void MeltView::mousePressEvent(QMouseEvent *_e)
     if(!v)
         return;
 
-    QToolTip::showText(_e->globalPos(), QString::number(v->temperature(), 'f'));
+    if(m_state == NOSTATE)
+        QToolTip::showText(_e->globalPos(), QString::number(v->temperature(), 'f'));
+    else
+        mouseMoveEvent(_e);
+
 }
 
 void MeltView::resizeEvent(QResizeEvent*)
@@ -46,6 +51,16 @@ void MeltView::resizeEvent(QResizeEvent*)
     header->setDefaultSectionSize(cellSize);
 }
 
+void MeltView::setMouseState(MouseState _state)
+{
+    m_state = _state;
+}
+
+void MeltView::wheelEvent(QWheelEvent* _ev)
+{
+    qDebug() << _ev->delta();
+}
+
 DeltaVolume *MeltView::volumeFromPos(const QPoint& _p)
 {
     QModelIndex index = indexAt(_p);
@@ -64,9 +79,9 @@ void MeltView::mouseMoveEvent(QMouseEvent *_e)
     if(v->behaviour() == Border)
         return;
 
-    if(_e->buttons() == Qt::LeftButton)
+    if(m_state == DRILL)
         v->setType(DeltaVolume::Drill);
-    else if(_e->buttons() == Qt::RightButton)
+    else if(m_state == ICE)
         v->setType(DeltaVolume::Ice);
 
     MeltModel* mod = static_cast<MeltModel*>(model());
