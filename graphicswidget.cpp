@@ -5,7 +5,9 @@
 #include "qwt_plot_curve.h"
 #include "graphicswidget.h"
 #include "ui_graphics.h"
+
 #include "meltmodel.h"
+#include "meltdelegate.h"
 #include "deltavolume.h"
 
 int inline min(int a, int b)
@@ -13,8 +15,8 @@ int inline min(int a, int b)
     return (a < b)? a : b;
 }
 
-GraphicsWidget::GraphicsWidget(QWidget *parent) :
-    QWidget(parent, Qt::Window),
+GraphicsWidget::GraphicsWidget() :
+    QWidget(),
     m_ui(new Ui::Graphics()),
     m_model(NULL),
     m_curve(new QwtPlotCurve(QString("Temperature"))),
@@ -28,8 +30,9 @@ GraphicsWidget::GraphicsWidget(QWidget *parent) :
     header =  m_ui->graphics->verticalHeader();
     header->hide();
 
-    connect(m_ui->chartOrientation, SIGNAL(currentIndexChanged(int)), this, SLOT(chartOrientationChanged()));
-    connect(m_ui->makeChart, SIGNAL(clicked()), this, SLOT(makeChart()));
+    connect(m_ui->chartOrientation, SIGNAL(currentIndexChanged(int)),SLOT(chartOrientationChanged()));
+    connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(makeChart()));
+    connect(m_ui->axis,             SIGNAL(valueChanged(int)),       SLOT(sliceMoved()));
 
     m_ui->additionalAxis->hide();
 }
@@ -49,8 +52,11 @@ void GraphicsWidget::setModel(QAbstractItemModel *_model)
     m_ui->graphics->resizeEvent(NULL);
 }
 
-void GraphicsWidget::setDelegate(QAbstractItemDelegate *_delegate)
+void GraphicsWidget::setDelegate(QAbstractItemDelegate* _delegate)
 {
+    connect(this, SIGNAL(highlinghtColumn(int)), static_cast<MeltDelegate*>(_delegate), SLOT(highlightColumn(int)));
+    connect(this, SIGNAL(highlinghtRow(int)),    static_cast<MeltDelegate*>(_delegate), SLOT(highlightRow(int)));
+
     m_ui->graphics->setItemDelegate(_delegate);
 }
 
@@ -61,20 +67,25 @@ void GraphicsWidget::closeEvent(QCloseEvent *)
 
 void GraphicsWidget::makeChart()
 {  
+    if(!m_model)
+        return;
+
     m_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
     m_curve->setPen(QPen(Qt::red));
 
     size_t size;
+    double* y;
+    double* x;
     switch(orientation())
     {
         case Plotter::horizontal:
         {
             size = m_model->columnCount();
-            double* y = new double[size];
-            double* x = new double[size];
+            y = new double[size];
+            x = new double[size];
             int row = m_ui->axis->value();
 
-            for(int i = 0; i < size; i++)
+            for(size_t i = 0; i < size; i++)
             {
                 void* data = m_model->index(row, i).internalPointer();
                 DeltaVolume* d = static_cast<DeltaVolume*>(data);
@@ -84,18 +95,17 @@ void GraphicsWidget::makeChart()
                 y[i] = temp;
                 x[i] = i;
             }
-            m_curve->setSamples(x, y, size);
             break;
         }
         case Plotter::vertical:
         {
             size = m_model->rowCount();
 
-            double* y = new double[size];
-            double* x = new double[size];
+            y = new double[size];
+            x = new double[size];
             int column = m_ui->axis->value();
 
-            for(int i = 0; i < size; i++)
+            for(size_t i = 0; i < size; i++)
             {
                 void* data = m_model->index(i, column).internalPointer();
                 DeltaVolume* d = static_cast<DeltaVolume*>(data);
@@ -105,12 +115,14 @@ void GraphicsWidget::makeChart()
                 y[i] = temp;
                 x[i] = i;
             }
-            m_curve->setSamples(x, y, size);
             break;
         }
     }
+    m_curve->setSamples(x, y, size);
     m_plotter->replot();
     m_plotter->show();
+    delete[] x;
+    delete[] y;
 }
 
 void GraphicsWidget::chartOrientationChanged()
@@ -133,6 +145,17 @@ void GraphicsWidget::chartOrientationChanged()
         m_ui->axis->setMaximum(m_model->rowCount());    break;
 
     }
+    sliceMoved();
+}
+
+void GraphicsWidget::sliceMoved()
+{
+    if(orientation() == Plotter::horizontal)
+        emit highlinghtRow(m_ui->axis->value());
+
+    else if(orientation() == Plotter::vertical)
+        emit highlinghtColumn(m_ui->axis->value());
+
 }
 
 Plotter::chartOrientation GraphicsWidget::orientation()

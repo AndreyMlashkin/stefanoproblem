@@ -26,8 +26,6 @@ private:
 
 private:
     Ui::Plotter* m_ui;
-//    QwtPlotCurve* m_curve;
-
 };
 
 #endif // PLOTTER_H

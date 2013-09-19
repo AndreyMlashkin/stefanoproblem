@@ -19,7 +19,7 @@ class GraphicsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit GraphicsWidget(QWidget *parent = 0);
+    explicit GraphicsWidget();
     ~GraphicsWidget();
 
     void setModel(QAbstractItemModel* _model);
@@ -30,8 +30,12 @@ public slots:
     void makeChart();
     void chartOrientationChanged();
 
+    void sliceMoved();
+
 signals:
     void closing();
+    void highlinghtRow(int);
+    void highlinghtColumn(int);
 
 private:
     Plotter::chartOrientation orientation();

@@ -32,11 +32,11 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     m_meltmodel(NULL),
     m_delegate(new MeltDelegate),
     m_table(new QTableView),
-    m_graphics(new GraphicsWidget(this))
+    m_graphics(new GraphicsWidget())
 {
     ui->setupUi(this);
-    m_table->installEventFilter(this);
- //   setAttribute(Qt::WA_DeleteOnClose);
+    setAttribute(Qt::WA_DeleteOnClose);
+
 
     readConfigFile();
     initConstants();
@@ -250,23 +250,4 @@ void DisplayMeltmodel::closeEvent(QCloseEvent*)
         m_closed = true;
     else
         deleteLater();
-}
-
-bool DisplayMeltmodel::eventFilter(QObject* _obj, QEvent* _ev)
-{
-//    QTableView* view = static_cast<QTableView*>(_obj);
-
-//    if(!view)
-//        return true;
-
-////    qDebug() << "QTableView";
-
-//    if((_ev->type() == QEvent::Close) || (_ev->type() == QEvent::Quit))
-//    {
-//        qDebug() << "QEvent::Close";
-//        m_table->hide();
-//       // _ev->setAccepted();
-//        return false;
-//    }
-    return false;
 }

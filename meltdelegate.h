@@ -15,11 +15,16 @@ public slots:
     void updateMinTemp(double _newMin);
     void updateMaxTemp(double _newMax);
 
+    void highlightColumn(int _n);
+    void highlightRow(int _n);
+
 private:
     inline double calculateBrightness(double _temperature) const;
 
 private:
     double m_maxTemp, m_minTemp;
+    int m_highlightedRow;
+    int m_highlightedColumn;
 };
 
 #endif // MELTDELEGATE_H

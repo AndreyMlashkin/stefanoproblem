@@ -10,7 +10,9 @@ static const QColor drillColor(0, 0, 0);
 
 
 MeltDelegate::MeltDelegate(QObject *_parent) :
-    QStyledItemDelegate(_parent)
+    QStyledItemDelegate(_parent),
+    m_highlightedRow(-1),
+    m_highlightedColumn(-1)
 {}
 
 void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option, const QModelIndex& _index) const
@@ -19,6 +21,19 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
         return;
 
     _painter->save();
+
+    if(m_highlightedColumn == _index.column())
+    {
+        _painter->fillRect(_option.rect, borderColor);
+        _painter->restore();
+        return;
+    }
+    if(m_highlightedRow == _index.row())
+    {
+        _painter->fillRect(_option.rect, borderColor);
+        _painter->restore();
+        return;
+    }
 
     _painter->fillRect(_option.rect, background);
 
@@ -55,7 +70,6 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
 
 QSize MeltDelegate::sizeHint(const QStyleOptionViewItem&, const QModelIndex&) const
 {
-//    qDebug() << "sizeHint";
     return QSize(20, 20);
 }
 
@@ -68,6 +82,19 @@ void MeltDelegate::updateMaxTemp(double _newMax)
 {
     m_maxTemp = _newMax;
 }
+
+void MeltDelegate::highlightColumn(int _n)
+{
+    m_highlightedRow = -1;
+    m_highlightedColumn = _n;
+}
+
+void MeltDelegate::highlightRow(int _n)
+{
+    m_highlightedColumn = -1;
+    m_highlightedRow = _n;
+}
+
 
 double MeltDelegate::calculateBrightness(double _temperature) const
 {

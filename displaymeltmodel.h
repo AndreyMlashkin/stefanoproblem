@@ -43,7 +43,6 @@ private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
     void closeEvent(QCloseEvent*);
-    bool eventFilter(QObject* _obj, QEvent* _ev);
 
 private:
     double m_modelTime;

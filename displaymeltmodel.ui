@@ -3,7 +3,7 @@
  <class>displaymeltmodel</class>
  <widget class="QMainWindow" name="displaymeltmodel">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -218,17 +218,17 @@
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
         </property>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="iceC">
-          <property name="text">
-           <string>2.12</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
            <string>Теплоемкость</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="iceC">
+          <property name="text">
+           <string>2.12</string>
           </property>
          </widget>
         </item>
@@ -239,17 +239,17 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Плотность</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="1">
          <widget class="QLineEdit" name="iceLambda">
           <property name="text">
            <string>2.2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Плотность</string>
           </property>
          </widget>
         </item>
