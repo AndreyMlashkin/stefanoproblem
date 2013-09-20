@@ -14,8 +14,11 @@ inline int min(int a, int b)
 
 MeltView::MeltView(QWidget* _parent) :
     QTableView(_parent),
-    m_state(NOSTATE)
+    m_state(NOSTATE),
+    m_minCellSize(1),
+    m_zoom(1)
 {
+    resizeEvent(NULL);
 }
 
 void MeltView::mousePressEvent(QMouseEvent *_e)
@@ -24,7 +27,7 @@ void MeltView::mousePressEvent(QMouseEvent *_e)
     if(!v)
         return;
 
-    if(m_state == NOSTATE)
+    if(m_state == INFO)
         QToolTip::showText(_e->globalPos(), QString::number(v->temperature(), 'f'));
     else
         mouseMoveEvent(_e);
@@ -39,16 +42,12 @@ void MeltView::resizeEvent(QResizeEvent*)
     int cellWidth  = height() / model()->rowCount();
     int cellHeight = width()  / model()->columnCount();
 
-    int cellSize = min(cellWidth, cellHeight);
+    m_minCellSize = min(cellWidth, cellHeight);
 
-    if(cellSize < 1)
-        cellSize = 1;
+    if(m_minCellSize < 1)
+        m_minCellSize = 1;
 
-    QHeaderView* header = horizontalHeader();
-    header->setDefaultSectionSize(cellSize);
-
-    header =  verticalHeader();
-    header->setDefaultSectionSize(cellSize);
+    cellSizeUpdated();
 }
 
 void MeltView::setMouseState(MouseState _state)
@@ -58,7 +57,11 @@ void MeltView::setMouseState(MouseState _state)
 
 void MeltView::wheelEvent(QWheelEvent* _ev)
 {
-    qDebug() << _ev->delta();
+    m_zoom += double(_ev->delta()) / 100;
+    if(m_zoom < 0.6)
+        m_zoom = 0.6;
+
+    cellSizeUpdated();
 }
 
 DeltaVolume *MeltView::volumeFromPos(const QPoint& _p)
@@ -88,4 +91,13 @@ void MeltView::mouseMoveEvent(QMouseEvent *_e)
     mod->updateBehaviour();
 
     reset();
+}
+
+void MeltView::cellSizeUpdated()
+{
+    QHeaderView* header = horizontalHeader();
+    header->setDefaultSectionSize(m_minCellSize * m_zoom);
+
+    header =  verticalHeader();
+    header->setDefaultSectionSize(m_minCellSize * m_zoom);
 }

@@ -34,8 +34,10 @@ GraphicsWidget::GraphicsWidget() :
     connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(makeChart()));
     connect(m_ui->axis,             SIGNAL(valueChanged(int)),       SLOT(sliceMoved()));
 
+    connect(m_ui->info,  SIGNAL(pressed()), SLOT(setInfoState()));
     connect(m_ui->drill, SIGNAL(pressed()), SLOT(setDrillState()));
     connect(m_ui->ice,   SIGNAL(pressed()), SLOT(setIceState()));
+    connect(m_ui->loupe, SIGNAL(pressed()), SLOT(setLoupState()));
 
     m_ui->additionalAxis->hide();
 }
@@ -167,24 +169,35 @@ Plotter::chartOrientation GraphicsWidget::orientation()
     return (Plotter::chartOrientation)m_ui->chartOrientation->currentIndex();
 }
 
+void GraphicsWidget::resetState()
+{
+    m_ui->info->setChecked(false);
+    m_ui->drill->setChecked(false);
+    m_ui->ice->setChecked(false);
+    m_ui->loupe->setChecked(false);
+}
+
+void GraphicsWidget::setInfoState()
+{
+    resetState();
+    m_ui->graphics->setMouseState(INFO);
+}
+
+
 void GraphicsWidget::setDrillState()
 {
-    if(m_ui->drill->isChecked())
-        m_ui->graphics->setMouseState(NOSTATE);
-    else
-    {
-        m_ui->graphics->setMouseState(DRILL);
-        m_ui->ice->setChecked(false);
-    }
+    resetState();
+    m_ui->graphics->setMouseState(DRILL);
 }
 
 void GraphicsWidget::setIceState()
 {
-    if(m_ui->ice->isChecked())
-        m_ui->graphics->setMouseState(NOSTATE);
-    else
-    {
-        m_ui->graphics->setMouseState(ICE);
-        m_ui->drill->setChecked(false);
-    }
+    resetState();
+    m_ui->graphics->setMouseState(ICE);
+}
+
+void GraphicsWidget::setLoupState()
+{
+    resetState();
+    m_ui->graphics->setMouseState(LOUPE);
 }
