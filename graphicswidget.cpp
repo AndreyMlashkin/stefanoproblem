@@ -159,6 +159,7 @@ void GraphicsWidget::sliceMoved()
     else if(orientation() == Plotter::vertical)
         emit highlinghtColumn(m_ui->axis->value());
 
+    makeChart();
 }
 
 Plotter::chartOrientation GraphicsWidget::orientation()

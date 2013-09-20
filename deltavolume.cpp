@@ -7,6 +7,13 @@ DeltaVolume::DeltaVolume()
       m_type(NoType)
 {}
 
+//bool DeltaVolume::isValid() const
+//{
+//    if((m_volume == -1) || (m_sideArea == -1))
+//        return false;
+//    return true;
+//}
+
 void DeltaVolume::setBehaviour(Behaviour _b)
 {
     m_behaviour = _b;

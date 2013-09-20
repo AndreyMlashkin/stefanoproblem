@@ -9,6 +9,7 @@ public:
     enum Type{NoType, Ice, Water, Drill};
 
     DeltaVolume();
+//    bool isValid() const;
 
     void setBehaviour(Behaviour _b);
     Behaviour behaviour() const;
@@ -20,12 +21,12 @@ public:
     void setTemperature(double _temp);
     double temperature() const;
 
+
 private:
     Behaviour m_behaviour;
     DeltaVolume::Type m_type;
 
     double m_temperature;
-    int m_density;
 };
 
 #endif // DELTAVOLUME_H

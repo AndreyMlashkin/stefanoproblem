@@ -23,7 +23,7 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     int rowCount(const QModelIndex& _index = QModelIndex()) const;
     int columnCount(const QModelIndex& _index = QModelIndex()) const;
-    QModelIndex index(int row, int column, const QModelIndex& ind = QModelIndex()) const;
+    QModelIndex index(int row, int column, const QModelIndex&  = QModelIndex()) const;
     QModelIndex parent(const QModelIndex& child) const;
     Qt::ItemFlags flags(const QModelIndex&) const;
 

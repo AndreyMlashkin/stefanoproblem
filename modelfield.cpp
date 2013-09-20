@@ -1,12 +1,17 @@
 #include <QFile>
 #include <QStringList>
+#include <qmath.h>
 
 #include "modelfield.h"
+#include "modelconstants.h"
 
 ModelField::ModelField(int _width, int _height, double _fillBy)
     : Array2d(_width, _height)
 {
     initBehaviour();
+    initVolumes();
+    initSideAreas();
+
     fillBy(_fillBy);
 }
 
@@ -14,6 +19,21 @@ ModelField::ModelField(int _width, int _height)
     : Array2d(_width, _height)
  {
     initBehaviour();
+    initVolumes();
+    initSideAreas();
+}
+
+ModelField::ModelField(const ModelField &_f)
+    :Array2d(_f)
+{
+    initVolumes();
+    initSideAreas();
+}
+
+ModelField::~ModelField()
+{
+    delete[] m_volume;
+    delete[] m_sideArea;
 }
 
 void ModelField::fillBy(double _n)
@@ -34,6 +54,28 @@ void ModelField::initBehaviour()
             else
                 m_array[i].setBehaviour(Normal);
     }
+}
+
+void ModelField::initVolumes()
+{
+    m_volume = new double[m_width];
+
+    int dx = ModelConstants::dx;
+    int dy = ModelConstants::dy;
+
+    for(int i = 0; i < m_width; i++)
+        m_volume[i] = M_PI * dx * dy * (2*i * dx + dx);
+}
+
+void ModelField::initSideAreas()
+{
+    m_sideArea = new double[m_width];
+
+    int dx = ModelConstants::dx;
+    int dy = ModelConstants::dy;
+
+    for(int i = 0; i < m_width; i++)
+        m_sideArea[i] = 2 * M_PI * dy * (i*dx + dx);
 }
 
 void ModelField::readDrillConfig()
