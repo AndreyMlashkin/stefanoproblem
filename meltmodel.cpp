@@ -23,14 +23,11 @@ MeltModel::MeltModel(int _width, int _height)
     : QAbstractItemModel(),
       m_field(new ModelField(_width, _height))
 {
-//
     initModel();
 }
 
 void MeltModel::initModel()
 {
-    m_maxTemp = -300;
-    m_minTemp = 5000;
     m_saveSteps = false;
 
     m_field->readDrillConfig();
@@ -42,8 +39,7 @@ void MeltModel::initModel()
 MeltModel::MeltModel()
     : QAbstractItemModel(),
       m_field(NULL),
-      m_frameProcessor(),
-      m_saveSteps(false)
+      m_frameProcessor()
 {}
 
 MeltModel::~MeltModel()
@@ -128,25 +124,22 @@ bool MeltModel::loadStep(const QString& _fileName)
 
 void MeltModel::updateMinAndMaxTemp()
 {
-    double oldMax = m_maxTemp;
-    double oldMin = m_minTemp;
+    double maxT = -5000;
+    double minT =  5000;
     for(ModelField::iterator i = m_field->begin(); i != m_field->end(); i++)
     {
         if((*i).type() == DeltaVolume::Drill)
             continue;
 
-        if(m_maxTemp < (*i).temperature())
-            m_maxTemp = ((*i).temperature());
+        if(maxT < (*i).temperature())
+            maxT = ((*i).temperature());
 
-        if(m_minTemp > (*i).temperature())
-            m_minTemp = ((*i).temperature());
+        if(minT > (*i).temperature())
+            minT = ((*i).temperature());
     }
 
-    if(oldMax != m_maxTemp)
-        emit updateMaxTemp(m_maxTemp);
-
-    if(oldMin != m_minTemp)
-        emit updateMinTemp(m_minTemp);
+    emit updateMaxTemp(maxT);
+    emit updateMinTemp(minT);
 }
 
 void MeltModel::beginSaveSteps(bool _shouldSave)

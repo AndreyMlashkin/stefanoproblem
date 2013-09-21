@@ -56,9 +56,6 @@ private:
     StepsSaver* m_stepsSaver;
 
     bool m_saveSteps;
-
-    double m_maxTemp;
-    double m_minTemp;
 };
 
 #endif // MELTMODEL_H

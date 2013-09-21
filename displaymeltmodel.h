@@ -38,8 +38,9 @@ private slots:
     void updateMinTemp(double _newTemp);
     void updateMaxTemp(double _newTemp);
 
-private:
     void initConstants();
+
+private:
     void startNewModel(int _width, int _height, double _startTemperature);
     void setupModel();
     void closeEvent(QCloseEvent*);
