@@ -10,8 +10,10 @@ public:
     explicit ModelField(int _width, int _height, double _fillBy);
     explicit ModelField(int _width, int _height);
     explicit ModelField(const ModelField& _f);
-
     ~ModelField();
+
+    void readDrillConfig();
+    void writeDrillConfig();
 
 private:
     inline void fillBy(double _n);
@@ -20,8 +22,6 @@ private:
     inline void initVolumes();
     inline void initSideAreas();
 
-    void readDrillConfig();
-    void writeDrillConfig();
 
 private:
     double* m_volume;

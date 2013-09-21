@@ -13,16 +13,17 @@
 #include "stepssaver.h"
 
 MeltModel::MeltModel(int _width, int _height, double _startTemperature)
-    : QAbstractItemModel()
+    : QAbstractItemModel(),
+      m_field(new ModelField(_width, _height, _startTemperature))
 {
-    m_field = new ModelField(_width, _height, _startTemperature);
     initModel();
 }
 
 MeltModel::MeltModel(int _width, int _height)
-    : QAbstractItemModel()
+    : QAbstractItemModel(),
+      m_field(new ModelField(_width, _height))
 {
-    m_field = new ModelField(_width, _height);
+//
     initModel();
 }
 
@@ -31,8 +32,10 @@ void MeltModel::initModel()
     m_maxTemp = -300;
     m_minTemp = 5000;
     m_saveSteps = false;
-    m_frameProcessor = new MeltLogics(m_field);
 
+    m_field->readDrillConfig();
+
+    m_frameProcessor = new MeltLogics(m_field);
     m_stepsSaver = new StepsSaver(QString("stepdump.txt"));
 }
 
@@ -45,6 +48,7 @@ MeltModel::MeltModel()
 
 MeltModel::~MeltModel()
 {
+    m_field->writeDrillConfig();
     delete m_stepsSaver;
     delete m_frameProcessor;
     delete m_field;

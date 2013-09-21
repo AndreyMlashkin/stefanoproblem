@@ -32,10 +32,48 @@ ModelField::ModelField(const ModelField &_f)
 
 ModelField::~ModelField()
 {
-   // writeDrillConfig();
-
     delete[] m_volume;
     delete[] m_sideArea;
+}
+
+void ModelField::readDrillConfig()
+{
+    QFile file("drill.config");
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    QTextStream stream(&file);
+
+    int height, width;
+    stream >> height >> width;
+
+    if((height == m_height) && (m_width == width))
+    {
+        while(!stream.atEnd())
+        {
+            int x;    stream >> x;
+            int y;    stream >> y;
+            int type; stream >> type;
+
+            (*this)[y][x].setType(DeltaVolume::Type(type));
+        }
+    }
+    file.close();
+}
+
+void ModelField::writeDrillConfig()
+{
+    QFile file("drill.config");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return;
+
+    QTextStream stream(&file);
+
+    stream << m_height << ' ' << m_width << '\n';
+    for(int i = 0; i < m_height; i++)
+        for(int j = 0; j < m_width; j++)
+            stream << j << ' ' << i << ' ' << (*this)[i][j].type() << '\n';
+    file.close();
 }
 
 void ModelField::fillBy(double _n)
@@ -78,38 +116,5 @@ void ModelField::initSideAreas()
 
     for(int i = 0; i < m_width; i++)
         m_sideArea[i] = 2 * M_PI * dy * (i*dx + dx);
-}
-
-void ModelField::readDrillConfig()
-{
-    QFile file("drill.config");
-    if (!file.open(QIODevice::ReadOnly))
-        return;
-
-    QTextStream stream(&file);
-
-    while(!stream.atEnd())
-    {
-        int x; stream >> x;
-        int y; stream >> y;
-
-        (*this)[y][x].setType(DeltaVolume::Drill);
-    }
-    file.close();
-}
-
-void ModelField::writeDrillConfig()
-{
-    QFile file("drill.config");
-    if (!file.open(QIODevice::WriteOnly))
-        return;
-
-    QTextStream stream(&file);
-
-    for(int i = 0; i < m_height; i++)
-        for(int j = 0; j < m_width; i++)
-            stream << j << i << (*this)[i][j].type();
-
-    file.close();
 }
 
