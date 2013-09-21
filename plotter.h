@@ -21,6 +21,9 @@ public:
     explicit Plotter(QwtPlotCurve* _curve, QWidget *parent = 0);
     void replot();
 
+signals:
+    void closing();
+
 private:
     void closeEvent(QCloseEvent*);
 

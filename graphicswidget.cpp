@@ -31,13 +31,15 @@ GraphicsWidget::GraphicsWidget() :
     header->hide();
 
     connect(m_ui->chartOrientation, SIGNAL(currentIndexChanged(int)),SLOT(chartOrientationChanged()));
-    connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(makeChart()));
+    connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(updatePlotterVisibility()));
     connect(m_ui->axis,             SIGNAL(valueChanged(int)),       SLOT(sliceMoved()));
 
     connect(m_ui->info,  SIGNAL(pressed()), SLOT(setInfoState()));
     connect(m_ui->drill, SIGNAL(pressed()), SLOT(setDrillState()));
     connect(m_ui->ice,   SIGNAL(pressed()), SLOT(setIceState()));
     connect(m_ui->loupe, SIGNAL(pressed()), SLOT(setLoupState()));
+
+    connect(m_plotter, SIGNAL(closing()), m_ui->makeChart, SLOT(click()));
 
     m_ui->additionalAxis->hide();
 }
@@ -69,7 +71,24 @@ void GraphicsWidget::closeEvent(QCloseEvent *)
     emit closing();
 }
 
-void GraphicsWidget::makeChart()
+void GraphicsWidget::updatePlotterVisibility()
+{
+    if(m_ui->makeChart->isChecked())
+    {
+        updatePlotter();
+        static const QString s(tr("Спрятать график"));
+        m_ui->makeChart->setText(s);
+        m_plotter->show();
+    }
+    else
+    {
+        static const QString s(tr("Построить график"));
+        m_ui->makeChart->setText(s);
+        m_plotter->hide();
+    }
+}
+
+void GraphicsWidget::updatePlotter()
 {  
     if(!m_model)
         return;
@@ -124,7 +143,6 @@ void GraphicsWidget::makeChart()
     }
     m_curve->setSamples(x, y, size);
     m_plotter->replot();
-    m_plotter->show();
     delete[] x;
     delete[] y;
 }
@@ -160,7 +178,7 @@ void GraphicsWidget::sliceMoved()
     else if(orientation() == Plotter::vertical)
         emit highlinghtColumn(m_ui->axis->value());
 
-    makeChart();
+    updatePlotter();
 }
 
 Plotter::chartOrientation GraphicsWidget::orientation()

@@ -266,6 +266,9 @@
        <property name="text">
         <string>Построить график</string>
        </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>

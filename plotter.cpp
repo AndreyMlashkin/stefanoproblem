@@ -22,6 +22,7 @@ void Plotter::replot()
 
 void Plotter::closeEvent(QCloseEvent*)
 {
+    emit closing();
     hide();
 }
 

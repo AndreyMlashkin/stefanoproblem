@@ -27,7 +27,8 @@ public:
     void closeEvent(QCloseEvent *);
 
 public slots:
-    void makeChart();
+    void updatePlotterVisibility();
+    void updatePlotter();
     void chartOrientationChanged();
     void sliceMoved();
 
