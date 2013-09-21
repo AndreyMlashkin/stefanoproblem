@@ -32,6 +32,8 @@ ModelField::ModelField(const ModelField &_f)
 
 ModelField::~ModelField()
 {
+   // writeDrillConfig();
+
     delete[] m_volume;
     delete[] m_sideArea;
 }
@@ -93,5 +95,21 @@ void ModelField::readDrillConfig()
 
         (*this)[y][x].setType(DeltaVolume::Drill);
     }
+    file.close();
+}
+
+void ModelField::writeDrillConfig()
+{
+    QFile file("drill.config");
+    if (!file.open(QIODevice::WriteOnly))
+        return;
+
+    QTextStream stream(&file);
+
+    for(int i = 0; i < m_height; i++)
+        for(int j = 0; j < m_width; i++)
+            stream << j << i << (*this)[i][j].type();
+
+    file.close();
 }
 

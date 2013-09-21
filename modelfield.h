@@ -21,6 +21,7 @@ private:
     inline void initSideAreas();
 
     void readDrillConfig();
+    void writeDrillConfig();
 
 private:
     double* m_volume;

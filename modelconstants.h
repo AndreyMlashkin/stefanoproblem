@@ -18,11 +18,13 @@ public:
     static double dx;
     static double dy;
     static double dt;
+    static double absNull;
 
     type m_type;
-    double c;      // удельная теплоемкость
-    double lambda; // теплопроводность
-    double r;      // плотность
+    double c;          // удельная теплоемкость,  Дж / (К * кг)
+    double cMelt;      // теплоемкость плавления, Дж / кг
+    double lambda;     // теплопроводность,       Вт / (м * К)
+    double r;          // плотность
 
 private:
     static QHash<type, ModelConstants* > m_constants;

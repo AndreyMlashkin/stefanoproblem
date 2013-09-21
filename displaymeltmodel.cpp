@@ -70,8 +70,8 @@ DisplayMeltmodel::~DisplayMeltmodel()
     delete m_meltmodel;
     delete ui;
 
-    QApplication::closeAllWindows();
-    QApplication::exit(0);
+  //  QApplication::closeAllWindows();
+  //  QApplication::exit(0);
 }
 
 void DisplayMeltmodel::initModel()
@@ -210,13 +210,13 @@ void DisplayMeltmodel::initConstants()
     ModelConstants::dt = ui->dt->text().toDouble();
 
     double iceC      = ui->iceC->text().toDouble();
-    double icelambda = ui->iceC->text().toDouble();
+    double icelambda = ui->iceLambda->text().toDouble();
     double iceR      = ui->iceR->text().toDouble();
 
     ModelConstants::setEnvironmentConstants(ICE, iceC, icelambda, iceR);
 
     double waterC      = ui->waterC->text().toDouble();
-    double waterlambda = ui->waterC->text().toDouble();
+    double waterlambda = ui->iceLambda->text().toDouble();
     double waterR      = ui->waterR->text().toDouble();
 
     ModelConstants::setEnvironmentConstants(WATER, waterC, waterlambda, waterR);

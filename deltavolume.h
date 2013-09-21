@@ -18,6 +18,9 @@ public:
     void setType(DeltaVolume::Type _type);
     //   void setType(DeltaVolume::type _type);
 
+    void setEnergy(double _energy);
+    double Energy();
+
     void setTemperature(double _temp);
     double temperature() const;
 
@@ -27,6 +30,7 @@ private:
     DeltaVolume::Type m_type;
 
     double m_temperature;
+    double m_innerEnergy;
 };
 
 #endif // DELTAVOLUME_H

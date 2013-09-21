@@ -202,6 +202,11 @@ private:
                 m_array[i * m_width + j] = _f.m_array[i * m_width + j];
     }
 
+    virtual ~Array2d()
+    {
+        delete m_array;
+    }
+
     iterator begin()
     {
         return iterator(m_array, this);

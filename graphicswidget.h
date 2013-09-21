@@ -29,7 +29,6 @@ public:
 public slots:
     void makeChart();
     void chartOrientationChanged();
-
     void sliceMoved();
 
 signals:

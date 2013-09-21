@@ -7,6 +7,7 @@
 static const QColor background(0, 0, 255);
 static const QColor borderColor(0, 255, 255);
 static const QColor drillColor(0, 0, 0);
+static const QColor highligtingColor(255, 255, 255, 50);
 
 
 MeltDelegate::MeltDelegate(QObject *_parent) :

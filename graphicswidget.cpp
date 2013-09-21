@@ -45,7 +45,6 @@ GraphicsWidget::GraphicsWidget() :
 GraphicsWidget::~GraphicsWidget()
 {
     delete m_ui;
-    delete m_model;
     delete m_plotter;
 }
 

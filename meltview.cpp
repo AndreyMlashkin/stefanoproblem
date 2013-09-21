@@ -2,6 +2,7 @@
 #include <QMouseEvent>
 #include <QToolTip>
 #include <QHeaderView>
+#include <QScrollBar>
 
 #include "meltview.h"
 #include "deltavolume.h"
@@ -57,9 +58,12 @@ void MeltView::setMouseState(MouseState _state)
 
 void MeltView::wheelEvent(QWheelEvent* _ev)
 {
-    m_zoom += double(_ev->delta()) / 100;
-    if(m_zoom < 0.6)
-        m_zoom = 0.6;
+    bool sign = (_ev->delta() > 0) ? true : false;
+
+    m_zoom += sign? 1 : -1;
+
+    if(m_zoom < 1)
+        m_zoom = 1;
 
     cellSizeUpdated();
 }
