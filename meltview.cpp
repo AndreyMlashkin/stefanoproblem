@@ -24,12 +24,16 @@ MeltView::MeltView(QWidget* _parent) :
 
 void MeltView::mousePressEvent(QMouseEvent *_e)
 {
-    const DeltaVolume* v = volumeFromPos(_e->pos());
-    if(!v)
+//    const DeltaVolume* v = volumeFromPos(_e->pos());
+//    if(!v)
+//        return;
+
+    QModelIndex index = indexAt(_e->pos());
+    if(!index.isValid())
         return;
 
     if(m_state == INFO)
-        QToolTip::showText(_e->globalPos(), QString::number(v->temperature(), 'f'));
+        QToolTip::showText(_e->globalPos(), index.data().toString());
     else
         mouseMoveEvent(_e);
 

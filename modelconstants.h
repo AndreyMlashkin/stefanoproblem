@@ -18,7 +18,7 @@ public:
     static double dx;
     static double dy;
     static double dt;
-    static double absNull;
+    const static double absNull = -273.15;
 
     type m_type;
     double c;          // удельная теплоемкость,  Дж / (К * кг)
@@ -29,5 +29,15 @@ public:
 private:
     static QHash<type, ModelConstants* > m_constants;
 };
+
+inline double toKelvin(double _temp)
+{
+    return _temp - ModelConstants::absNull;
+}
+
+inline double toCelsius(double _temp)
+{
+    return _temp + ModelConstants::absNull;
+}
 
 #endif // MODELCONSTANTS_H

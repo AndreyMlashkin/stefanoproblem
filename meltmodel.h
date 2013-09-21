@@ -44,6 +44,8 @@ signals:
     void updateMaxTemp(double _temp);
     void updateMinTemp(double _temp);
 
+    void step();
+
 private:
     inline double getTemperatureInPos(int _row, int _column) const;
     inline DeltaVolume* getDeltaVolumeInPos(int _row, int _column) const;

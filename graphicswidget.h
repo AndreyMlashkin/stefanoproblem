@@ -32,6 +32,8 @@ public slots:
     void chartOrientationChanged();
     void sliceMoved();
 
+    void modelStep();
+
 signals:
     void closing();
     void highlinghtRow(int);

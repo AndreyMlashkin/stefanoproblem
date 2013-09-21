@@ -148,15 +148,13 @@ void MeltLogics::swapFrames()
 
 void MeltLogics::heat(ModelField* _field)
 {
-    int k = 0;
     for(ModelField::iterator i = _field->begin(); i != _field->end(); i++)
     {
         if(i->type() == DeltaVolume::Drill)
         {
 //            double temperature = (*i).temperature();
-            (*i).setTemperature(0/*temperature + heating*/);
+            (*i).setTemperature(toKelvin(0)/*temperature + heating*/);
         }
-        k++;
     }
 }
 

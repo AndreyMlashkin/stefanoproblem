@@ -4,7 +4,7 @@ QHash<type, ModelConstants* > ModelConstants::m_constants;
 double ModelConstants::dx;
 double ModelConstants::dy;
 double ModelConstants::dt;
-double ModelConstants::absNull;// = −273.15;
+//const double ModelConstants::absNull;
 
 ModelConstants::ModelConstants(type _t, double _c, double _lambda, double _r)
     : m_type(_t),

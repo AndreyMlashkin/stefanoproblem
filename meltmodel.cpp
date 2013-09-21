@@ -5,6 +5,7 @@
 
 #include "meltmodel.h"
 #include "deltavolume.h"
+#include "modelconstants.h"
 
 #include "array2d.h"
 #include "meltlogics.h"
@@ -60,7 +61,7 @@ QVariant MeltModel::data(const QModelIndex &index, int role) const
     int j = index.column();
     double temp = getTemperatureInPos(i, j);
 
-    return QString::number(temp, 'f', 2);
+    return QString::number(toCelsius(temp), 'f', 2);
 }
 
 int MeltModel::rowCount(const QModelIndex&) const
@@ -163,6 +164,7 @@ void MeltModel::processStep()
     m_field = m_frameProcessor->nextFrame();
     updateMinAndMaxTemp();
 
+    emit step();
     endResetModel();
 }
 

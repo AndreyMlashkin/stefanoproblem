@@ -68,6 +68,9 @@ void GraphicsWidget::setDelegate(QAbstractItemDelegate* _delegate)
 
 void GraphicsWidget::closeEvent(QCloseEvent *)
 {
+    m_ui->makeChart->setChecked(false);
+    updatePlotterVisibility();
+
     emit closing();
 }
 
@@ -157,15 +160,14 @@ void GraphicsWidget::chartOrientationChanged()
     case Plotter::time:
     {
         m_ui->additionalAxis->show();
-        m_ui->axis->setMaximum(m_model->columnCount());
-        m_ui->additionalAxis->setMaximum(m_model->rowCount());
+        m_ui->axis->setMaximum(m_model->columnCount()-1);
+        m_ui->additionalAxis->setMaximum(m_model->rowCount()-1);
         break;
     }
     case Plotter::horizontal:
-        m_ui->axis->setMaximum(m_model->rowCount());    break;
+        m_ui->axis->setMaximum(m_model->rowCount()-1);    break;
     case Plotter::vertical:
-        m_ui->axis->setMaximum(m_model->columnCount()); break;
-
+        m_ui->axis->setMaximum(m_model->columnCount()-1); break;
     }
     sliceMoved();
 }
@@ -178,7 +180,14 @@ void GraphicsWidget::sliceMoved()
     else if(orientation() == Plotter::vertical)
         emit highlinghtColumn(m_ui->axis->value());
 
+    m_ui->graphics->reset();
     updatePlotter();
+}
+
+void GraphicsWidget::modelStep()
+{
+    if(m_ui->makeChart->isChecked())
+        updatePlotter();
 }
 
 Plotter::chartOrientation GraphicsWidget::orientation()

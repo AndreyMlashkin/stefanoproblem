@@ -12,7 +12,7 @@ ModelField::ModelField(int _width, int _height, double _fillBy)
     initVolumes();
     initSideAreas();
 
-    fillBy(_fillBy);
+    fillBy(toKelvin(_fillBy));
 }
 
 ModelField::ModelField(int _width, int _height)

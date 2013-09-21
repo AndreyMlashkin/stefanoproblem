@@ -69,9 +69,6 @@ DisplayMeltmodel::~DisplayMeltmodel()
     delete m_delegate;
     delete m_meltmodel;
     delete ui;
-
-  //  QApplication::closeAllWindows();
-  //  QApplication::exit(0);
 }
 
 void DisplayMeltmodel::initModel()
@@ -226,6 +223,7 @@ void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTempe
 {
     delete m_meltmodel;
     m_meltmodel = new MeltModel(_width, _height, _startTemperature);
+    connect(m_meltmodel, SIGNAL(step()), m_graphics, SLOT(modelStep()));
 
     setupModel();
 }

@@ -7,7 +7,7 @@
 static const QColor background(0, 0, 255);
 static const QColor borderColor(0, 255, 255);
 static const QColor drillColor(0, 0, 0);
-static const QColor highligtingColor(255, 255, 255, 50);
+static const QColor highligtingColor(0, 0, 0, 50);
 
 
 MeltDelegate::MeltDelegate(QObject *_parent) :
@@ -22,19 +22,6 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
         return;
 
     _painter->save();
-
-    if(m_highlightedColumn == _index.column())
-    {
-        _painter->fillRect(_option.rect, borderColor);
-        _painter->restore();
-        return;
-    }
-    if(m_highlightedRow == _index.row())
-    {
-        _painter->fillRect(_option.rect, borderColor);
-        _painter->restore();
-        return;
-    }
 
     _painter->fillRect(_option.rect, background);
 
@@ -66,6 +53,12 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
             _painter->fillRect(_option.rect, color);
         }
     }
+
+    if(m_highlightedColumn == _index.column())
+        _painter->fillRect(_option.rect, highligtingColor);
+    else if(m_highlightedRow == _index.row())
+        _painter->fillRect(_option.rect, highligtingColor);
+
     _painter->restore();
 }
 
