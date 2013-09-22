@@ -36,7 +36,7 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
 {
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
-
+    m_table->setWindowTitle(tr("Таблица"));
 
     readConfigFile();
     initConstants();
@@ -205,13 +205,13 @@ void DisplayMeltmodel::readConfigFile()
 
 void DisplayMeltmodel::updateMinTemp(double _newTemp)
 {
-    ui->minTemp->setText(QString::number(_newTemp));
+    ui->minTemp->setText(QString::number(toCelsius(_newTemp)));
     m_delegate->updateMinTemp(_newTemp);
 }
 
 void DisplayMeltmodel::updateMaxTemp(double _newTemp)
 {
-    ui->maxTemp->setText(QString::number(_newTemp));
+    ui->maxTemp->setText(QString::number(toCelsius(_newTemp)));
     m_delegate->updateMaxTemp(_newTemp);
 }
 

@@ -40,14 +40,11 @@ signals:
     void highlinghtColumn(int);
 
 private slots:
-    void setInfoState();
-    void setDrillState();
-    void setIceState();
-    void setLoupState();
+    void updateState();
+    void updateBrush();
 
 private:
     Plotter::chartOrientation orientation();
-    inline void resetState();
 
 private:
     Ui::Graphics* m_ui;

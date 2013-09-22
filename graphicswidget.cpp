@@ -34,14 +34,18 @@ GraphicsWidget::GraphicsWidget() :
     connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(updatePlotterVisibility()));
     connect(m_ui->axis,             SIGNAL(valueChanged(int)),       SLOT(sliceMoved()));
 
-    connect(m_ui->info,  SIGNAL(pressed()), SLOT(setInfoState()));
-    connect(m_ui->drill, SIGNAL(pressed()), SLOT(setDrillState()));
-    connect(m_ui->ice,   SIGNAL(pressed()), SLOT(setIceState()));
-    connect(m_ui->loupe, SIGNAL(pressed()), SLOT(setLoupState()));
-
     connect(m_plotter, SIGNAL(closing()), m_ui->makeChart, SLOT(click()));
 
     m_ui->additionalAxis->hide();
+
+    connect(m_ui->info,  SIGNAL(pressed()), SLOT(updateState()));
+    connect(m_ui->drill, SIGNAL(pressed()), SLOT(updateState()));
+    connect(m_ui->ice,   SIGNAL(pressed()), SLOT(updateState()));
+    connect(m_ui->loupe, SIGNAL(pressed()), SLOT(updateState()));
+
+    connect(m_ui->onePix,   SIGNAL(pressed()), SLOT(updateBrush()));
+    connect(m_ui->twoPix,   SIGNAL(pressed()), SLOT(updateBrush()));
+    connect(m_ui->threePix, SIGNAL(pressed()), SLOT(updateBrush()));
 }
 
 GraphicsWidget::~GraphicsWidget()
@@ -195,35 +199,33 @@ Plotter::chartOrientation GraphicsWidget::orientation()
     return (Plotter::chartOrientation)m_ui->chartOrientation->currentIndex();
 }
 
-void GraphicsWidget::resetState()
+void GraphicsWidget::updateState()
 {
     m_ui->info->setChecked(false);
     m_ui->drill->setChecked(false);
     m_ui->ice->setChecked(false);
     m_ui->loupe->setChecked(false);
+
+    if     (sender() == m_ui->info)
+        m_ui->graphics->setMouseState(INFO);
+    else if(sender() == m_ui->drill)
+        m_ui->graphics->setMouseState(DRILL);
+    else if(sender() == m_ui->ice)
+        m_ui->graphics->setMouseState(ICE);
+    else if(sender() == m_ui->loupe)
+        m_ui->graphics->setMouseState(LOUPE);
 }
 
-void GraphicsWidget::setInfoState()
+void GraphicsWidget::updateBrush()
 {
-    resetState();
-    m_ui->graphics->setMouseState(INFO);
-}
+    m_ui->onePix->setChecked(false);
+    m_ui->twoPix->setChecked(false);
+    m_ui->threePix->setChecked(false);
 
-
-void GraphicsWidget::setDrillState()
-{
-    resetState();
-    m_ui->graphics->setMouseState(DRILL);
-}
-
-void GraphicsWidget::setIceState()
-{
-    resetState();
-    m_ui->graphics->setMouseState(ICE);
-}
-
-void GraphicsWidget::setLoupState()
-{
-    resetState();
-    m_ui->graphics->setMouseState(LOUPE);
+    if     (sender() == m_ui->onePix)
+        m_ui->graphics->setBrushType(ONEPIX);
+    else if(sender() == m_ui->twoPix)
+        m_ui->graphics->setBrushType(TWOPIX);
+    else if(sender() == m_ui->threePix)
+        m_ui->graphics->setBrushType(THREEPIX);
 }

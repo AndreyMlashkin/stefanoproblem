@@ -61,7 +61,7 @@ QVariant MeltModel::data(const QModelIndex &index, int role) const
     int j = index.column();
     double temp = getTemperatureInPos(i, j);
 
-    return QString::number(toCelsius(temp), 'f', 2);
+    return QString::number(toCelsius(temp), 'f', 5);
 }
 
 int MeltModel::rowCount(const QModelIndex&) const

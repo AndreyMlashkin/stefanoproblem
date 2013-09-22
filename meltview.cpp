@@ -15,6 +15,7 @@ inline int min(int a, int b)
 
 MeltView::MeltView(QWidget* _parent) :
     QTableView(_parent),
+    m_brush(ONEPIX),
     m_state(NOSTATE),
     m_minCellSize(1),
     m_zoom(1)
@@ -24,10 +25,6 @@ MeltView::MeltView(QWidget* _parent) :
 
 void MeltView::mousePressEvent(QMouseEvent *_e)
 {
-//    const DeltaVolume* v = volumeFromPos(_e->pos());
-//    if(!v)
-//        return;
-
     QModelIndex index = indexAt(_e->pos());
     if(!index.isValid())
         return;
@@ -58,6 +55,11 @@ void MeltView::resizeEvent(QResizeEvent*)
 void MeltView::setMouseState(MouseState _state)
 {
     m_state = _state;
+}
+
+void MeltView::setBrushType(BrushType _brush)
+{
+    m_brush = _brush;
 }
 
 void MeltView::wheelEvent(QWheelEvent* _ev)
@@ -91,7 +93,8 @@ void MeltView::mouseMoveEvent(QMouseEvent *_e)
         return;
 
     if(m_state == DRILL)
-        v->setType(DeltaVolume::Drill);
+    //    v->setType(DeltaVolume::Drill);
+        brushStroke(v);
     else if(m_state == ICE)
         v->setType(DeltaVolume::Ice);
 
@@ -108,4 +111,18 @@ void MeltView::cellSizeUpdated()
 
     header =  verticalHeader();
     header->setDefaultSectionSize(m_minCellSize * m_zoom);
+}
+
+void MeltView::brushStroke(DeltaVolume* const _v)
+{
+    switch(m_brush)
+    {
+        case ONEPIX:
+            _v->setType(DeltaVolume::Drill);
+//        case TWOPIX:
+//        {
+//        }
+    }
+
+
 }
