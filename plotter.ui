@@ -19,23 +19,8 @@
   <property name="windowTitle">
    <string>График</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
-   <item>
-    <widget class="QwtPlot" name="plotter">
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-    </widget>
-   </item>
-  </layout>
+  <layout class="QHBoxLayout" name="horizontalLayout"/>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QwtPlot</class>
-   <extends>QFrame</extends>
-   <header>qwt_plot.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

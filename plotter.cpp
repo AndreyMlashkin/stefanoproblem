@@ -1,16 +1,15 @@
 #include <QDebug>
-
-//#include "qwt_plot_curve.h"
-
+#include "qcustomplot/qcustomplot.h"
 #include "plotter.h"
 //#include "ui_plotter.h"
 
 #include "modelfield.h"
 
-Plotter::Plotter(QwtPlotCurve *_curve, QWidget *parent) :
+Plotter::Plotter(QWidget *parent) :
     QWidget(parent)/*,
     m_ui(new Ui::Plotter())*/
 {
+   // m_plotter = new QCustomPlot(this);
  //   m_ui->setupUi(this);
    // _curve->attach(m_ui->plotter);
 }

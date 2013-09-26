@@ -1,6 +1,9 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QToolTip>
+#include <QVector>
+
+#include "qcustomplot/qcustomplot.h"
 
 #include "graphicswidget.h"
 #include "ui_graphics.h"
@@ -18,10 +21,10 @@ GraphicsWidget::GraphicsWidget() :
     QWidget(),
     m_ui(new Ui::Graphics()),
     m_model(NULL),
-    m_curve(/*new QwtPlotCurve(QString("Temperature"))*/),
-    m_plotter(new Plotter(m_curve))
+    m_chart(new QCustomPlot())
 {
     m_ui->setupUi(this);
+    initChart();
 
     QHeaderView* header = m_ui->graphics->horizontalHeader();
     header->hide();
@@ -33,7 +36,7 @@ GraphicsWidget::GraphicsWidget() :
     connect(m_ui->makeChart,        SIGNAL(clicked()),               SLOT(updatePlotterVisibility()));
     connect(m_ui->axis,             SIGNAL(valueChanged(int)),       SLOT(sliceMoved()));
 
-    connect(m_plotter, SIGNAL(closing()), m_ui->makeChart, SLOT(click()));
+    //connect(m_plotter, SIGNAL(closing()), m_ui->makeChart, SLOT(click()));
 
     m_ui->additionalAxis->hide();
 
@@ -50,7 +53,7 @@ GraphicsWidget::GraphicsWidget() :
 GraphicsWidget::~GraphicsWidget()
 {
     delete m_ui;
-    delete m_plotter;
+    delete m_chart;
 }
 
 void GraphicsWidget::setModel(QAbstractItemModel *_model)
@@ -84,13 +87,13 @@ void GraphicsWidget::updatePlotterVisibility()
         updatePlotter();
         static const QString s(tr("РЎРїСЂСЏС‚Р°С‚СЊ РіСЂР°С„РёРє"));
         m_ui->makeChart->setText(s);
-        m_plotter->show();
+        m_chart->show();
     }
     else
     {
         static const QString s(tr("РџРѕСЃС‚СЂРѕРёС‚СЊ РіСЂР°С„РёРє"));
         m_ui->makeChart->setText(s);
-        m_plotter->hide();
+        m_chart->hide();
     }
 }
 
@@ -102,16 +105,16 @@ void GraphicsWidget::updatePlotter()
     //m_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
    // m_curve->setPen(QPen(Qt::red));
 
+    QVector<double> x, y;
     size_t size;
-    double* y;
-    double* x;
+
     switch(orientation())
     {
         case Plotter::horizontal:
         {
             size = m_model->columnCount();
-            y = new double[size];
-            x = new double[size];
+            x.reserve(size);
+            y.reserve(size);
             int row = m_ui->axis->value();
 
             for(size_t i = 0; i < size; i++)
@@ -120,18 +123,17 @@ void GraphicsWidget::updatePlotter()
                 DeltaVolume* d = static_cast<DeltaVolume*>(data);
 
                 double temp = d->temperature();
-
-                y[i] = temp;
-                x[i] = i;
+                y.push_back(temp);
+                x.push_back(i);
             }
             break;
         }
         case Plotter::vertical:
         {
             size = m_model->rowCount();
+            x.reserve(size);
+            y.reserve(size);
 
-            y = new double[size];
-            x = new double[size];
             int column = m_ui->axis->value();
 
             for(size_t i = 0; i < size; i++)
@@ -140,17 +142,27 @@ void GraphicsWidget::updatePlotter()
                 DeltaVolume* d = static_cast<DeltaVolume*>(data);
 
                 double temp = d->temperature();
+                y.push_back(temp);
+                x.push_back(i);
 
-                y[i] = temp;
-                x[i] = i;
             }
             break;
         }
     }
+
+    if(!m_chart->graph())
+        m_chart->addGraph();
+
+    QPen graphPen;
+    graphPen.setColor(Qt::black);
+    graphPen.setWidthF(5);
+    m_chart->graph()->setPen(graphPen);
+
+    m_chart->graph()->setData(x, y);
+
+ //   m_chart->replot();
     //m_curve->setSamples(x, y, size);
     //m_plotter->replot();
-    delete[] x;
-    delete[] y;
 }
 
 void GraphicsWidget::chartOrientationChanged()
@@ -196,6 +208,24 @@ void GraphicsWidget::modelStep()
 Plotter::chartOrientation GraphicsWidget::orientation()
 {
     return (Plotter::chartOrientation)m_ui->chartOrientation->currentIndex();
+}
+
+void GraphicsWidget::initChart()
+{
+    m_chart->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes |
+                                    QCP::iSelectLegend | QCP::iSelectPlottables);
+    m_chart->xAxis->setRange(0, 50);
+    m_chart->yAxis->setRange(0, -250);
+    m_chart->axisRect()->setupFullAxesBox();
+
+    m_chart->plotLayout()->insertRow(0);
+    m_chart->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_chart, "Распределение температуры"));
+
+//    m_chart->xAxis->setLabel("Расстояние");
+//    m_chart->yAxis->setLabel("Температура");
+    m_chart->legend->setVisible(true);
+    QFont legendFont = font();
+    legendFont.setPointSize(10);
 }
 
 void GraphicsWidget::updateState()

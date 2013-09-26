@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += widgets printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,8 +24,7 @@ SOURCES += main.cpp\
            stepssaver.cpp \
            array2d.cpp \
            modelfield.cpp \
-           plotter.cpp # \
-         #  qcustomplot/qcustomplot.cpp
+           qcustomplot/qcustomplot.cpp
 
 
 HEADERS  += displaymeltmodel.h \
@@ -38,8 +38,7 @@ HEADERS  += displaymeltmodel.h \
             stepssaver.h \
             array2d.h \
             modelfield.h \
-            plotter.h #\
-          #  qcustomplot/qcustomplot.h
+            qcustomplot/qcustomplot.h
 
 FORMS    += displaymeltmodel.ui \
             graphics.ui

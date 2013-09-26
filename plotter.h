@@ -3,12 +3,13 @@
 
 #include <QWidget>
 
+class QCustomPlot;
+
 namespace Ui
 {
     class Plotter;
 }
 
-class QwtPlotCurve;
 class ModelField;
 
 
@@ -18,7 +19,7 @@ class Plotter : public QWidget
 public:
     enum chartOrientation {horizontal, vertical, time};
 
-    explicit Plotter(QwtPlotCurve* _curve, QWidget *parent = 0);
+    explicit Plotter(QWidget *parent = 0);
     void replot();
 
 signals:
@@ -28,7 +29,8 @@ private:
     void closeEvent(QCloseEvent*);
 
 private:
-    Ui::Plotter* m_ui;
+   // Ui::Plotter* m_ui;
+    QCustomPlot* m_plotter;
 };
 
 #endif // PLOTTER_H
