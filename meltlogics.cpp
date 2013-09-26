@@ -6,7 +6,7 @@
 #include "deltavolume.h"
 #include "modelconstants.h"
 
-inline double abs(double a)
+inline double my_abs(double a)
 {
     return (a > 0)? a : -a;
 }

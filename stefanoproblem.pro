@@ -23,7 +23,9 @@ SOURCES += main.cpp\
            stepssaver.cpp \
            array2d.cpp \
            modelfield.cpp \
-    plotter.cpp
+           plotter.cpp # \
+         #  qcustomplot/qcustomplot.cpp
+
 
 HEADERS  += displaymeltmodel.h \
             meltmodel.h \
@@ -36,12 +38,12 @@ HEADERS  += displaymeltmodel.h \
             stepssaver.h \
             array2d.h \
             modelfield.h \
-    plotter.h
+            plotter.h #\
+          #  qcustomplot/qcustomplot.h
 
 FORMS    += displaymeltmodel.ui \
-            graphics.ui \
-            plotter.ui
+            graphics.ui
 
-INCLUDEPATH += /usr/include/qwt
-LIBS += -L/usr/lib -lqwt
+RESOURCES += \
+    resources/resources.qrc
 

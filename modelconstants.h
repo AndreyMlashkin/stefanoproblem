@@ -18,7 +18,7 @@ public:
     static double dx;
     static double dy;
     static double dt;
-    const static double absNull = -273.15;
+    static const double absNull;// = -273.15;
 
     type m_type;
     double c;          // удельная теплоемкость,  Дж / (К * кг)

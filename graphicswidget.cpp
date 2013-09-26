@@ -2,7 +2,6 @@
 #include <QMouseEvent>
 #include <QToolTip>
 
-#include "qwt_plot_curve.h"
 #include "graphicswidget.h"
 #include "ui_graphics.h"
 
@@ -19,7 +18,7 @@ GraphicsWidget::GraphicsWidget() :
     QWidget(),
     m_ui(new Ui::Graphics()),
     m_model(NULL),
-    m_curve(new QwtPlotCurve(QString("Temperature"))),
+    m_curve(/*new QwtPlotCurve(QString("Temperature"))*/),
     m_plotter(new Plotter(m_curve))
 {
     m_ui->setupUi(this);
@@ -100,8 +99,8 @@ void GraphicsWidget::updatePlotter()
     if(!m_model)
         return;
 
-    m_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
-    m_curve->setPen(QPen(Qt::red));
+    //m_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
+   // m_curve->setPen(QPen(Qt::red));
 
     size_t size;
     double* y;
@@ -148,8 +147,8 @@ void GraphicsWidget::updatePlotter()
             break;
         }
     }
-    m_curve->setSamples(x, y, size);
-    m_plotter->replot();
+    //m_curve->setSamples(x, y, size);
+    //m_plotter->replot();
     delete[] x;
     delete[] y;
 }
