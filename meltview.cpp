@@ -96,7 +96,7 @@ void MeltView::mouseMoveEvent(QMouseEvent *_e)
     //    v->setType(DeltaVolume::Drill);
         brushStroke(v);
     else if(m_state == ICE)
-        v->setType(DeltaVolume::Ice);
+        v->setType(Ice);
 
     MeltModel* mod = static_cast<MeltModel*>(model());
     mod->updateBehaviour();
@@ -118,7 +118,7 @@ void MeltView::brushStroke(DeltaVolume* const _v)
     switch(m_brush)
     {
         case ONEPIX:
-            _v->setType(DeltaVolume::Drill);
+            _v->setType(Drill);
 //        case TWOPIX:
 //        {
 //        }

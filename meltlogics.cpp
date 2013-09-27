@@ -113,12 +113,12 @@ ModelField *MeltLogics::nextFrame()
     int i = 0;
     while(oldCell != m_prev->end())
     {
-        if(((*oldCell).behaviour() != Border) && ((*oldCell).type() != DeltaVolume::Drill))
+        if(((*oldCell).behaviour() != Border) && ((*oldCell).type() != Drill))
         {
             double koeff = calculateKoeff(oldCell);
             double oldTemp = (*oldCell).temperature();
 
-            ModelConstants* constants = ModelConstants::getConstants(ICE);
+            ModelConstants* constants = ModelConstants::getConstants(Ice);
  //           (*newCell).setTemperature(oldTemp + koeff / constants->c);
             (*newCell).setTemperature(oldTemp);
             (*newCell).setEnergy(koeff);
@@ -150,7 +150,7 @@ void MeltLogics::heat(ModelField* _field)
 {
     for(ModelField::iterator i = _field->begin(); i != _field->end(); i++)
     {
-        if(i->type() == DeltaVolume::Drill)
+        if(i->type() == Drill)
         {
 //            double temperature = (*i).temperature();
             (*i).setTemperature(toKelvin(0)/*temperature + heating*/);
@@ -160,7 +160,7 @@ void MeltLogics::heat(ModelField* _field)
 
 double inline tempDiffusion()
 {
-    ModelConstants* constants = ModelConstants::getConstants(ICE);
+    ModelConstants* constants = ModelConstants::getConstants(Ice);
 
     return constants->lambda / constants->r;
 }

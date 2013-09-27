@@ -1,20 +1,20 @@
 #ifndef DELTAVOLUME_H
 #define DELTAVOLUME_H
 
+#include "modelapi.h"
+
 enum Behaviour{NoBehaviour, Normal, Border, Central, BehaviourCount};
 
 class DeltaVolume
 {
 public:
-    enum Type{NoType, Ice, Water, Drill};
-
     DeltaVolume();
 //    bool isValid() const;
 
     void setBehaviour(Behaviour _b);
     Behaviour behaviour() const;
 
-    DeltaVolume::Type type() const;
+    Type type() const;
     void setType(DeltaVolume::Type _type);
     //   void setType(DeltaVolume::type _type);
 

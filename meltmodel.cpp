@@ -128,7 +128,7 @@ void MeltModel::updateMinAndMaxTemp()
     double minT =  5000;
     for(ModelField::iterator i = m_field->begin(); i != m_field->end(); i++)
     {
-        if((*i).type() == DeltaVolume::Drill)
+        if((*i).type() == Drill)
             continue;
 
         if(maxT < (*i).temperature())

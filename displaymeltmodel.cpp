@@ -5,6 +5,8 @@
 #include <QSettings>
 #include <QVariant>
 #include <QTableView>
+#include "modelapi.h"
+
 
 #include "displaymeltmodel.h"
 #include "ui_displaymeltmodel.h"
@@ -225,13 +227,13 @@ void DisplayMeltmodel::initConstants()
     double icelambda = ui->iceLambda->text().toDouble();
     double iceR      = ui->iceR->text().toDouble();
 
-    ModelConstants::setEnvironmentConstants(ICE, iceC, icelambda, iceR);
+    ModelConstants::setEnvironmentConstants(Ice, iceC, icelambda, iceR);
 
     double waterC      = ui->waterC->text().toDouble();
     double waterlambda = ui->iceLambda->text().toDouble();
     double waterR      = ui->waterR->text().toDouble();
 
-    ModelConstants::setEnvironmentConstants(WATER, waterC, waterlambda, waterR);
+    ModelConstants::setEnvironmentConstants(Water, waterC, waterlambda, waterR);
 }
 
 void DisplayMeltmodel::startNewModel(int _width, int _height, double _startTemperature)

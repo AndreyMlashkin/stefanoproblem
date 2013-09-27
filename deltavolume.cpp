@@ -26,7 +26,7 @@ Behaviour DeltaVolume::behaviour() const
     return m_behaviour;
 }
 
-DeltaVolume::Type DeltaVolume::type() const
+Type DeltaVolume::type() const
 {
     return m_type;
 }
@@ -38,7 +38,7 @@ void DeltaVolume::setType(Type _type)
 
 void DeltaVolume::setEnergy(double _energy)
 {
-    ModelConstants* constants = ModelConstants::getConstants(ICE);
+    ModelConstants* constants = ModelConstants::getConstants(Ice);
 
     m_temperature += _energy / constants->c;
     m_innerEnergy += _energy;

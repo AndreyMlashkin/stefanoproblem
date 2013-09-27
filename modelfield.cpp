@@ -55,7 +55,7 @@ void ModelField::readDrillConfig()
             int y;    stream >> y;
             int type; stream >> type;
 
-            (*this)[y][x].setType(DeltaVolume::Type(type));
+            (*this)[y][x].setType(Type(type));
         }
     }
     file.close();

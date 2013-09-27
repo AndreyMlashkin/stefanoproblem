@@ -4,6 +4,7 @@
 #include <QVector>
 
 #include "qcustomplot/qcustomplot.h"
+#include "modelapi.h"
 
 #include "graphicswidget.h"
 #include "ui_graphics.h"
@@ -11,6 +12,7 @@
 #include "meltmodel.h"
 #include "meltdelegate.h"
 #include "deltavolume.h"
+#include "modelconstants.h"
 
 int inline min(int a, int b)
 {
@@ -24,7 +26,7 @@ GraphicsWidget::GraphicsWidget() :
     m_chart(new QCustomPlot())
 {
     m_ui->setupUi(this);
-    initChart();
+//    initChart();
 
     QHeaderView* header = m_ui->graphics->horizontalHeader();
     header->hide();
@@ -60,8 +62,9 @@ void GraphicsWidget::setModel(QAbstractItemModel *_model)
 {
     m_model = static_cast<MeltModel*>(_model);
     m_ui->graphics->setModel(_model);
-    chartOrientationChanged();
     m_ui->graphics->resizeEvent(NULL);
+    initChart();
+    chartOrientationChanged();
 }
 
 void GraphicsWidget::setDelegate(QAbstractItemDelegate* _delegate)
@@ -98,15 +101,14 @@ void GraphicsWidget::updatePlotterVisibility()
 }
 
 void GraphicsWidget::updatePlotter()
-{  
+{
     if(!m_model)
         return;
 
-    //m_curve->setRenderHint(QwtPlotItem::RenderAntialiased);
-   // m_curve->setPen(QPen(Qt::red));
-
     QVector<double> x, y;
-    size_t size;
+    int size;
+    double max = ABSNULL;
+    double min = toKelvin(100);
 
     switch(orientation())
     {
@@ -123,8 +125,14 @@ void GraphicsWidget::updatePlotter()
                 DeltaVolume* d = static_cast<DeltaVolume*>(data);
 
                 double temp = d->temperature();
-                y.push_back(temp);
+                y.push_back(toCelsius(temp));
                 x.push_back(i);
+
+                if(min > temp)
+                    min = temp;
+
+                if(max < temp)
+                    max = temp;
             }
             break;
         }
@@ -142,9 +150,14 @@ void GraphicsWidget::updatePlotter()
                 DeltaVolume* d = static_cast<DeltaVolume*>(data);
 
                 double temp = d->temperature();
-                y.push_back(temp);
+                y.push_back(toCelsius(temp));
                 x.push_back(i);
 
+                if(min > temp)
+                    min = temp;
+
+                if(max < temp)
+                    max = temp;
             }
             break;
         }
@@ -163,6 +176,10 @@ void GraphicsWidget::updatePlotter()
  //   m_chart->replot();
     //m_curve->setSamples(x, y, size);
     //m_plotter->replot();
+
+    max = toCelsius(max);
+    min = toCelsius(min);
+    m_chart->yAxis->setRange(min * 1.1, max - min * 0.1);
 }
 
 void GraphicsWidget::chartOrientationChanged()
@@ -211,18 +228,19 @@ Plotter::chartOrientation GraphicsWidget::orientation()
 }
 
 void GraphicsWidget::initChart()
-{
+{  
     m_chart->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectAxes |
                                     QCP::iSelectLegend | QCP::iSelectPlottables);
-    m_chart->xAxis->setRange(0, 50);
+
+    m_chart->xAxis->setRange(-1, m_model->columnCount());
     m_chart->yAxis->setRange(0, -250);
     m_chart->axisRect()->setupFullAxesBox();
 
     m_chart->plotLayout()->insertRow(0);
-    m_chart->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_chart, "Распределение температуры"));
+    m_chart->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_chart, tr("Температура")));
 
-//    m_chart->xAxis->setLabel("Расстояние");
-//    m_chart->yAxis->setLabel("Температура");
+    m_chart->xAxis->setLabel("Расстояние");
+    m_chart->yAxis->setLabel("Температура");
     m_chart->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(10);
@@ -236,13 +254,13 @@ void GraphicsWidget::updateState()
     m_ui->loupe->setChecked(false);
 
     if     (sender() == m_ui->info)
-        m_ui->graphics->setMouseState(INFO);
+        m_ui->graphics->setMouseState(MeltView::INFO);
     else if(sender() == m_ui->drill)
-        m_ui->graphics->setMouseState(DRILL);
+        m_ui->graphics->setMouseState(MeltView::DRILL);
     else if(sender() == m_ui->ice)
-        m_ui->graphics->setMouseState(ICE);
+        m_ui->graphics->setMouseState(MeltView::ICE);
     else if(sender() == m_ui->loupe)
-        m_ui->graphics->setMouseState(LOUPE);
+        m_ui->graphics->setMouseState(MeltView::LOUPE);
 }
 
 void GraphicsWidget::updateBrush()
@@ -252,9 +270,9 @@ void GraphicsWidget::updateBrush()
     m_ui->threePix->setChecked(false);
 
     if     (sender() == m_ui->onePix)
-        m_ui->graphics->setBrushType(ONEPIX);
+        m_ui->graphics->setBrushType(MeltView::ONEPIX);
     else if(sender() == m_ui->twoPix)
-        m_ui->graphics->setBrushType(TWOPIX);
+        m_ui->graphics->setBrushType(MeltView::TWOPIX);
     else if(sender() == m_ui->threePix)
-        m_ui->graphics->setBrushType(THREEPIX);
+        m_ui->graphics->setBrushType(MeltView::THREEPIX);
 }

@@ -27,7 +27,7 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
 
     const DeltaVolume* v = reinterpret_cast<DeltaVolume*>(_index.internalPointer());
 
-    if(v->type() == DeltaVolume::Drill)
+    if(v->type() == Drill)
     {
         _painter->fillRect(_option.rect, drillColor);
         _painter->restore();
