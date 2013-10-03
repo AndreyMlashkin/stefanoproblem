@@ -4,6 +4,9 @@
 #include <QAbstractItemModel>
 #include <QObject>
 
+namespace model
+{
+
 class ModelField;
 class MeltLogics;
 class DeltaVolume;
@@ -57,5 +60,6 @@ private:
 
     bool m_saveSteps;
 };
+}
 
 #endif // MELTMODEL_H

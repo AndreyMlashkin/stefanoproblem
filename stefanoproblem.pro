@@ -22,7 +22,6 @@ SOURCES += main.cpp\
            graphicswidget.cpp \
            meltview.cpp \
            stepssaver.cpp \
-           array2d.cpp \
            modelfield.cpp \
            qcustomplot/qcustomplot.cpp
 

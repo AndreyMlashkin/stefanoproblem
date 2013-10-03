@@ -3,6 +3,9 @@
 #include "deltavolume.h"
 #include "modelconstants.h"
 
+namespace model
+{
+
 DeltaVolume::DeltaVolume()
     : m_behaviour(NoBehaviour),
       m_type(NoType),
@@ -57,4 +60,6 @@ void DeltaVolume::setTemperature(double _temp)
 double DeltaVolume::temperature() const
 {
     return m_temperature;
+}
+
 }

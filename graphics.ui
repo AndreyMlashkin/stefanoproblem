@@ -200,7 +200,7 @@
        </spacer>
       </item>
       <item row="0" column="1" rowspan="3" colspan="2">
-       <widget class="MeltView" name="graphics">
+       <widget class="model::MeltView" name="graphics">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -352,7 +352,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MeltView</class>
+   <class>model::MeltView</class>
    <extends>QTableView</extends>
    <header>meltview.h</header>
   </customwidget>

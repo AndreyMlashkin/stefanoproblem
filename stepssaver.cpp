@@ -5,6 +5,9 @@
 #include "modelfield.h"
 #include "deltavolume.h"
 
+namespace model
+{
+
 StepsSaver::StepsSaver(const QString &_name)
     : m_file(_name)
 {
@@ -25,4 +28,6 @@ void StepsSaver::saveStep(ModelField* _field)
         out << i->temperature();
         i++;
     }
+}
+
 }

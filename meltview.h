@@ -3,6 +3,9 @@
 
 #include <QTableView>
 
+namespace model
+{
+
 class DeltaVolume;
 class MeltView : public QTableView
 {
@@ -41,5 +44,6 @@ private:
     int m_minCellSize;
     double m_zoom;
 };
+}
 
 #endif // MELTVIEW_H

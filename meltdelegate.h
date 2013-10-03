@@ -3,6 +3,9 @@
 
 #include <QStyledItemDelegate>
 
+namespace model
+{
+
 class MeltDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
@@ -26,5 +29,5 @@ private:
     int m_highlightedRow;
     int m_highlightedColumn;
 };
-
+}
 #endif // MELTDELEGATE_H

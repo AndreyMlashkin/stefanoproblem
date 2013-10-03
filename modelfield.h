@@ -4,6 +4,9 @@
 #include "array2d.h"
 #include "deltavolume.h"
 
+namespace model
+{
+
 class ModelField : public Array2d<DeltaVolume>
 {
 public:
@@ -28,5 +31,5 @@ private:
     double* m_sideArea;
 
 };
-
+}
 #endif // MODELFIELD_H

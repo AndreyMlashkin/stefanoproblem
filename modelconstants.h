@@ -4,6 +4,9 @@
 #include <QHash>
 #include "modelapi.h"
 
+namespace model
+{
+
 class ModelConstants
 {
 public:
@@ -27,5 +30,6 @@ public:
 private:
     static QHash<Type, ModelConstants* > m_constants;
 };
+}
 
 #endif // MODELCONSTANTS_H

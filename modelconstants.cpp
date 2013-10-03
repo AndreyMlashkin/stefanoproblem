@@ -1,5 +1,8 @@
 #include "modelconstants.h"
 
+namespace model
+{
+
 QHash<Type, ModelConstants* > ModelConstants::m_constants;
 double ModelConstants::dx;
 double ModelConstants::dy;
@@ -22,3 +25,4 @@ void ModelConstants::setEnvironmentConstants(Type _t, double _c, double _lambda,
     m_constants[_t] = new ModelConstants(_t, _c, _lambda, _r);
 }
 
+}

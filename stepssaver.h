@@ -4,6 +4,9 @@
 #include <QFile>
 #include <QString>
 
+namespace model
+{
+
 class ModelField;
 class StepsSaver
 {
@@ -16,5 +19,6 @@ public:
 private:
     QFile m_file;
 };
+}
 
 #endif // STEPSSAVER_H

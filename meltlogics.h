@@ -3,6 +3,9 @@
 
 #include "modelfield.h"
 
+namespace model
+{
+
 class MeltLogics
 {
 public:
@@ -30,5 +33,6 @@ private:
     ModelField* m_current;
     ModelField* m_prev;
 };
+}
 
 #endif // MELTLOGICS_H

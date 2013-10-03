@@ -7,7 +7,6 @@
 #include <QTableView>
 #include "modelapi.h"
 
-
 #include "displaymeltmodel.h"
 #include "ui_displaymeltmodel.h"
 #include "meltmodel.h"
@@ -15,6 +14,9 @@
 
 #include "modelconstants.h"
 #include "graphicswidget.h"
+
+namespace model
+{
 
 int inline max(int a, int b)
 {
@@ -265,4 +267,6 @@ void DisplayMeltmodel::closeEvent(QCloseEvent*)
         m_closed = true;
     else
         deleteLater();
+}
+
 }

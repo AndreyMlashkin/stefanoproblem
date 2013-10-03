@@ -8,6 +8,9 @@
 #include "deltavolume.h"
 #include "meltmodel.h"
 
+namespace model
+{
+
 inline int min(int a, int b)
 {
     return (a < b)? a : b;
@@ -123,6 +126,6 @@ void MeltView::brushStroke(DeltaVolume* const _v)
 //        {
 //        }
     }
-
+}
 
 }

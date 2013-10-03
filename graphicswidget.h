@@ -8,12 +8,13 @@ namespace Ui
 {
     class Graphics;
 }
-
+class QCustomPlot;
 class QAbstractItemDelegate;
 class QAbstractItemModel;
-class MeltModel;
 
-class QCustomPlot;
+namespace model
+{
+class MeltModel;
 
 class GraphicsWidget : public QWidget
 {
@@ -47,6 +48,7 @@ private slots:
 private:
     Plotter::chartOrientation orientation();
     inline void initChart();
+    //inline void fillByValues(QVector<double> &x, QVector<double> &y, Qt::Orientation _orient, double& max, double& min);
 
 private:
     Ui::Graphics* m_ui;
@@ -54,5 +56,6 @@ private:
 
     QCustomPlot* m_chart;
 };
+}
 
 #endif // GRAPHICSWIDGET_H

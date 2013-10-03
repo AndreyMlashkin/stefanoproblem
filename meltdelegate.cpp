@@ -1,8 +1,11 @@
 #include <QPainter>
+#include <QDebug>
 
 #include "meltdelegate.h"
 #include "deltavolume.h"
-#include <QDebug>
+
+namespace model
+{
 
 static const QColor background(0, 0, 255);
 static const QColor borderColor(0, 255, 255);
@@ -98,4 +101,6 @@ double MeltDelegate::calculateBrightness(double _temperature) const
         return 0;
 
     return (_temperature - m_minTemp) * (255 / diff);
+}
+
 }

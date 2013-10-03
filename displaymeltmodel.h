@@ -7,11 +7,14 @@ namespace Ui
 {
     class displaymeltmodel;
 }
+class QTableView;
+
+namespace model
+{
 
 class MeltModel;
 class MeltDelegate;
 class GraphicsWidget;
-class QTableView;
 class DisplayMeltmodel : public QMainWindow
 {
     Q_OBJECT
@@ -58,5 +61,5 @@ private:
     GraphicsWidget* m_graphics;
 
 };
-
+}
 #endif // DISPLAYMELTMODEL_H

@@ -12,6 +12,9 @@
 
 #include "stepssaver.h"
 
+namespace model
+{
+
 MeltModel::MeltModel(int _width, int _height, double _startTemperature)
     : QAbstractItemModel(),
       m_field(new ModelField(_width, _height, _startTemperature))
@@ -185,4 +188,4 @@ DeltaVolume *MeltModel::getDeltaVolumeInPos(int _row, int _column) const
     return &(*m_field)[_row][fieldColumn];
 }
 
-
+}

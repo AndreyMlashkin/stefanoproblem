@@ -14,6 +14,9 @@
 #include "deltavolume.h"
 #include "modelconstants.h"
 
+namespace model
+{
+
 int inline min(int a, int b)
 {
     return (a < b)? a : b;
@@ -100,6 +103,36 @@ void GraphicsWidget::updatePlotterVisibility()
     }
 }
 
+//void GraphicsWidget::fillByValues(QVector<double> &x, QVector<double> &y, Qt::Orientation _orient, double& max, double& min)
+//{
+//    int size = (_orient == Qt::Horizontal)? m_model->columnCount() : m_model->rowCount();
+//    x.reserve(size);
+//    y.reserve(size);
+
+//    int value = m_ui->axis->value();
+
+//    for(size_t i = 0; i < size; i++)
+//    {
+//        void* data;
+//        if(_orient == Qt::Horizontal)
+//            data = m_model->index(i, value).internalPointer();
+//        else if(_orient == Qt::Vertical)
+//            data = m_model->index(value, i).internalPointer();
+
+//        DeltaVolume* d = static_cast<DeltaVolume*>(data);
+
+//        double temp = d->temperature();
+//        y.push_back(toCelsius(temp));
+//        x.push_back(i);
+
+//        if(min > temp)
+//            min = temp;
+
+//        if(max < temp)
+//            max = temp;
+//    }
+//}
+
 void GraphicsWidget::updatePlotter()
 {
     if(!m_model)
@@ -115,6 +148,8 @@ void GraphicsWidget::updatePlotter()
         case Plotter::horizontal:
         {
             size = m_model->columnCount();
+//            fillByValues(x, y, Qt::Horizontal, max, min);
+
             x.reserve(size);
             y.reserve(size);
             int row = m_ui->axis->value();
@@ -139,6 +174,8 @@ void GraphicsWidget::updatePlotter()
         case Plotter::vertical:
         {
             size = m_model->rowCount();
+ //           fillByValues(x, y, Qt::Vertical, max, min);
+
             x.reserve(size);
             y.reserve(size);
 
@@ -170,16 +207,13 @@ void GraphicsWidget::updatePlotter()
     graphPen.setColor(Qt::black);
     graphPen.setWidthF(5);
     m_chart->graph()->setPen(graphPen);
-
     m_chart->graph()->setData(x, y);
-
- //   m_chart->replot();
-    //m_curve->setSamples(x, y, size);
-    //m_plotter->replot();
 
     max = toCelsius(max);
     min = toCelsius(min);
     m_chart->yAxis->setRange(min * 1.1, max - min * 0.1);
+
+    m_chart->replot();
 }
 
 void GraphicsWidget::chartOrientationChanged()
@@ -237,13 +271,15 @@ void GraphicsWidget::initChart()
     m_chart->axisRect()->setupFullAxesBox();
 
     m_chart->plotLayout()->insertRow(0);
-    m_chart->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_chart, tr("Температура")));
+    m_chart->plotLayout()->addElement(0, 0, new QCPPlotTitle(m_chart, tr("Temperature")));
 
-    m_chart->xAxis->setLabel("Расстояние");
-    m_chart->yAxis->setLabel("Температура");
+    m_chart->xAxis->setLabel("Distance");
+    m_chart->yAxis->setLabel("Temperature");
     m_chart->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(10);
+
+    m_chart->resize(500, 500);
 }
 
 void GraphicsWidget::updateState()
@@ -275,4 +311,6 @@ void GraphicsWidget::updateBrush()
         m_ui->graphics->setBrushType(MeltView::TWOPIX);
     else if(sender() == m_ui->threePix)
         m_ui->graphics->setBrushType(MeltView::THREEPIX);
+}
+
 }

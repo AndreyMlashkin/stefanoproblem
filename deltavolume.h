@@ -3,6 +3,9 @@
 
 #include "modelapi.h"
 
+namespace model
+{
+
 enum Behaviour{NoBehaviour, Normal, Border, Central, BehaviourCount};
 
 class DeltaVolume
@@ -33,4 +36,5 @@ private:
     double m_innerEnergy;
 };
 
+}
 #endif // DELTAVOLUME_H

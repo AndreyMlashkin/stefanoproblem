@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     //QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
-    DisplayMeltmodel* w = new DisplayMeltmodel();
+    model::DisplayMeltmodel* w = new model::DisplayMeltmodel();
     w->show();
     
     return a.exec();

@@ -1,6 +1,8 @@
 #ifndef MODELAPI_H
 #define MODELAPI_H
 
+namespace model
+{
 #define ABSNULL -273.15
 //double absNull = -273.15;
 
@@ -16,5 +18,5 @@ inline double toCelsius(double _temp)
     return _temp + ABSNULL;
 }
 
-
+}
 #endif // MODELAPI_H

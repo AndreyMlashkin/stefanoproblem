@@ -6,6 +6,9 @@
 #include "deltavolume.h"
 #include "modelconstants.h"
 
+namespace model
+{
+
 inline double my_abs(double a)
 {
     return (a > 0)? a : -a;
@@ -187,8 +190,4 @@ double MeltLogics::calculateKoeff(ModelField::iterator& _cell)
     return koeff;
 }
 
-
-
-
-
-
+}

@@ -5,6 +5,9 @@
 #include "modelfield.h"
 #include "modelconstants.h"
 
+namespace model
+{
+
 ModelField::ModelField(int _width, int _height, double _fillBy)
     : Array2d(_width, _height)
 {
@@ -118,3 +121,4 @@ void ModelField::initSideAreas()
         m_sideArea[i] = 2 * M_PI * dy * (i*dx + dx);
 }
 
+}
