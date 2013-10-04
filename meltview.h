@@ -2,6 +2,8 @@
 #define MELTVIEW_H
 
 #include <QTableView>
+#include "modelapi.h"
+
 
 namespace model
 {
@@ -12,11 +14,7 @@ class MeltView : public QTableView
     Q_OBJECT
 public:
 
-    enum MouseState {NOSTATE = 0,
-                     INFO    = 1,
-                     DRILL   = 2,
-                     ICE     = 4,
-                     LOUPE   = 8};
+    enum MouseState {NOSTATE, INFO, DRILL = Drill, ICE = Ice, WATER = Water, LOUPE};
 
     enum BrushType {ONEPIX,
                     TWOPIX,

@@ -13,9 +13,9 @@ public:
 public:
       iterator() {}
 
-      explicit iterator(T* _x, Array2d<T>* _parent)
+      explicit iterator(T* _data, Array2d<T>* _parent)
       : m_parent(_parent),
-        m_pointer(_x),
+        m_pointer(_data),
         m_nextNeighbour(0)
       {}
 
@@ -24,6 +24,13 @@ public:
         m_pointer(mit.m_pointer),
         m_nextNeighbour(0)
       {}
+
+
+      void operator=(T* _data) // this is not copy constructor
+      {
+           m_pointer = _data;
+      }
+
 
       iterator& operator++(int)
       {

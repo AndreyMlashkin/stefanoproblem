@@ -139,7 +139,7 @@ void GraphicsWidget::updatePlotter()
         return;
 
     QVector<double> x, y;
-    int size;
+    size_t size;
     double max = ABSNULL;
     double min = toKelvin(100);
 

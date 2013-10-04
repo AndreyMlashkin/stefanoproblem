@@ -7,6 +7,7 @@
 #include "meltview.h"
 #include "deltavolume.h"
 #include "meltmodel.h"
+#include "modelfield.h"
 
 namespace model
 {
@@ -34,6 +35,8 @@ void MeltView::mousePressEvent(QMouseEvent *_e)
 
     if(m_state == INFO)
         QToolTip::showText(_e->globalPos(), index.data().toString());
+    else if(m_state == LOUPE)
+    {}
     else
         mouseMoveEvent(_e);
 
@@ -95,11 +98,8 @@ void MeltView::mouseMoveEvent(QMouseEvent *_e)
     if(v->behaviour() == Border)
         return;
 
-    if(m_state == DRILL)
-    //    v->setType(DeltaVolume::Drill);
+    if((m_state == DRILL) || (m_state == ICE) || (m_state == WATER))
         brushStroke(v);
-    else if(m_state == ICE)
-        v->setType(Ice);
 
     MeltModel* mod = static_cast<MeltModel*>(model());
     mod->updateBehaviour();
@@ -118,14 +118,52 @@ void MeltView::cellSizeUpdated()
 
 void MeltView::brushStroke(DeltaVolume* const _v)
 {
+    ModelField* field = static_cast<MeltModel*>(model())->field();
+    ModelField::iterator iter(_v, field);
+
+    QVector<DeltaVolume*> checked;
+
     switch(m_brush)
     {
         case ONEPIX:
-            _v->setType(Drill);
-//        case TWOPIX:
-//        {
-//        }
+            checked.push_back(_v); break;
+        case TWOPIX:
+        {
+            checked.reserve(5);
+
+            checked.push_back(_v);
+            while(DeltaVolume* d = iter.nextNeighbour())
+               checked.push_back(d);
+            break;
+        }
+        case THREEPIX:
+        {
+            checked.reserve(9);
+
+            checked.push_back(_v);
+            while(DeltaVolume* d = iter.nextNeighbour())
+               checked.push_back(d);
+
+            ModelField::iterator top(iter.topNeighbour(), field);
+
+            if(top.leftNeighbour())
+                checked.push_back(top.leftNeighbour());
+            if(iter.rightNeighbour())
+                checked.push_back(top.rightNeighbour());
+
+            ModelField::iterator bottom(iter.bottomNeighbour(),field);
+
+            if(bottom.leftNeighbour())
+                checked.push_back(bottom.leftNeighbour());
+            if(bottom.rightNeighbour())
+                checked.push_back(bottom.rightNeighbour());
+
+            break;
+        }
     }
+
+    foreach (DeltaVolume* d, checked)
+        d->setType(Type(m_state));
 }
 
 }
