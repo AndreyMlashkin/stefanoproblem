@@ -36,7 +36,7 @@ void MeltView::mousePressEvent(QMouseEvent *_e)
     if(m_state == INFO)
         QToolTip::showText(_e->globalPos(), index.data().toString());
     else if(m_state == LOUPE)
-    {}
+        qDebug() << "Zoom";
     else
         mouseMoveEvent(_e);
 

@@ -14,7 +14,7 @@ class MeltView : public QTableView
     Q_OBJECT
 public:
 
-    enum MouseState {NOSTATE, INFO, DRILL = Drill, ICE = Ice, WATER = Water, LOUPE};
+    enum MouseState {NOSTATE = NoType, ICE = Ice, DRILL = Drill, WATER = Water, INFO = TYPE_COUNT+1, LOUPE = TYPE_COUNT+2};
 
     enum BrushType {ONEPIX,
                     TWOPIX,

@@ -29,6 +29,7 @@ GraphicsWidget::GraphicsWidget() :
     m_chart(new QCustomPlot())
 {
     m_ui->setupUi(this);
+    m_ui->brushes->setVisible(false);
 //    initChart();
 
     QHeaderView* header = m_ui->graphics->horizontalHeader();
@@ -297,6 +298,23 @@ void GraphicsWidget::updateState()
         m_ui->graphics->setMouseState(MeltView::ICE);
     else if(sender() == m_ui->loupe)
         m_ui->graphics->setMouseState(MeltView::LOUPE);
+
+    if(sender() == m_ui->info || sender() == m_ui->loupe)
+    //    m_ui->brushes->setEnabled(false);
+        m_ui->brushes->setVisible(false);
+    else
+        m_ui->brushes->setVisible(true);
+
+//    switch (sender())
+//    {
+//        case m_ui->drill:
+//        case m_ui->ice:
+//            m_ui->brushes->setEnabled(true);
+//        break;
+
+//        default:
+//            m_ui->brushes->setEnabled(false);
+//    }
 }
 
 void GraphicsWidget::updateBrush()
