@@ -7,7 +7,7 @@
 #include "deltavolume.h"
 #include "modelconstants.h"
 
-#include "array2d.h"
+#include "array2d/array2d.h"
 #include "meltlogics.h"
 
 #include "stepssaver.h"

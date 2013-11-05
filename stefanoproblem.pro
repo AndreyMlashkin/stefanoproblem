@@ -37,6 +37,8 @@ HEADERS  += displaymeltmodel.h \
             stepssaver.h \
             array2d.h \
             modelfield.h \
+            array2d/array2d.h \
+            array2d/arrayiterator.h \
             qcustomplot/qcustomplot.h \
             modelapi.h
 

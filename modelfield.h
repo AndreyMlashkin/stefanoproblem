@@ -1,7 +1,7 @@
 #ifndef MODELFIELD_H
 #define MODELFIELD_H
 
-#include "array2d.h"
+#include "array2d/array2d.h"
 #include "deltavolume.h"
 
 namespace model
