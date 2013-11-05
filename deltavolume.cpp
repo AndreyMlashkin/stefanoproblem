@@ -12,13 +12,6 @@ DeltaVolume::DeltaVolume()
       m_innerEnergy(0)
 {}
 
-//bool DeltaVolume::isValid() const
-//{
-//    if((m_volume == -1) || (m_sideArea == -1))
-//        return false;
-//    return true;
-//}
-
 void DeltaVolume::setBehaviour(Behaviour _b)
 {
     m_behaviour = _b;

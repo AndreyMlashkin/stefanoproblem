@@ -104,36 +104,6 @@ void GraphicsWidget::updatePlotterVisibility()
     }
 }
 
-//void GraphicsWidget::fillByValues(QVector<double> &x, QVector<double> &y, Qt::Orientation _orient, double& max, double& min)
-//{
-//    int size = (_orient == Qt::Horizontal)? m_model->columnCount() : m_model->rowCount();
-//    x.reserve(size);
-//    y.reserve(size);
-
-//    int value = m_ui->axis->value();
-
-//    for(size_t i = 0; i < size; i++)
-//    {
-//        void* data;
-//        if(_orient == Qt::Horizontal)
-//            data = m_model->index(i, value).internalPointer();
-//        else if(_orient == Qt::Vertical)
-//            data = m_model->index(value, i).internalPointer();
-
-//        DeltaVolume* d = static_cast<DeltaVolume*>(data);
-
-//        double temp = d->temperature();
-//        y.push_back(toCelsius(temp));
-//        x.push_back(i);
-
-//        if(min > temp)
-//            min = temp;
-
-//        if(max < temp)
-//            max = temp;
-//    }
-//}
-
 void GraphicsWidget::updatePlotter()
 {
     if(!m_model)
@@ -149,8 +119,6 @@ void GraphicsWidget::updatePlotter()
         case Plotter::horizontal:
         {
             size = m_model->columnCount();
-//            fillByValues(x, y, Qt::Horizontal, max, min);
-
             x.reserve(size);
             y.reserve(size);
             int row = m_ui->axis->value();
@@ -175,8 +143,6 @@ void GraphicsWidget::updatePlotter()
         case Plotter::vertical:
         {
             size = m_model->rowCount();
- //           fillByValues(x, y, Qt::Vertical, max, min);
-
             x.reserve(size);
             y.reserve(size);
 
@@ -300,21 +266,9 @@ void GraphicsWidget::updateState()
         m_ui->graphics->setMouseState(MeltView::LOUPE);
 
     if(sender() == m_ui->info || sender() == m_ui->loupe)
-    //    m_ui->brushes->setEnabled(false);
         m_ui->brushes->setVisible(false);
     else
         m_ui->brushes->setVisible(true);
-
-//    switch (sender())
-//    {
-//        case m_ui->drill:
-//        case m_ui->ice:
-//            m_ui->brushes->setEnabled(true);
-//        break;
-
-//        default:
-//            m_ui->brushes->setEnabled(false);
-//    }
 }
 
 void GraphicsWidget::updateBrush()

@@ -121,14 +121,14 @@ ModelField *MeltLogics::nextFrame()
             double koeff = calculateKoeff(oldCell);
             double oldTemp = (*oldCell).temperature();
 
-            ModelConstants* constants = ModelConstants::getConstants(Ice);
- //           (*newCell).setTemperature(oldTemp + koeff / constants->c);
+//            ModelConstants* constants = ModelConstants::getConstants(Ice);
+//           (*newCell).setTemperature(oldTemp + koeff / constants->c);
             (*newCell).setTemperature(oldTemp);
             (*newCell).setEnergy(koeff);
         }
         newCell++;
         oldCell++;
-        ++i;
+        i++;
     }
     return m_current;
 }
@@ -171,7 +171,6 @@ double inline tempDiffusion()
 double MeltLogics::calculateKoeff(ModelField::iterator& _cell)
 {
 //    const static double sqrA = /*tempDiffusion() **/ tempDiffusion();
-
     double curTemp = (*_cell).temperature();
 
     double lTemp;

@@ -48,7 +48,6 @@ private slots:
 private:
     Plotter::chartOrientation orientation();
     inline void initChart();
-    //inline void fillByValues(QVector<double> &x, QVector<double> &y, Qt::Orientation _orient, double& max, double& min);
 
 private:
     Ui::Graphics* m_ui;

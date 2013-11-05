@@ -4,7 +4,6 @@
 namespace model
 {
 #define ABSNULL -273.15
-//double absNull = -273.15;
 
 enum Type {NoType, Ice, Water, Drill, TYPE_COUNT};
 

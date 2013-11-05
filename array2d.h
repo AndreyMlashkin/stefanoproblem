@@ -11,7 +11,11 @@ public:
     class iterator : public std::iterator<std::input_iterator_tag, T>
     {
 public:
-      iterator() {}
+      iterator()
+      : m_parent(NULL),
+        m_pointer(NULL),
+        m_nextNeighbour(0)
+      {}
 
       explicit iterator(T* _data, Array2d<T>* _parent)
       : m_parent(_parent),
@@ -76,6 +80,20 @@ public:
           return *(m_pointer + _n);
       }
 
+//      const iterator leftNeighbour()
+//      {
+//          int numInArray = numberInArray();
+
+//          if((numInArray % m_parent->width()) == 0)
+//              return iterator();
+//          if(numInArray > m_parent->width() * m_parent->height())
+//              return iterator();
+//          if(numInArray < 0)
+//              return iterator();
+
+//          return iterator(m_pointer-1, m_parent);
+//      }
+
       T* leftNeighbour()
       {
           int numInArray = numberInArray();
@@ -89,6 +107,7 @@ public:
 
           return m_pointer-1;
       }
+
       T* rightNeighbour()
       {
           int nextInArray = numberInArray() + 1;
@@ -157,7 +176,6 @@ public:
           qDebug() << "Eroor! T *Array2d::iterator::nextNeighbour()";
           return NULL;
       }
-
 
       bool isNextNeighbour()
       {

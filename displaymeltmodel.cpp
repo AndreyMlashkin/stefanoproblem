@@ -62,9 +62,7 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     connect(ui->showTable,    SIGNAL(stateChanged(int)), this, SLOT(updateViewsVisibility()));
 
     connect(m_graphics, SIGNAL(closing()), this, SLOT(graphicsClosed()));
-
     // ----------------------------------------------------------------
-
     connect(ui->iceC,      SIGNAL(editingFinished()), SLOT(initConstants()));
     connect(ui->iceLambda, SIGNAL(editingFinished()), SLOT(initConstants()));
     connect(ui->iceR,      SIGNAL(editingFinished()), SLOT(initConstants()));
@@ -76,7 +74,6 @@ DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
     connect(ui->dx,      SIGNAL(editingFinished()), SLOT(initConstants()));
     connect(ui->dy,      SIGNAL(editingFinished()), SLOT(initConstants()));
     connect(ui->dt,      SIGNAL(editingFinished()), SLOT(initConstants()));
-
 }
 
 DisplayMeltmodel::~DisplayMeltmodel()
@@ -162,8 +159,7 @@ void DisplayMeltmodel::autoRepeatOn()
         if(m_closed)
             return;
         step();
-    }
-
+    }\
 }
 
 void DisplayMeltmodel::autoRepeatOff()

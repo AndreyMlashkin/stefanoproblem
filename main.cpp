@@ -1,6 +1,6 @@
-#include "displaymeltmodel.h"
 #include <QApplication>
 #include <QTextCodec>
+#include "displaymeltmodel.h"
 
 int main(int argc, char *argv[])
 {

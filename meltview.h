@@ -4,7 +4,6 @@
 #include <QTableView>
 #include "modelapi.h"
 
-
 namespace model
 {
 

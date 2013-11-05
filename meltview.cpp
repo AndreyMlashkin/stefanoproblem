@@ -17,10 +17,10 @@ inline int min(int a, int b)
     return (a < b)? a : b;
 }
 
-MeltView::MeltView(QWidget* _parent) :
-    QTableView(_parent),
-    m_brush(ONEPIX),
+MeltView::MeltView(QWidget* _parent)
+  : QTableView(_parent),
     m_state(NOSTATE),
+    m_brush(ONEPIX),
     m_minCellSize(1),
     m_zoom(1)
 {
