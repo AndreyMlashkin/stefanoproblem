@@ -171,16 +171,17 @@ double inline tempDiffusion()
 double MeltLogics::calculateKoeff(ModelField::iterator& _cell)
 {
 //    const static double sqrA = /*tempDiffusion() **/ tempDiffusion();
-    double curTemp = (*_cell).temperature();
+    double curTemp = _cell->temperature();
 
     double lTemp;
-    if((*_cell).behaviour() == Central)
+    if(_cell->behaviour() == Central)
            lTemp = curTemp;
     else
-           lTemp = (*_cell.leftNeighbour()  ).temperature();
-    double rTemp = (*_cell.rightNeighbour() ).temperature();
-    double tTemp = (*_cell.topNeighbour()   ).temperature();
-    double bTemp = (*_cell.bottomNeighbour()).temperature();
+           lTemp = _cell.left()  ->temperature();
+
+    double rTemp = _cell.right() ->temperature();
+    double tTemp = _cell.top()   ->temperature();
+    double bTemp = _cell.bottom()->temperature();
 
     double koeff = (lTemp + rTemp - curTemp - curTemp) / (ModelConstants::dx * ModelConstants::dx)+
                    (tTemp + bTemp - curTemp - curTemp) / (ModelConstants::dy * ModelConstants::dy);

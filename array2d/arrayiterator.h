@@ -47,45 +47,115 @@ public:
       return *this;
   }
 
-  bool operator==(const iterator& rhs)
+  bool operator==(const iterator& rhs) const
   {
       return (m_pointer == rhs.m_pointer) && (m_parent == rhs.m_parent);
   }
 
-  bool operator!=(const iterator& rhs)
+  bool operator!=(const iterator& rhs) const
   {
       return (m_pointer != rhs.m_pointer) || (m_parent != rhs.m_parent);
   }
 
-  T& operator*()
+  T& operator*() const
   {
       return *m_pointer;
   }
 
-  T* operator->()
+  T* operator->() const
   {
       return m_pointer;
   }
 
-  T& operator[](int _n)
+  T& operator[](int _n) const
   {
       return *(m_pointer + _n);
   }
 
-//      const iterator leftNeighbour()
-//      {
-//          int numInArray = numberInArray();
+// ----------------------------------------------------------
+  inline bool isValid() const
+  {
+      if(checkIfExist(numberInArray()))
+          return m_parent;
+      return false;
+  }
 
-//          if((numInArray % m_parent->width()) == 0)
-//              return iterator();
-//          if(numInArray > m_parent->width() * m_parent->height())
-//              return iterator();
-//          if(numInArray < 0)
-//              return iterator();
+  inline bool checkIfExist(const int& _numInArray) const
+  {
+     if(isRightBorder(_numInArray) || isOutOfLimit(_numInArray))
+         return false;
+     else
+         return true;
+  }
 
-//          return iterator(m_pointer-1, m_parent);
-//      }
+  inline bool isRightBorder(const int& _numInArray) const
+  {
+      return !(_numInArray % m_parent->width());
+  }
 
+  inline bool isOutOfLimit(const int& _numInArray) const
+  {
+      return (_numInArray > (m_parent->width() * m_parent->height())) && (_numInArray <= 0);
+  }
+
+  const iterator left() const
+  {
+      int numInArray = numberInArray();
+
+      if(checkIfExist(numInArray))
+          return iterator(m_pointer-1, m_parent);
+
+      return iterator();
+  }
+
+  const iterator right() const
+  {
+      int numInArray = numberInArray() + 1;
+
+      if(checkIfExist(numInArray))
+          return iterator(m_pointer+1, m_parent);
+
+      return iterator();
+  }
+
+  const iterator top() const
+  {
+      int numInArray = numberInArray() - m_parent->width();
+
+      if(!isOutOfLimit(numInArray))
+          return iterator(m_pointer - m_parent->width(), m_parent);
+
+      return iterator();
+  }
+
+  const iterator bottom() const
+  {
+      int numInArray = numberInArray() + m_parent->width();
+
+      if(!isOutOfLimit(numInArray))
+          return iterator(m_pointer + m_parent->width(), m_parent);
+
+      return iterator();
+  }
+
+/*
+  T* bottomNeighbour()
+  {
+      int numInArray = numberInArray();
+      int itemsTillEnd = m_parent->width() * m_parent->height() - numInArray;
+
+      if(itemsTillEnd <= m_parent->width())
+            return NULL;
+      if(numInArray < 0)
+            return NULL;
+
+      return m_pointer + m_parent->width();
+  }
+*/
+
+  // ----------------------------
+
+// begin obsolete members
   T* leftNeighbour()
   {
       int numInArray = numberInArray();
@@ -138,6 +208,7 @@ public:
 
       return m_pointer + m_parent->width();
   }
+  // end obsolete members
 
   T* nextNeighbour()
   {
@@ -190,8 +261,7 @@ public:
       m_nextNeighbour = 0;
   }
 
-private:
-  inline int numberInArray()
+  inline int numberInArray() const
   {
       return m_pointer - m_parent->begin().m_pointer;
   }
