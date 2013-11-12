@@ -125,45 +125,42 @@ void MeltView::brushStroke(DeltaVolume* const _v)
 
     switch(m_brush)
     {
-        case ONEPIX:
-            checked.push_back(center); break;
-        case TWOPIX:
-        {
-            checked.reserve(5);
-
-            checked.push_back(center);
-            while(center.isNextNeighbour())
-                checked.push_back(center.next());
-            break;
-        }
         case THREEPIX:
         {
             checked.reserve(9);
 
-            checked.push_back(center);
-            while(center.isNextNeighbour())
-               checked.push_back(center.next());
+            bool isTop    = center.top().isValid();
+            bool isBottom = center.bottom().isValid();
+            bool isLeft   = center.left().isValid();
+            bool isRight  = center.right().isValid();
 
-            ModelField::iterator top = center.top();
+            if(isLeft && isBottom)
+                checked.push_back(center.left().bottom());
 
-            if(top.left().isValid())
-                checked.push_back(top.left());
-            if(center.right().isValid())
-                checked.push_back(top.right());
+            if(isLeft && isTop)
+                checked.push_back(center.left().top());
 
-            ModelField::iterator bottom = center.bottom();
+            if(isRight && isTop)
+                checked.push_back(center.right().top());
 
-            if(bottom.left().isValid())
-                checked.push_back(bottom.left());
-            if(bottom.right().isValid())
-                checked.push_back(bottom.right());
-
-            break;
+            if(isRight && isBottom)
+                checked.push_back(center.right().bottom());
         }
+
+        case TWOPIX:
+            checked.reserve(5);
+            while(center.isNextNeighbour())
+                checked.push_back(center.next());
+
+        case ONEPIX:
+            checked.push_back(center); break;
     }
 
     foreach (ModelField::iterator i, checked)
-        i->setType(Type(m_state));
+    {
+        if(i->behaviour() != Border)
+            i->setType(Type(m_state));
+    }
 }
 
 }

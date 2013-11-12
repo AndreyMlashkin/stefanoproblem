@@ -271,11 +271,11 @@ public:
       return true;
   }
 
-  void resetNext()
+/*  void resetNext()
   {
       m_nextNeighbour = 0;
   }
-
+*/
   inline int numberInArray() const
   {
       return m_pointer - m_parent->begin().m_pointer;
