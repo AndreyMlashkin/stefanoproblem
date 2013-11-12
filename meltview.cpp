@@ -148,7 +148,7 @@ void MeltView::brushStroke(DeltaVolume* const _v)
         }
 
         case TWOPIX:
-            checked.reserve(5);
+//            checked.reserve(5);
             while(center.isNextNeighbour())
                 checked.push_back(center.next());
 
