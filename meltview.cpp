@@ -119,51 +119,51 @@ void MeltView::cellSizeUpdated()
 void MeltView::brushStroke(DeltaVolume* const _v)
 {
     ModelField* field = static_cast<MeltModel*>(model())->field();
-    ModelField::iterator iter(_v, field);
+    ModelField::iterator center(_v, field);
 
-    QVector<DeltaVolume*> checked;
+    QVector<ModelField::iterator> checked;
 
     switch(m_brush)
     {
         case ONEPIX:
-            checked.push_back(_v); break;
+            checked.push_back(center); break;
         case TWOPIX:
         {
             checked.reserve(5);
 
-            checked.push_back(_v);
-            while(DeltaVolume* d = iter.nextNeighbour())
-               checked.push_back(d);
+            checked.push_back(center);
+            while(center.isNextNeighbour())
+                checked.push_back(center.next());
             break;
         }
         case THREEPIX:
         {
             checked.reserve(9);
 
-            checked.push_back(_v);
-            while(DeltaVolume* d = iter.nextNeighbour())
-               checked.push_back(d);
+            checked.push_back(center);
+            while(center.isNextNeighbour())
+               checked.push_back(center.next());
 
-            ModelField::iterator top(iter.topNeighbour(), field);
+            ModelField::iterator top = center.top();
 
-            if(top.leftNeighbour())
-                checked.push_back(top.leftNeighbour());
-            if(iter.rightNeighbour())
-                checked.push_back(top.rightNeighbour());
+            if(top.left().isValid())
+                checked.push_back(top.left());
+            if(center.right().isValid())
+                checked.push_back(top.right());
 
-            ModelField::iterator bottom(iter.bottomNeighbour(),field);
+            ModelField::iterator bottom = center.bottom();
 
-            if(bottom.leftNeighbour())
-                checked.push_back(bottom.leftNeighbour());
-            if(bottom.rightNeighbour())
-                checked.push_back(bottom.rightNeighbour());
+            if(bottom.left().isValid())
+                checked.push_back(bottom.left());
+            if(bottom.right().isValid())
+                checked.push_back(bottom.right());
 
             break;
         }
     }
 
-    foreach (DeltaVolume* d, checked)
-        d->setType(Type(m_state));
+    foreach (ModelField::iterator i, checked)
+        i->setType(Type(m_state));
 }
 
 }

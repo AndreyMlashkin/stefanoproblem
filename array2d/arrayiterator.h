@@ -138,25 +138,40 @@ public:
       return iterator();
   }
 
-/*
-  T* bottomNeighbour()
+  iterator next()
   {
-      int numInArray = numberInArray();
-      int itemsTillEnd = m_parent->width() * m_parent->height() - numInArray;
+      if(!isNextNeighbour())
+          return iterator();
 
-      if(itemsTillEnd <= m_parent->width())
-            return NULL;
-      if(numInArray < 0)
-            return NULL;
+      if(m_nextNeighbour == 0)
+      {
+          m_nextNeighbour++;
+          return right();
+      }
+      if(m_nextNeighbour == 1)
+      {
+          m_nextNeighbour++;
+          return top();
+      }
+      if(m_nextNeighbour == 2)
+      {
+          m_nextNeighbour++;
+          return left();
+      }
+      if(m_nextNeighbour == 3)
+      {
+          m_nextNeighbour++;
+          return bottom();
+      }
 
-      return m_pointer + m_parent->width();
+      qDebug() << "Eroor! T *Array2d::iterator::next()";
+      return iterator();
   }
-*/
 
   // ----------------------------
 
 // begin obsolete members
-  T* leftNeighbour()
+  /*  T* leftNeighbour()
   {
       int numInArray = numberInArray();
 
@@ -207,7 +222,7 @@ public:
             return NULL;
 
       return m_pointer + m_parent->width();
-  }
+  }*/
   // end obsolete members
 
   T* nextNeighbour()
@@ -242,13 +257,13 @@ public:
 
   bool isNextNeighbour()
   {
-      if((m_nextNeighbour == 0) && (rightNeighbour() == NULL))
+      if((m_nextNeighbour == 0) && (!right().isValid()))
           m_nextNeighbour++;
-      if((m_nextNeighbour == 1) && (topNeighbour()   == NULL))
+      if((m_nextNeighbour == 1) && (!top().isValid()))
           m_nextNeighbour++;
-      if((m_nextNeighbour == 2) && (leftNeighbour()  == NULL))
+      if((m_nextNeighbour == 2) && (!left().isValid()))
           m_nextNeighbour++;
-      if(((m_nextNeighbour== 3) && (bottomNeighbour()== NULL)) || m_nextNeighbour == 4)
+      if(((m_nextNeighbour== 3) && (!bottom().isValid())) || m_nextNeighbour == 4)
       {
           m_nextNeighbour = 0;
           return false;
@@ -269,7 +284,7 @@ public:
 private:
   Array2d* m_parent;
   T* m_pointer;
-  char m_nextNeighbour; // перечисление соседей 0-3 - против часовой стрелки с самого правого
+  char m_nextNeighbour; // Перечисление соседей 0-3 - против часовой стрелки с самого правого вкючительно.
 
 };
 
