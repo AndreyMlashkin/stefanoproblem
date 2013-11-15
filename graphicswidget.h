@@ -21,7 +21,7 @@ class GraphicsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit GraphicsWidget();
+    explicit GraphicsWidget(QWidget* _parent = NULL);
     ~GraphicsWidget();
 
     void setModel(QAbstractItemModel* _model);

@@ -121,7 +121,7 @@ void MeltView::brushStroke(DeltaVolume* const _v)
     ModelField* field = static_cast<MeltModel*>(model())->field();
     ModelField::iterator center(_v, field);
 
-    if(!center.isValid())
+    if(!center.isValid() || !field)
     {
         qDebug() << "Smth goes wrong. MeltView::brushStroke";
         return;

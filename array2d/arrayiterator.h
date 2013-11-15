@@ -82,7 +82,7 @@ public:
 
   inline bool checkIfExist(const int& _numInArray) const
   {
-     if(isRightBorder(_numInArray) || isLeftBorder(_numInArray) || isOutOfLimit(_numInArray))
+     if(/*isRightBorder(_numInArray) || isLeftBorder(_numInArray) || */isOutOfLimit(_numInArray))
          return false;
      else
          return true;
@@ -90,17 +90,15 @@ public:
 
   inline bool isRightBorder(const int& _numInArray) const
   {
-      qDebug() << "isRightBorder? " << !(_numInArray % m_parent->width());
+//      qDebug() << "isRightBorder? " << !(_numInArray % m_parent->width());
       return !(_numInArray % m_parent->width());
   }
 
   inline bool isLeftBorder(const int& _numInArray) const
   {
-      qDebug() << "isLeftBorder? " << ((_numInArray % m_parent->width()) == 1);
-
-      if(((_numInArray % m_parent->width()) == 1))
-          qDebug() << "true";
-      return (_numInArray % m_parent->width()) == 1;
+      int lastInRow = m_parent->width()-1;
+//      qDebug() << "isLeftBorder? " << ((_numInArray % m_parent->width()) == lastInRow);
+      return (_numInArray % m_parent->width()) == lastInRow;
   }
 
   inline bool isOutOfLimit(const int& _numInArray) const
@@ -180,8 +178,8 @@ public:
 
   bool isNextNeighbour()  // no const!
   {    
-      if(!isValid())
-          return false;
+//      if(!isValid())
+//          return false;
 
       skipInvalidNeighbours();
       if(m_nextNeighbour == 4)
@@ -197,7 +195,7 @@ public:
       m_nextNeighbour = 0;
   }
 */
-  inline int numberInArray() const
+  int numberInArray() const
   {
       return m_pointer - m_parent->begin().m_pointer;
   }

@@ -22,8 +22,8 @@ int inline min(int a, int b)
     return (a < b)? a : b;
 }
 
-GraphicsWidget::GraphicsWidget() :
-    QWidget(),
+GraphicsWidget::GraphicsWidget(QWidget *_parent) :
+    QWidget(_parent),
     m_ui(new Ui::Graphics()),
     m_model(NULL),
     m_chart(new QCustomPlot())
