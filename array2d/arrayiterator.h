@@ -72,6 +72,12 @@ public:
       return *(m_pointer + _n);
   }
 
+//  iterator operator[](int _n)
+//  {
+//      m_pointer += _n;
+//      return *this;
+//  }
+
 // ----------------------------------------------------------
   inline bool isValid() const
   {

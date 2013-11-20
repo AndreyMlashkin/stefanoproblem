@@ -178,14 +178,15 @@ double MeltModel::getTemperatureInPos(int _row, int _column) const
     return getDeltaVolumeInPos(_row, _column)->temperature();
 }
 
-DeltaVolume *MeltModel::getDeltaVolumeInPos(int _row, int _column) const
+DeltaVolume* MeltModel::getDeltaVolumeInPos(int _row, int _column) const
 {
     int fieldColumn;
     if(_column >= m_field->width())
         fieldColumn = _column - m_field->width();
     else
         fieldColumn = m_field->width() - 1 - _column;
-    return &(*m_field)[_row][fieldColumn];
+
+    return m_field->at(_row, fieldColumn);
 }
 
 }

@@ -60,6 +60,16 @@ public:
         return m_width;
     }
 
+    T* at(const int& _i, const int& _j) const
+    {
+        return m_array + (_i * m_width) + _j;
+    }
+
+    iterator iterAt(const int& _i, const int& _j) const
+    {
+        return iterator(at(_i, _j), m_array);
+    }
+
 protected:
     int m_height;
     int m_width;
