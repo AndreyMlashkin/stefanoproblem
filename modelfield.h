@@ -25,7 +25,6 @@ private:
     inline void initVolumes();
     inline void initSideAreas();
 
-
 private:
     double* m_volume;
     double* m_sideArea;

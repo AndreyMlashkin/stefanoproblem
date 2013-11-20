@@ -90,7 +90,7 @@ ModelField *MeltLogics::loadStep(const QString &_filename)
         return NULL;
 }
 
-ModelField *MeltLogics::currentFrame()
+ModelField* MeltLogics::currentFrame()
 {
     return m_current;
 }

@@ -54,6 +54,8 @@ GraphicsWidget::GraphicsWidget(QWidget *_parent) :
     connect(m_ui->onePix,   SIGNAL(pressed()), SLOT(updateBrush()));
     connect(m_ui->twoPix,   SIGNAL(pressed()), SLOT(updateBrush()));
     connect(m_ui->threePix, SIGNAL(pressed()), SLOT(updateBrush()));
+
+    connect(m_ui->clear, SIGNAL(clicked()), SLOT(clear()));
 }
 
 GraphicsWidget::~GraphicsWidget()
@@ -283,6 +285,11 @@ void GraphicsWidget::updateBrush()
         m_ui->graphics->setBrushType(MeltView::TWOPIX);
     else if(sender() == m_ui->threePix)
         m_ui->graphics->setBrushType(MeltView::THREEPIX);
+}
+
+void GraphicsWidget::clear()
+{
+    m_model->resetToDefault();
 }
 
 }

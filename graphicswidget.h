@@ -45,6 +45,8 @@ private slots:
     void updateState();
     void updateBrush();
 
+    void clear();
+
 private:
     Plotter::chartOrientation orientation();
     inline void initChart();

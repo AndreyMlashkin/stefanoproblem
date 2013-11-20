@@ -38,6 +38,7 @@ public:
     void beginSaveSteps(bool _shouldSave = true);
 
     ModelField* field();
+    void resetToDefault();
 
 public slots:
     void processStep();

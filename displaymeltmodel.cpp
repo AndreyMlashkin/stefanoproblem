@@ -28,8 +28,8 @@ int inline min(int a, int b)
     return (a < b)? a : b;
 }
 
-DisplayMeltmodel::DisplayMeltmodel(QWidget *parent) :
-    QMainWindow(parent),
+DisplayMeltmodel::DisplayMeltmodel(QWidget* _parent) :
+    QMainWindow(_parent),
     m_autoRepeat(false),
     m_closed(false),
     ui(new Ui::displaymeltmodel),

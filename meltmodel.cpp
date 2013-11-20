@@ -155,6 +155,37 @@ ModelField *MeltModel::field()
     return m_field;
 }
 
+inline void resetField(ModelField* _field)
+{
+    ModelField::iterator i = _field->begin();
+    double defaultTemperature = _field->begin()->temperature();
+    for(; i != _field->end(); i++)
+    {
+        if(i->behaviour() != Border)
+        {
+            i->setType(Ice);
+            i->setTemperature(defaultTemperature);
+        }
+    }
+}
+
+void MeltModel::resetToDefault()
+{
+    beginResetModel();
+
+    resetField(m_frameProcessor->currentFrame());
+    resetField(m_frameProcessor->nextFrame());
+
+
+    endResetModel();
+    //    foreach(DeltaVolume* v, *m_field)
+//    {
+//        if(v->behaviour() != Border)
+//            qDebug() << "123";
+//        //        m_field->
+//    }
+}
+
 void MeltModel::processStep()
 {
     if(m_saveSteps)

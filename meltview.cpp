@@ -39,7 +39,6 @@ void MeltView::mousePressEvent(QMouseEvent *_e)
         qDebug() << "Zoom";
     else
         mouseMoveEvent(_e);
-
 }
 
 void MeltView::resizeEvent(QResizeEvent*)

@@ -24,11 +24,6 @@ public:
     m_nextNeighbour(0)
   {}
 
-  void operator=(T* _data) // this is not copy constructor
-  {
-       m_pointer = _data;
-  }
-
   iterator& operator++(int)
   {
         ++m_pointer;
@@ -96,14 +91,12 @@ public:
 
   inline bool isRightBorder(const int& _numInArray) const
   {
-//      qDebug() << "isRightBorder? " << !(_numInArray % m_parent->width());
       return !(_numInArray % m_parent->width());
   }
 
   inline bool isLeftBorder(const int& _numInArray) const
   {
       int lastInRow = m_parent->width()-1;
-//      qDebug() << "isLeftBorder? " << ((_numInArray % m_parent->width()) == lastInRow);
       return (_numInArray % m_parent->width()) == lastInRow;
   }
 
@@ -184,9 +177,6 @@ public:
 
   bool isNextNeighbour()  // no const!
   {    
-//      if(!isValid())
-//          return false;
-
       skipInvalidNeighbours();
       if(m_nextNeighbour == 4)
       {
@@ -196,11 +186,6 @@ public:
       return true;
   }
 
-/*  void resetNext()
-  {
-      m_nextNeighbour = 0;
-  }
-*/
   int numberInArray() const
   {
       return m_pointer - m_parent->begin().m_pointer;
