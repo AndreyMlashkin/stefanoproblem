@@ -17,8 +17,7 @@ public:
 
     enum BrushType {ONEPIX,
                     TWOPIX,
-                    THREEPIX,
-                    BrushTypeCount};
+                    THREEPIX};
 
     explicit MeltView(QWidget* _parent = 0);
     void setMouseState(MouseState _state);
@@ -29,11 +28,10 @@ public:
 private:
     void mousePressEvent(QMouseEvent *_e);
     void wheelEvent(QWheelEvent *_ev);
-    DeltaVolume* volumeFromPos(const QPoint& _p);
+    DeltaVolume* volumeFromPos(const QPoint& _p) const;
     void mouseMoveEvent(QMouseEvent *_e);
     void cellSizeUpdated();
     inline void brushStroke(DeltaVolume* const _v);
-
 
 private:
     MouseState  m_state;

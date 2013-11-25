@@ -16,7 +16,7 @@ public:
     ~ModelField();
 
     void readDrillConfig();
-    void writeDrillConfig();
+    void writeDrillConfig() const;
 
 private:
     inline void fillBy(double _n);

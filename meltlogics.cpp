@@ -29,7 +29,7 @@ MeltLogics::~MeltLogics()
     delete m_prev;
 }
 
-bool MeltLogics::saveStep(const QString& _filename = "save.txt")
+bool MeltLogics::saveStep(const QString& _filename = "save.txt") const
 {   
     if(_filename.isNull())
         return false;
@@ -90,17 +90,17 @@ ModelField *MeltLogics::loadStep(const QString &_filename)
         return NULL;
 }
 
-ModelField* MeltLogics::currentFrame()
+ModelField* MeltLogics::currentFrame() const
 {
     return m_current;
 }
 
-int MeltLogics::realWidth()
+int MeltLogics::realWidth() const
 {
     return (*m_current).width() * 2;
 }
 
-int MeltLogics::realHeight()
+int MeltLogics::realHeight() const
 {
     return (*m_current).height();
 }

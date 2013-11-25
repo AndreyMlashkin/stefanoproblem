@@ -30,14 +30,14 @@ public:
     QModelIndex parent(const QModelIndex& child) const;
     Qt::ItemFlags flags(const QModelIndex&) const;
 
-    bool saveStep(const QString& _fileName);
+    bool saveStep(const QString& _fileName) const;
     bool loadStep(const QString& _fileName);
 
     void updateMinAndMaxTemp();
 
     void beginSaveSteps(bool _shouldSave = true);
 
-    ModelField* field();
+    ModelField* field() const;
     void resetToDefault();
 
 public slots:

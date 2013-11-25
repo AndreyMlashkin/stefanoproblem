@@ -64,7 +64,7 @@ void ModelField::readDrillConfig()
     file.close();
 }
 
-void ModelField::writeDrillConfig()
+void ModelField::writeDrillConfig() const
 {
     QFile file("drill.config");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
@@ -75,7 +75,7 @@ void ModelField::writeDrillConfig()
     stream << m_height << ' ' << m_width << '\n';
     for(int i = 0; i < m_height; i++)
         for(int j = 0; j < m_width; j++)
-            stream << j << ' ' << i << ' ' << (*this)[i][j].type() << '\n';
+            stream << j << ' ' << i << ' ' << at(i, j) << '\n';
     file.close();
 }
 

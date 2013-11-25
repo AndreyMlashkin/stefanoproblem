@@ -62,7 +62,7 @@ public:
       return m_pointer;
   }
 
-  T& operator[](int _n) const
+  T& operator[](int _n)
   {
       return *(m_pointer + _n);
   }

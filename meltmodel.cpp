@@ -105,7 +105,7 @@ Qt::ItemFlags MeltModel::flags(const QModelIndex&) const
     return 0;
 }
 
-bool MeltModel::saveStep(const QString& _fileName)
+bool MeltModel::saveStep(const QString& _fileName) const
 {
     return m_frameProcessor->saveStep(_fileName);
 }
@@ -150,7 +150,7 @@ void MeltModel::beginSaveSteps(bool _shouldSave)
     m_saveSteps = _shouldSave;
 }
 
-ModelField *MeltModel::field()
+ModelField *MeltModel::field() const
 {
     return m_field;
 }

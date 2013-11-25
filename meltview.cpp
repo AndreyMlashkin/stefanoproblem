@@ -79,7 +79,7 @@ void MeltView::wheelEvent(QWheelEvent* _ev)
     cellSizeUpdated();
 }
 
-DeltaVolume *MeltView::volumeFromPos(const QPoint& _p)
+DeltaVolume *MeltView::volumeFromPos(const QPoint& _p) const
 {
     QModelIndex index = indexAt(_p);
     if(!index.isValid())

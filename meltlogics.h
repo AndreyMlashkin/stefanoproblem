@@ -13,13 +13,13 @@ public:
     MeltLogics(ModelField* _startFrame);
     ~MeltLogics();
 
-    bool   saveStep(const QString& _filename);
+    bool   saveStep(const QString& _filename) const;
     ModelField* loadStep(const QString& _filename);
 
-    ModelField*  currentFrame();
+    ModelField*  currentFrame() const;
 
-    int realWidth();
-    int realHeight();
+    int realWidth() const;
+    int realHeight() const;
 
     ModelField* nextFrame();
     void updateBehaviour();
