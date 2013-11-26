@@ -11,28 +11,19 @@ public:
   : m_parent(NULL),
     m_pointer(NULL),
     m_nextNeighbour(0)
-  {
-      static int count = 0;
-      qDebug() << "default: " << ++count;
-  }
+  {}
 
   explicit iterator(T* _data, Array2d<T>* _parent)
   : m_parent(_parent),
     m_pointer(_data),
     m_nextNeighbour(0)
-  {
-      static int count = 0;
-      qDebug() << "data: " << ++count;
-  }
+  {}
 
   iterator(const iterator& mit)
   : m_parent(mit.m_parent),
     m_pointer(mit.m_pointer),
     m_nextNeighbour(0)
-  {
-      static int count = 0;
-      qDebug() << "copy: " << ++count;
-  }
+  {}
 
   iterator& operator++(int)
   {
