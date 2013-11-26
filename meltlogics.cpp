@@ -57,7 +57,7 @@ bool MeltLogics::saveStep(const QString& _filename = "save.txt") const
         return false;
 }
 
-ModelField *MeltLogics::loadStep(const QString &_filename)
+ModelField* MeltLogics::loadStep(const QString &_filename)
 {
     if(_filename.isNull())
         return NULL;
@@ -114,7 +114,9 @@ ModelField *MeltLogics::nextFrame()
     ModelField::iterator newCell = m_current->begin();
 
     int i = 0;
-    while(oldCell != m_prev->end())
+
+    ModelField::iterator end = m_prev->end();
+    while(oldCell != end)
     {
         if(((*oldCell).behaviour() != Border) && ((*oldCell).type() != Drill))
         {
@@ -137,8 +139,9 @@ void MeltLogics::updateBehaviour()
 {
     ModelField::iterator i = m_prev->begin();
     ModelField::iterator j = m_current->begin();
+    ModelField::iterator end = m_prev->end();
 
-    for(; i != m_prev->end(); i++, j++)
+    for(; i != end; i++, j++)
         (*i).setType((*j).type());
 }
 
@@ -151,7 +154,8 @@ void MeltLogics::swapFrames()
 
 void MeltLogics::heat(ModelField* _field)
 {
-    for(ModelField::iterator i = _field->begin(); i != _field->end(); i++)
+    ModelField::iterator end = _field->end();
+    for(ModelField::iterator i = _field->begin(); i != end; i++)
     {
         if(i->type() == Drill)
         {

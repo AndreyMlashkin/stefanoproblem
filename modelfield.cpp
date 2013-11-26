@@ -58,7 +58,8 @@ void ModelField::readDrillConfig()
             int y;    stream >> y;
             int type; stream >> type;
 
-            (*this)[y][x].setType(Type(type));
+            at(y, x)->setType(Type(type));
+//            (*this)[y][x].setType(Type(type));
         }
     }
     file.close();
@@ -81,8 +82,8 @@ void ModelField::writeDrillConfig() const
 
 void ModelField::fillBy(double _n)
 {
-    Array2d::iterator i;
-    for(i = begin(); i != end(); i++)
+    Array2d::iterator i, last = end();
+    for(i = begin(); i != last; i++)
         (*i).setTemperature(_n);
 }
 
