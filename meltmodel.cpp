@@ -42,7 +42,9 @@ void MeltModel::initModel()
 MeltModel::MeltModel()
     : QAbstractItemModel(),
       m_field(NULL),
-      m_frameProcessor()
+      m_frameProcessor(),
+      m_stepsSaver(NULL),
+      m_saveSteps(false)
 {}
 
 MeltModel::~MeltModel()

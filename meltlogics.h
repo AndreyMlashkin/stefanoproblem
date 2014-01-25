@@ -11,12 +11,14 @@ class MeltLogics
 public:
     MeltLogics();
     MeltLogics(ModelField* _startFrame);
+    MeltLogics(const MeltLogics& _logics);
+
     ~MeltLogics();
 
     bool   saveStep(const QString& _filename) const;
     ModelField* loadStep(const QString& _filename);
 
-    ModelField*  currentFrame() const;
+    ModelField* currentFrame() const;
 
     int realWidth() const;
     int realHeight() const;

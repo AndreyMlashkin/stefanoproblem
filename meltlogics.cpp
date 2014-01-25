@@ -24,6 +24,13 @@ MeltLogics::MeltLogics(ModelField* _startFrame)
     m_prev(new ModelField(*_startFrame))
 {}
 
+MeltLogics::MeltLogics(const MeltLogics& _logics)
+    : m_current(_logics.currentFrame()),
+      m_prev(_logics.m_prev)
+{
+    m_prev = new ModelField(*m_prev);
+}
+
 MeltLogics::~MeltLogics()
 {
     delete m_prev;
@@ -45,9 +52,7 @@ bool MeltLogics::saveStep(const QString& _filename = "save.txt") const
         for(int i = 0; i < m_current->height(); i++)
         {
             for(int j = 0; j < m_current->width(); j++)
-            {
                 out << (*m_current)[i][j].temperature() << '\t';
-            }
             out << '\n';
         }
         file.close();

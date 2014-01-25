@@ -8,9 +8,10 @@
 namespace model
 {
 
-StepsSaver::StepsSaver(const QString &_name)
+StepsSaver::StepsSaver(const QString& _name)
     : m_file(_name)
 {
+    qDebug() << _name;
     m_file.open(QIODevice::Append | QIODevice::Truncate);
 }
 

@@ -9,6 +9,7 @@ namespace model
 DeltaVolume::DeltaVolume()
     : m_behaviour(NoBehaviour),
       m_type(NoType),
+      m_temperature(ABSNULL),
       m_innerEnergy(0)
 {}
 

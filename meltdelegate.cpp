@@ -16,7 +16,9 @@ static const QColor highligtingColor(0, 0, 0, 50);
 MeltDelegate::MeltDelegate(QObject *_parent) :
     QStyledItemDelegate(_parent),
     m_highlightedRow(-1),
-    m_highlightedColumn(-1)
+    m_highlightedColumn(-1),
+    m_maxTemp(INT_MIN),
+    m_minTemp(INT_MAX)
 {}
 
 void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option, const QModelIndex& _index) const
