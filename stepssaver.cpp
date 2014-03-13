@@ -11,7 +11,6 @@ namespace model
 StepsSaver::StepsSaver(const QString& _name)
     : m_file(_name)
 {
-    qDebug() << _name;
     m_file.open(QIODevice::Append | QIODevice::Truncate);
 }
 
@@ -27,7 +26,7 @@ void StepsSaver::saveStep(ModelField* _field)
     while(i != _field->end())
     {
         out << i->temperature();
-        i++;
+        ++i;
     }
 }
 

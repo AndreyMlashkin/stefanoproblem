@@ -2,7 +2,6 @@
 #define GRAPHICSWIDGET_H
 
 #include <QWidget>
-#include "plotter.h"
 
 namespace Ui
 {
@@ -14,6 +13,8 @@ class QAbstractItemModel;
 
 namespace model
 {
+enum ChartOrientation {Horizontal, Vertical, Time};
+
 class MeltModel;
 
 class GraphicsWidget : public QWidget
@@ -48,7 +49,7 @@ private slots:
     void clear();
 
 private:
-    Plotter::chartOrientation orientation();
+    ChartOrientation orientation();
     inline void initChart();
 
 private:

@@ -13,10 +13,10 @@ class MeltView : public QTableView
     Q_OBJECT
 public:
 
-    enum MouseState {NOSTATE = NoType, ICE = Ice, DRILL = Drill, WATER = Water, INFO = TYPE_COUNT+1, LOUPE = TYPE_COUNT+2};
+    enum    MouseState {NOSTATE = NoType, ICE = Ice, DRILL = Drill, WATER = Water, INFO = TYPE_COUNT+1, LOUPE = TYPE_COUNT+2};
 
-    enum BrushType {ONEPIX,
-                    TWOPIX,
+    enum BrushType {  ONEPIX,
+                      TWOPIX,
                     THREEPIX};
 
     explicit MeltView(QWidget* _parent = 0);
@@ -26,12 +26,16 @@ public:
     void resizeEvent(QResizeEvent*);
 
 private:
-    void mousePressEvent(QMouseEvent *_e);
-    void wheelEvent(QWheelEvent *_ev);
+    void mousePressEvent(QMouseEvent* _e);
+    void mouseMoveEvent(QMouseEvent* _e);
+    void wheelEvent(QWheelEvent* _ev);
+
     DeltaVolume* volumeFromPos(const QPoint& _p) const;
-    void mouseMoveEvent(QMouseEvent *_e);
     void cellSizeUpdated();
-    inline void brushStroke(DeltaVolume* const _v);
+
+    void applyMouseBrush(DeltaVolume* _clickedCell);
+    QVector<DeltaVolume*> getSelection(DeltaVolume* _center, BrushType _selectionType);
+    void changeCellsType(QVector<DeltaVolume*> _cells, Type _newType);
 
 private:
     MouseState  m_state;
@@ -39,6 +43,7 @@ private:
     int m_minCellSize;
     double m_zoom;
 };
+
 }
 
 #endif // MELTVIEW_H

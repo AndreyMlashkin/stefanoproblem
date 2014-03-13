@@ -27,7 +27,7 @@ MeltView::MeltView(QWidget* _parent)
     resizeEvent(NULL);
 }
 
-void MeltView::mousePressEvent(QMouseEvent *_e)
+void MeltView::mousePressEvent(QMouseEvent* _e)
 {
     QModelIndex index = indexAt(_e->pos());
     if(!index.isValid())
@@ -38,7 +38,16 @@ void MeltView::mousePressEvent(QMouseEvent *_e)
     else if(m_state == LOUPE)
         qDebug() << "Zoom";
     else
-        mouseMoveEvent(_e);
+    {
+        DeltaVolume* v = volumeFromPos(_e->pos());
+        applyMouseBrush(v);
+    }
+}
+
+void MeltView::mouseMoveEvent(QMouseEvent* _e)
+{
+    DeltaVolume* v = volumeFromPos(_e->pos());
+    applyMouseBrush(v);
 }
 
 void MeltView::resizeEvent(QResizeEvent*)
@@ -79,31 +88,13 @@ void MeltView::wheelEvent(QWheelEvent* _ev)
     cellSizeUpdated();
 }
 
-DeltaVolume *MeltView::volumeFromPos(const QPoint& _p) const
+DeltaVolume* MeltView::volumeFromPos(const QPoint& _p) const
 {
     QModelIndex index = indexAt(_p);
     if(!index.isValid())
         return NULL;
 
     return reinterpret_cast<DeltaVolume*>(index.internalPointer());
-}
-
-void MeltView::mouseMoveEvent(QMouseEvent *_e)
-{
-    DeltaVolume* v = volumeFromPos(_e->pos());
-    if(!v)
-        return;
-
-    if(v->behaviour() == Border)
-        return;
-
-    if((m_state == DRILL) || (m_state == ICE) || (m_state == WATER))
-        brushStroke(v);
-
-    MeltModel* mod = static_cast<MeltModel*>(model());
-    mod->updateBehaviour();
-
-    reset();
 }
 
 void MeltView::cellSizeUpdated()
@@ -115,20 +106,37 @@ void MeltView::cellSizeUpdated()
     header->setDefaultSectionSize(m_minCellSize * m_zoom);
 }
 
-void MeltView::brushStroke(DeltaVolume* const _v)
+void MeltView::applyMouseBrush(DeltaVolume* _clickedCell)
+{
+    if(!_clickedCell)
+        return;
+
+    if(_clickedCell->behaviour() == Border)
+        return;
+
+    if((m_state == DRILL) || (m_state == ICE) || (m_state == WATER))
+        changeCellsType(getSelection(_clickedCell, m_brush), Type(m_state));
+
+    MeltModel* mod = static_cast<MeltModel*>(model());
+    mod->updateBehaviour();
+
+    reset();
+}
+
+QVector<DeltaVolume*> MeltView::getSelection(DeltaVolume* _center, MeltView::BrushType _selectionType)
 {
     ModelField* field = static_cast<MeltModel*>(model())->field();
-    ModelField::iterator center(_v, field);
-
-    if(!center.isValid() || !field)
-    {
-        qDebug() << "Smth goes wrong. MeltView::brushStroke";
-        return;
-    }
+    ModelField::iterator center(_center, field);
 
     QVector<ModelField::iterator> checked;
+    QVector<DeltaVolume*> ans;
+    if(!center.isValid() || !field)
+    {
+        qDebug() << Q_FUNC_INFO;
+        return ans;
+    }
 
-    switch(m_brush)
+    switch(_selectionType)
     {
         case THREEPIX:
         {
@@ -162,10 +170,16 @@ void MeltView::brushStroke(DeltaVolume* const _v)
     }
 
     foreach (ModelField::iterator i, checked)
-    {
-        if(i->behaviour() != Border)
-            i->setType(Type(m_state));
-    }
+        ans << i.take();
+
+    return ans;
+}
+
+void MeltView::changeCellsType(QVector<DeltaVolume*> _cells, Type _newType)
+{
+    foreach (DeltaVolume* cell, _cells)
+        if(cell->behaviour() != Border)
+            cell->setType(_newType);
 }
 
 }

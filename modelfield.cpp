@@ -76,14 +76,14 @@ void ModelField::writeDrillConfig() const
     stream << m_height << ' ' << m_width << '\n';
     for(int i = 0; i < m_height; i++)
         for(int j = 0; j < m_width; j++)
-            stream << j << ' ' << i << ' ' << at(i, j) << '\n';
+            stream << j << ' ' << i << ' ' << at(i, j)->type() << '\n';
     file.close();
 }
 
 void ModelField::fillBy(double _n)
 {
     Array2d::iterator i, last = end();
-    for(i = begin(); i != last; i++)
+    for(i = begin(); i != last; ++i)
         (*i).setTemperature(_n);
 }
 

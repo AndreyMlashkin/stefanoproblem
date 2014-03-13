@@ -82,7 +82,7 @@ ModelField* MeltLogics::loadStep(const QString &_filename)
         m_current = new ModelField(width, height);
         m_prev    = new ModelField(width, height);
 
-        for(ModelField::iterator i = m_current->begin(); i != m_current->end(); i++)
+        for(ModelField::iterator i = m_current->begin(); i != m_current->end(); ++i)
         {
             double temp;
             in >> temp;
@@ -133,8 +133,8 @@ ModelField *MeltLogics::nextFrame()
             (*newCell).setTemperature(oldTemp);
             (*newCell).setEnergy(koeff);
         }
-        newCell++;
-        oldCell++;
+        ++newCell;
+        ++oldCell;
         i++;
     }
     return m_current;
@@ -146,7 +146,7 @@ void MeltLogics::updateBehaviour()
     ModelField::iterator j = m_current->begin();
     ModelField::iterator end = m_prev->end();
 
-    for(; i != end; i++, j++)
+    for(; i != end; ++i, ++j)
         (*i).setType((*j).type());
 }
 
@@ -160,7 +160,7 @@ void MeltLogics::swapFrames()
 void MeltLogics::heat(ModelField* _field)
 {
     ModelField::iterator end = _field->end();
-    for(ModelField::iterator i = _field->begin(); i != end; i++)
+    for(ModelField::iterator i = _field->begin(); i != end; ++i)
     {
         if(i->type() == Drill)
         {

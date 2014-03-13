@@ -25,9 +25,9 @@ private:
     inline double calculateBrightness(double _temperature) const;
 
 private:
-    double m_maxTemp, m_minTemp;
     int m_highlightedRow;
     int m_highlightedColumn;
+    double m_maxTemp, m_minTemp;
 };
 }
 #endif // MELTDELEGATE_H

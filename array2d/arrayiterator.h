@@ -25,7 +25,7 @@ public:
     m_nextNeighbour(0)
   {}
 
-  iterator& operator++(int)
+  iterator& operator++()
   {
         ++m_pointer;
         return *this;
@@ -59,6 +59,11 @@ public:
   }
 
   T* operator->() const
+  {
+      return m_pointer;
+  }
+
+  T* take() const
   {
       return m_pointer;
   }

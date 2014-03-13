@@ -195,9 +195,14 @@ void DisplayMeltmodel::readConfigFile()
     settings.endGroup();
 
     settings.beginGroup("input");
-        ui->y->setText(settings.value("height", 5).toString());
-        ui->x->setText(settings.value("width", 5).toString());
-        ui->startTemp->setText(settings.value("startTemperature", 0).toString());
+        QString oldValue = ui->y->text();
+        ui->y->setText(settings.value("height", oldValue).toString());
+
+        oldValue = ui->x->text();
+        ui->x->setText(settings.value("width", oldValue).toString());
+
+        oldValue = ui->startTemp->text();
+        ui->startTemp->setText(settings.value("startTemperature", oldValue).toString());
     settings.endGroup();
 
     updateViewsVisibility();

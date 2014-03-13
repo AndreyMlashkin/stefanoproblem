@@ -1,11 +1,5 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-09-14T19:48:16
-#
-#-------------------------------------------------
 
-QT       += core gui
-QT       += widgets printsupport
+QT       += core gui printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

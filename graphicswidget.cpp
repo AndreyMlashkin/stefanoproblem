@@ -118,7 +118,7 @@ void GraphicsWidget::updatePlotter()
 
     switch(orientation())
     {
-        case Plotter::horizontal:
+        case Horizontal:
         {
             size = m_model->columnCount();
             x.reserve(size);
@@ -142,7 +142,7 @@ void GraphicsWidget::updatePlotter()
             }
             break;
         }
-        case Plotter::vertical:
+        case Vertical:
         {
             size = m_model->rowCount();
             x.reserve(size);
@@ -187,21 +187,21 @@ void GraphicsWidget::updatePlotter()
 
 void GraphicsWidget::chartOrientationChanged()
 {
-    Plotter::chartOrientation orient = orientation();
+    ChartOrientation orient = orientation();
 
     m_ui->additionalAxis->hide();
     switch(orient)
     {
-    case Plotter::time:
+    case Time:
     {
         m_ui->additionalAxis->show();
         m_ui->axis->setMaximum(m_model->columnCount()-1);
         m_ui->additionalAxis->setMaximum(m_model->rowCount()-1);
         break;
     }
-    case Plotter::horizontal:
+    case Horizontal:
         m_ui->axis->setMaximum(m_model->rowCount()-1);    break;
-    case Plotter::vertical:
+    case Vertical:
         m_ui->axis->setMaximum(m_model->columnCount()-1); break;
     }
     sliceMoved();
@@ -209,10 +209,10 @@ void GraphicsWidget::chartOrientationChanged()
 
 void GraphicsWidget::sliceMoved()
 {
-    if(orientation() == Plotter::horizontal)
+    if(orientation() == Horizontal)
         emit highlinghtRow(m_ui->axis->value());
 
-    else if(orientation() == Plotter::vertical)
+    else if(orientation() == Vertical)
         emit highlinghtColumn(m_ui->axis->value());
 
     m_ui->graphics->reset();
@@ -225,9 +225,9 @@ void GraphicsWidget::modelStep()
         updatePlotter();
 }
 
-Plotter::chartOrientation GraphicsWidget::orientation()
+ChartOrientation GraphicsWidget::orientation()
 {
-    return (Plotter::chartOrientation)m_ui->chartOrientation->currentIndex();
+    return (ChartOrientation)m_ui->chartOrientation->currentIndex();
 }
 
 void GraphicsWidget::initChart()

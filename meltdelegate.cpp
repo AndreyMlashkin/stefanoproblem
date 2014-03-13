@@ -49,8 +49,8 @@ void MeltDelegate::paint(QPainter* _painter, const QStyleOptionViewItem& _option
         default:
         {
             double temperature = v->temperature();
-            double koeff = calculateBrightness(temperature);
-
+            double koeff = calculateBrightness(temperature);            
+            
             if(koeff == 0)
                 break;
 
@@ -102,7 +102,14 @@ double MeltDelegate::calculateBrightness(double _temperature) const
     if(diff == 0)
         return 0;
 
-    return (_temperature - m_minTemp) * (255 / diff);
+    double ans = (_temperature - m_minTemp) * (255 / diff);
+    if(ans > 255.01)
+    {
+        qDebug() << "temperature max or min value was not updated!" << Q_FUNC_INFO;
+        qDebug() << "koeff = "  << ans;
+        ans = 255;
+    }
+    return ans;
 }
 
 }

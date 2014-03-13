@@ -133,7 +133,7 @@ void MeltModel::updateMinAndMaxTemp()
     double minT =  5000;
 
     ModelField::iterator end = m_field->end();
-    for(ModelField::iterator i = m_field->begin(); i != end; i++)
+    for(ModelField::iterator i = m_field->begin(); i != end; ++i)
     {
         if((*i).type() == Drill)
             continue;
@@ -163,7 +163,7 @@ inline void resetField(ModelField* _field)
 {
     ModelField::iterator i = _field->begin();
     double defaultTemperature = _field->begin()->temperature();
-    for(; i != _field->end(); i++)
+    for(; i != _field->end(); ++i)
     {
         if(i->behaviour() != Border)
         {
@@ -178,16 +178,9 @@ void MeltModel::resetToDefault()
     beginResetModel();
 
     resetField(m_frameProcessor->currentFrame());
-    resetField(m_frameProcessor->nextFrame());
-
+    m_frameProcessor->updateBehaviour();
 
     endResetModel();
-    //    foreach(DeltaVolume* v, *m_field)
-//    {
-//        if(v->behaviour() != Border)
-//            qDebug() << "123";
-//        //        m_field->
-//    }
 }
 
 void MeltModel::processStep()
