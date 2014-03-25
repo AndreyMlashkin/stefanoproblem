@@ -189,7 +189,9 @@ void DisplayMeltmodel::readConfigFile()
     QSettings settings("modelSettings", QSettings::IniFormat);
     settings.beginGroup("GUI settings");
         setGeometry(settings.value("geometry", QRect(100, 100, 100, 100)).toRect());
-        m_graphics->setGeometry(settings.value("viewGeometry", QRect(100, 100, 100, 300)).toRect());
+
+      QRect defaultViewGeom(x()+width() + 300, y(), 550, 500);
+        m_graphics->setGeometry(settings.value("viewGeometry", defaultViewGeom/*QRect(100, 100, 100, 300)*/).toRect());
         ui->showTable->setChecked(settings.value("showTable", false).toBool());
         ui->showGraphics->setChecked(settings.value("showGraphics", false).toBool());
     settings.endGroup();
