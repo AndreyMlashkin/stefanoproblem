@@ -6,6 +6,23 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = displaymeltmodel
 TEMPLATE = app
 
+UI_DIR = ./tmp/ui
+MOC_DIR = ./tmp/moc
+RCC_DIR = ./tmp/rcc
+
+CONFIG( debug, debug|release ) {
+
+    __LIBS_DIR              =   bin/debug
+    OBJECTS_DIR             +=  tmp/obj/debug
+
+} else {
+
+    __LIBS_DIR              =   bin/release
+    OBJECTS_DIR             +=  tmp/obj/release
+}
+
+DESTDIR = $$__LIBS_DIR
+
 SOURCES += main.cpp\
            displaymeltmodel.cpp \
            meltmodel.cpp \
