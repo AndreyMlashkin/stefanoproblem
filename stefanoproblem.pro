@@ -34,7 +34,8 @@ SOURCES += main.cpp\
            meltview.cpp \
            stepssaver.cpp \
            modelfield.cpp \
-           qcustomplot/qcustomplot.cpp
+           qcustomplot/qcustomplot.cpp \
+    languagechooser.cpp
 
 
 HEADERS  += displaymeltmodel.h \
@@ -46,16 +47,20 @@ HEADERS  += displaymeltmodel.h \
             graphicswidget.h \
             meltview.h \
             stepssaver.h \
-            array2d.h \
             modelfield.h \
             array2d/array2d.h \
             array2d/arrayiterator.h \
             qcustomplot/qcustomplot.h \
-            modelapi.h
+            modelapi.h \
+    languagechooser.h
 
 FORMS    += displaymeltmodel.ui \
             graphics.ui
 
 RESOURCES += \
     resources/resources.qrc
+
+
+TRANSLATIONS = translation_de.ts \
+               translation_en.ts
 
